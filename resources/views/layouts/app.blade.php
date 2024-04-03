@@ -5,26 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     @vite(['resources/js/app.js'])
+</head>
 <body>
-    <header>
+    <div class="upper-banner">
         <h1>Welcome to My Website</h1>
-        <nav>
+        <div class="toggle-menu" id="toggle-menu">View Options</div>
+        <div class="menu-options">
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
+               
+                <li><a href="/#">Clients</a></li>
+                <li><a href="/#">Users</a></li>
+                <li><a href="/#">Projects</a></li>
+                <li><a href="/#">Tags</a></li>
             </ul>
-        </nav>
-    </header>
+        </div>
+    </div>
 
-    <main>
+
+    <div class="content">
         @yield('content')
-    </main>
+    </div>
 
     <footer>
         &copy; {{ date('Y') }} My Website
     </footer>
 
-   
+    
 </body>
 </html>
