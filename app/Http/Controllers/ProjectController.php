@@ -9,10 +9,13 @@ use App\Models\Project;
 use App\Traits\HTTPResponses;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
+use App\Policies\ProjectPolicy;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProjectController extends Controller
 {
     use HTTPResponses;
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -70,7 +73,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        return $this->checkAuth($project) ? $this->checkAuth($project) : $project->delete();
+        $this->authorize('authorize', $project);
+        $project->delete();
     }
 
     private function checkAuth($project)
