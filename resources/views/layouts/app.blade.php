@@ -15,8 +15,9 @@
                
                 <li><a href="/#">Clients</a></li>
                 <li><a href="/#">Users</a></li>
-                <li><a href="/#">Projects</a></li>
+                <li><a href="/projects">Projects</a></li>
                 <li><a href="/#">Tags</a></li>
+                <li><a href="/home">Home</a></li>
             </ul>
         </div>
     </div>

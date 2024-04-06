@@ -4,6 +4,11 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.container h1 {
+    text-align: center;
+}
+
 .upper-banner {
     background-color: #3c4b64;
     color: white;
@@ -14,9 +19,9 @@ body {
     cursor: pointer;
 }
 .content {
-    background-color: white;
     padding: 20px;
-    margin: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 footer {
@@ -32,4 +37,12 @@ footer {
 
 .menu-options.expanded {
     display: block; /* Show menu options when 'expanded' class is present */
+}
+
+.project-container,
+#project-details {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
