@@ -3,11 +3,12 @@
 @vite(['resources/js/app.js'])
 @section('content')
 <div class="container">
-    <a href="{{ route('projects.create') }}" class="button">Create Project</a>
-    <div id="projects-list">
+    <h1>All clients</h1>
+    <div id="clients-list">
         <!-- Projects will be dynamically added here -->
+        Client List
     </div>
-    <div id="project-details">
+    <div id="clients-details">
         <!-- Project details will be dynamically updated here -->
     </div>
 </div>

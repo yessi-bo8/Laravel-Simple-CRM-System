@@ -13,10 +13,12 @@ class WebController extends Controller
         return view($view);
     }
 
-public function show($id) 
+    public function create() 
     {
-        $view = Route::is('projects.*') ? 'projects.show' : (Route::is('clients.*') ? 'clients.show' : 'home');
-        return view($view, ['id' => $id]);
+        $view = Route::is('projects.*') ? 'projects.create' : (Route::is('clients.*') ? 'clients.create' : 'home');
+        return view($view);
     }
+
+
 
 }

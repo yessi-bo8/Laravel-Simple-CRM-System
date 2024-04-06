@@ -46,3 +46,47 @@ footer {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+ul {
+    list-style-type: none; /* Remove default bullet points */
+    padding: 0;
+}
+
+ul li {
+    display: inline;
+}
+
+ul li a {
+    color: white; /* Set text color to white */
+    text-decoration: none; /* Remove underline */
+    padding: 10px; /* Add padding for spacing */
+}
+
+ul li a:hover {
+    background-color: #333; /* Change background color on hover */
+}
+
+ul li a:visited {
+    color: white; /* Keep text color white for visited links */
+}
+
+/* Button style */
+.button {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+.button:hover {
+    background-color: #45a049;
+}
