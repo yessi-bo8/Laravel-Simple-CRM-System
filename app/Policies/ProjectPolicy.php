@@ -8,29 +8,21 @@ use Illuminate\Auth\Access\Response;
 
 class ProjectPolicy
 {
-      /**
-     * Determine whether the user can update the model.
-     */
-    public function authorize(User $user, Project $project): bool
-    {
-        return $project->user()->is($user);
-    }
-
 
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user)
     {
-        //
+        return $user !== null;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Project $project)
+    public function view(User $user, Project $project): bool
     {
-        //
+        return $project->user()->is($user);
     }
 
     /**
@@ -38,7 +30,7 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user !== null;
     }
 
     /**
