@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     @vite(['resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
+
 <body>
     <div class="upper-banner">
         <h1>Welcome to My Website</h1>
