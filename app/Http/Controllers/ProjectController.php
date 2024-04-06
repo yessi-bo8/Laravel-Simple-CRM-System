@@ -9,16 +9,19 @@ use App\Models\Project;
 use App\Traits\HTTPResponses;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
+use App\Policies\ProjectPolicy;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProjectController extends Controller
 {
     use HTTPResponses;
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // return Task::all()->toJson();;
+        $this->authorize('viewAny', Project::class);
         return ProjectResource::collection(
             Project::where('user_id', Auth::user()->id)->get()
         );
@@ -29,6 +32,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+        $this->authorize('create', Project::class);
         // Find the client based on the provided client name
         $client = Client::where('name', $request->client_name)->firstOrFail();
         $request->validated($request->all());
@@ -52,6 +56,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $this->authorize('view', $project);
         return new ProjectResource($project);
     }
 
@@ -60,9 +65,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        
+        $this->authorize('update', $project);
         $project->update($request->only(['title', 'description', 'status']));
-        return $this->checkAuth($project) ? $this->checkAuth($project) : new ProjectResource($project);
+        return new ProjectResource($project);
     }
 
     /**
@@ -70,13 +75,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        return $this->checkAuth($project) ? $this->checkAuth($project) : $project->delete();
+        $this->authorize('delete', $project);
+        $project->delete();
     }
 
-    private function checkAuth($project)
-    {
-        if (Auth::id() !== $project->user_id) {
-            return $this->error("", 'You are not Authorized', 403);
-         }
-    }
 }
