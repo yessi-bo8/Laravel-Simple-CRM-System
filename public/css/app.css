@@ -15,6 +15,12 @@ body {
     padding: 10px;
     text-align: center;
 }
+
+.project-container:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Add shade on hover */
+    /* You can adjust the opacity (last value) to change the darkness of the shade */
+}
+
 .toggle-menu {
     cursor: pointer;
 }
