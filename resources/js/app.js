@@ -1,5 +1,6 @@
+// import "../css/app.css";
 import "./bootstrap";
-import "../css/app.css";
+import "./projects.js";
 
 // import { toggleSidebar } from "./functions";
 document.addEventListener("DOMContentLoaded", function () {
