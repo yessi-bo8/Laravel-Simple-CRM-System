@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Auth\Access\Response;
 
 class ProjectPolicy
@@ -22,7 +23,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        return $project->user()->is($user);
+        return $project->user()->is($user) || $user->role_id == Role::IS_ADMIN;
     }
 
     /**
@@ -46,7 +47,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return $project->user()->is($user);
+        return $project->user()->is($user) || $user->role_id == Role::IS_ADMIN;
     }
 
     /**
