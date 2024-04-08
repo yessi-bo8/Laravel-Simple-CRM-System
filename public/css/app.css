@@ -16,7 +16,8 @@ body {
     text-align: center;
 }
 
-.project-container:hover {
+.project-container:hover,
+.client-container:hover {
     background-color: rgba(0, 0, 0, 0.1); /* Add shade on hover */
     /* You can adjust the opacity (last value) to change the darkness of the shade */
 }
@@ -46,7 +47,9 @@ footer {
 }
 
 .project-container,
-#project-details {
+#project-details,
+.client-container,
+#client-details {
     background-color: white;
     padding: 20px;
     margin-top: 20px;
@@ -95,4 +98,11 @@ ul li a:visited {
 /* Button hover effect */
 .button:hover {
     background-color: #45a049;
+}
+
+/* styles.css */
+.project-details-link,
+.client-details-link {
+    color: black;
+    text-decoration: none;
 }

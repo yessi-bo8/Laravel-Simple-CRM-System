@@ -21,6 +21,7 @@ $(document).ready(function () {
         const userName = response.data.relationships["user name"];
         const userEmail = response.data.relationships["user email"];
         const clientId = response.data.relationships.id_client;
+        const RoleId = response.data.relationships.role_name;
 
         const projectDetails = `
             <p>Title: ${project.title}</p>
@@ -30,6 +31,7 @@ $(document).ready(function () {
             <p>User Name: ${userName}</p>
             <p>User Email: ${userEmail}</p>
             <p>Client ID: ${clientId}</p>
+            <p>Role: ${RoleId}</p>
             <button id="go-back-to-list">Go back to list</button>
         `;
 

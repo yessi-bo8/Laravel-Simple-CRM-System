@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\WebController;
+use App\Http\Controllers\API\ProjectController;
+use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
