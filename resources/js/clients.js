@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     // Function to display project details
     function displayClientDetails(response) {
+        const clients = response.data;
         const client = response.data.attributes;
         const relationships = response.data.relationships;
 
@@ -67,9 +68,10 @@ $(document).ready(function () {
 
     // Function to display projects
     function displayClients(response) {
+        const clients = response.data;
         const clientsList = $("#clients-list");
 
-        response.data.forEach(function (client) {
+        clients.forEach(function (client) {
             const clientContainer = $("<div class='client-container'></div>");
 
             const clientLink = $("<a href='#'></a>")
