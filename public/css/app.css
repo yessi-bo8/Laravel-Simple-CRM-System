@@ -16,7 +16,8 @@ body {
     text-align: center;
 }
 
-.project-container:hover {
+.project-container:hover,
+.client-container:hover {
     background-color: rgba(0, 0, 0, 0.1); /* Add shade on hover */
     /* You can adjust the opacity (last value) to change the darkness of the shade */
 }
@@ -46,7 +47,9 @@ footer {
 }
 
 .project-container,
-#project-details {
+#project-details,
+.client-container,
+#client-details {
     background-color: white;
     padding: 20px;
     margin-top: 20px;
@@ -95,4 +98,68 @@ ul li a:visited {
 /* Button hover effect */
 .button:hover {
     background-color: #45a049;
+}
+
+.project-details-link,
+.client-details-link {
+    color: black;
+    text-decoration: none;
+}
+/* Style for delete button */
+.btn-delete,
+.btn-update {
+    background-color: transparent;
+    color: #000;
+    border: 2px solid transparent;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 14px; /* Adjust font size as needed */
+}
+
+.btn-delete:hover,
+.btn-update:hover {
+    background-color: transparent;
+    border-color: #000;
+}
+
+/* Style for delete button */
+.btn-delete {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Style for update button */
+.btn-update {
+    color: #fff;
+    background-color: #28a745;
+}
+
+.btn-update:hover {
+    background-color: #218838;
+}
+
+/* Position buttons */
+.client-container {
+    position: relative;
+}
+
+.btn-delete,
+.btn-update {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.btn-delete {
+    right: 90px; /* Adjust the value based on your layout */
+}
+
+.btn-update {
+    right: 5px;
 }

@@ -4,12 +4,13 @@
 @section('content')
 <div class="container">
     <h1>All clients</h1>
+    <a href="{{ route('clients.create') }}" class="button">Create Client</a>
     <div id="clients-list">
         <!-- Projects will be dynamically added here -->
-        Client List
     </div>
-    <div id="clients-details">
+    <div id="client-details">
         <!-- Project details will be dynamically updated here -->
     </div>
 </div>
+
 @endsection
