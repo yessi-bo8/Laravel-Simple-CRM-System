@@ -163,3 +163,98 @@ ul li a:visited {
 .btn-update {
     right: 5px;
 }
+
+.form-container {
+    background-color: #fff; /* White background */
+    padding: 20px; /* Padding around the form */
+    border-radius: 8px; /* Optional: Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Box shadow for a subtle elevation effect */
+}
+
+/* Additional styling for form elements (optional) */
+.form-container form {
+    max-width: 400px; /* Optional: Limit form width */
+}
+
+.form-container label {
+    display: block; /* Display labels as block elements */
+    margin-bottom: 8px; /* Add space below labels */
+}
+
+.form-container input[type="text"],
+.form-container input[type="date"],
+.form-container input[type="textfield"],
+.form-container select,
+.form-container textarea {
+    width: 100%; /* Make input fields and textareas full width */
+    padding: 8px; /* Add padding to input fields */
+    margin-bottom: 16px; /* Add space below input fields */
+    border: 1px solid #ccc; /* Optional: Add border for input fields */
+    border-radius: 4px; /* Optional: Add border radius for input fields */
+}
+
+.form-container button {
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    padding: 10px 20px; /* Button padding */
+    border: none; /* Remove button border */
+    border-radius: 4px; /* Optional: Add border radius for button */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.form-container button:hover {
+    background-color: #0056b3; /* Button background color on hover */
+}
+
+/* Styles for modal container */
+.modal-container {
+    display: none; /* Initially hidden */
+    position: fixed;
+    z-index: 9999; /* Ensure it's on top of other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    overflow: auto;
+}
+
+/* Styles for modal content */
+.modal-container {
+    display: none; /* Initially hidden */
+    position: fixed;
+    z-index: 9999; /* Ensure it's on top of other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    overflow: auto;
+}
+
+/* Styles for modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Center the modal vertically and horizontally */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px; /* Set maximum width for the modal */
+    text-align: center;
+}
+
+/* Close button style */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
