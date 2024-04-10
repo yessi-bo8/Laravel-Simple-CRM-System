@@ -17,6 +17,7 @@
                 <li><a href="/projects">Projects</a></li>
                 <li><a href="/clients">Clients</a></li>
                 <li><a href="/account">My Account</a></li>
+                <li><a href="/tasks">Tasks</a></li>
                 <li><a href="/home">Home</a></li>
             </ul>
         </div>

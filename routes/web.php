@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\API\ProjectController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Web\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,5 @@ Route::get('/account', function () {
 
 Route::resource('projects', WebController::class);
 Route::resource('clients', WebController::class);
+Route::resource('tasks', TaskController::class)->except(['update']);
+Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
