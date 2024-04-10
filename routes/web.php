@@ -20,4 +20,5 @@ Route::get('/account', function () {
 
 Route::resource('projects', WebController::class);
 Route::resource('clients', WebController::class);
-Route::resource('tasks', TaskController::class);
+Route::resource('tasks', TaskController::class)->except(['update']);
+Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');

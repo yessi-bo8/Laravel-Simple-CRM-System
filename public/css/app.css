@@ -17,7 +17,8 @@ body {
 }
 
 .project-container:hover,
-.client-container:hover {
+.client-container:hover,
+.task:hover {
     background-color: rgba(0, 0, 0, 0.1); /* Add shade on hover */
     /* You can adjust the opacity (last value) to change the darkness of the shade */
 }
@@ -49,11 +50,35 @@ footer {
 .project-container,
 #project-details,
 .client-container,
-#client-details {
+#client-details,
+.task-container {
     background-color: white;
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
+    width: 100%;
+}
+
+.alert-success {
+    background-color: #4caf50; /* Green */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.alert-error {
+    background-color: #d14141; /* Green */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.form_danger {
+    color: rgb(129, 7, 7); /* Set text color to red */
+    font-style: italic; /* Make text italic */
+    font-size: smaller; /* Decrease font size */
 }
 
 ul {
@@ -69,6 +94,11 @@ ul li a {
     color: white; /* Set text color to white */
     text-decoration: none; /* Remove underline */
     padding: 10px; /* Add padding for spacing */
+}
+
+a {
+    color: black;
+    text-decoration: none; /* Remove underline */
 }
 
 ul li a:hover {
@@ -257,4 +287,112 @@ ul li a:visited {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.task-container {
+    width: 100%;
+    overflow-x: auto; /* Add horizontal scroll if content overflows */
+    display: grid; /* Use CSS grid for layout */
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(250px, 1fr)
+    ); /* Responsive grid layout */
+    gap: 20px; /* Gap between task divs */
+}
+
+.task {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ccc; /* Add border */
+    padding: 20px; /* Padding around task */
+    border-radius: 8px; /* Rounded corners */
+}
+
+/* Style for pagination links */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a,
+.pagination span {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.update-button {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 10px; /* Add margin to separate buttons */
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-button {
+    background-color: #f44336; /* Red */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.task-table th,
+.task-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    white-space: nowrap;
+    border: none; /* Remove borders from table cells */
+    text-align: left;
+}
+
+.task-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+    text-align: left; /* Align text to the left within each column */
+    padding: 10px; /* Add padding for better spacing */
+    width: 40%;
+}
+
+.even-row {
+    background-color: #fff;
+}
+
+.odd-row {
+    background-color: #f9f9f9;
+}
+
+.rejected-status {
+    background-color: #ffcccc; /* Light red */
+}
+
+.approved-status {
+    background-color: #ccffcc; /* Light green */
 }

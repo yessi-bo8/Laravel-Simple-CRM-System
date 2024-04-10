@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('project_id');
-            
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->string('name');
+            $table->text('description');
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->string('status')->default('pending');
+            $table->date('due_date');
+            $table->string('priority');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('client_id')->constrained('clients');
         });
     }
 
