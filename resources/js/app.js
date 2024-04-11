@@ -1,8 +1,18 @@
 // import "../css/app.css";
-import "./bootstrap";
+import $ from "jquery";
+import "./config.js";
+import "./projects/index.js";
+import "./projects/create.js";
+import "./projects/delete.js";
+import "./projects/errors.js";
+import "./projects/show.js";
+import "./projects/update.js";
 import "./projects.js";
+
+import "./message.js";
+import "./bootstrap";
 import "./clients.js";
-import "./StoreProject.js";
+// import "./StoreProject.js";
 
 // import { toggleSidebar } from "./functions";
 document.addEventListener("DOMContentLoaded", function () {

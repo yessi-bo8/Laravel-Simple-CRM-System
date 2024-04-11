@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="form-container" >
-    <h1>Edit project</h1>
+    <h1>Edit Task</h1>
     <div>
     <form action="{{ route('tasks.update', ['task'=>$task]) }}" method="POST">
         @csrf
@@ -63,7 +63,7 @@
             </select>
             </br>
 
-            <button type="submit">Edit Project</button>
+            <button type="submit">Edit Task</button>
         </form>
 
     </div>

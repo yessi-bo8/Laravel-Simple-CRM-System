@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="form-container" >
-    <h1>New Project</h1>
+    <h1>New Task</h1>
     <div>
     <form action="{{ route('tasks.store') }}" method="POST">
         @csrf
@@ -72,7 +72,7 @@
             @enderror
             </br>
 
-            <button type="submit">Make new Project</button>
+            <button type="submit">Make new Task</button>
         </form>
 
     </div>

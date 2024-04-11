@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class UpdateTaskRequest extends FormRequest
 {
@@ -41,21 +42,23 @@ class UpdateTaskRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $originalData = $this->request->all();
-            $validatedData = $this->validated();
+            $task = $this->route('task');
+            $input = $validator->getData();
 
-            // Check if any field has been modified
-            $isModified = false;
-            foreach ($validatedData as $key => $value) {
-                if ($value !== $originalData[$key]) {
-                    $isModified = true;
-                    break;
-                }
-            }
+            $hasChanges = collect([
+                'name' => $input['name'] !== optional($task)->name,
+                'description' => $input['description'] !== optional($task)->description,
+                'due_date' => $input['due_date'] !== optional($task)->due_date,
+                'status' => $input['status'] !== optional($task)->status,
+                'priority' => $input['priority'] !== optional($task)->priority,
+                'client_name' => $input['client_name'] !== optional($task)->client->name,
+                'project_title' => $input['project_title'] !== optional($task)->project->title,
+            ])->values()->contains(function ($value) {
+                return $value;
+            });
 
-            // If no field has been modified, add an error
-            if (!$isModified) {
-                $validator->errors()->add('no_changes', 'No changes were made to the task.');
+            if (!$hasChanges) {
+                $validator->errors()->add('no_changes', 'No changes have been made to the task.');
             }
         });
     }

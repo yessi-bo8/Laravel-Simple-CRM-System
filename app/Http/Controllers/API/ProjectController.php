@@ -69,7 +69,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $this->authorize('update', $project);
-        $project->update($request->only(['title', 'description', 'status']));
+        $project->update($request->only(['title', 'description', 'status', 'event_date']));
         return new ProjectResource($project);
     }
 

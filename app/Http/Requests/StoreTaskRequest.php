@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class StoreTaskRequest extends FormRequest
 {
@@ -31,4 +32,6 @@ class StoreTaskRequest extends FormRequest
             'priority' => 'required|string|in:low,medium,high',
         ];
     }
+
+
 }

@@ -53,10 +53,19 @@ footer {
 #client-details,
 .task-container {
     background-color: white;
+    text-align: center;
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: space-between;
+}
+
+.project-details-link {
+    flex-grow: 1; /* Expand to fill remaining space */
+    margin-right: 10px; /* Add space between the title and buttons */
 }
 
 .alert-success {
@@ -332,7 +341,8 @@ ul li a:visited {
     background-color: #f0f0f0;
 }
 
-.update-button {
+.update-button,
+.update-project {
     background-color: #4caf50; /* Green */
     border: none;
     color: white;
@@ -346,7 +356,8 @@ ul li a:visited {
     border-radius: 5px;
 }
 
-.delete-button {
+.delete-button,
+.delete-project {
     background-color: #f44336; /* Red */
     border: none;
     color: white;
