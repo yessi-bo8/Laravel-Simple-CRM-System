@@ -12,12 +12,12 @@ Route::get('/user', function (Request $request) {
 });
 
 //Public routes
-Route::post('/login', [AuthController::class, 'login']);
+// Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 //Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    // Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('/projects', ProjectController::class)->names('api.projects');
     Route::apiResource('/clients', ClientController::class);
     Route::apiResource('/users', UserController::class);

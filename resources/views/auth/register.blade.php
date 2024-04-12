@@ -4,7 +4,7 @@
 @section('content')
 <div>
 <h2>Register</h2>
-        <form method="POST" action="{{ route('register.post') }}">
+        <form id="register-form">
             @csrf
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -25,4 +25,5 @@
             <button type="submit">Register</button>
         </form>
 </div>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection

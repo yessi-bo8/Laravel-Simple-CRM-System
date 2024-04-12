@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use App\Traits\HTTPResponses;
@@ -17,21 +18,29 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
-    {
-        $request->validated($request->all());
+    public function login(LoginUserRequest $request)
+{
+    // Validate the request
+    // $validatedData = $request->validated();
+    $request->validated($request->all());
         
-        if (!Auth::attempt(($request->only('email', 'password')))) {
-            return $this->error('', 'Credentials do not match', 401);
-        }
-
-        $user = User::where('email', $request->email)->first();
-
-        return $this->success([
-            'user'=> $user,
-            'token' => $user->createToken('Api Token of ' . $user->name)->plainTextToken
-        ]);
+    //login and create a session
+    if (!Auth::attempt(($request->only('email', 'password')))) {
+        return $this->error('', 'Credentials do not match', 401);
     }
+
+    $user = User::where('email', $request->email)->first();
+
+    // Create a token
+    $token = $user->createToken('Api Token of ' . $user->name)->plainTextToken;
+
+    // Return the user and token data along with the redirect header
+    return response()->json([
+        'user' => $user,
+        'token' => $token,
+    ]);
+}
+
 
     public function showRegistrationForm()
     {
@@ -57,10 +66,10 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::user()->currentAccessToken()->delete();
+        // Logout the user (clear session)
+        Auth::logout();
 
-        return $this->success([
-            'message' => "You have been succesfully logged out!"
-        ]);
+        // Redirect to the home page
+        return redirect('/');
     }
 }

@@ -8,6 +8,9 @@ import "./projects/errors.js";
 import "./projects/show.js";
 import "./projects/update.js";
 import "./projects.js";
+import "./auth/login.js";
+import "./auth/logout.js";
+import "./auth/register.js";
 
 import "./message.js";
 import "./bootstrap";
