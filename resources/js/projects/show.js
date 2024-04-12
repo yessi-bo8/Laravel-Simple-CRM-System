@@ -34,7 +34,7 @@ function displayProjectDetails(response) {
         </div>
     `;
 
-    $(".container").html(projectDetails);
+    $(".project-container").html(projectDetails);
 
     // Add event listener for delete project button
     $(".delete-project").click(function () {

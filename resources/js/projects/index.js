@@ -18,7 +18,7 @@ export function fetchAllProjects() {
 
 // Function to display all projects
 function displayProjects(response) {
-    const projectsList = $(".container");
+    const projectsList = $(".project-container");
     projectsList.empty();
 
     const titleAndButton = $(`
@@ -28,15 +28,15 @@ function displayProjects(response) {
     projectsList.append(titleAndButton);
 
     response.data.forEach(function (project) {
-        const projectContainer = $(`
-            <div class='project-container'>
+        const projectList = $(`
+            <div class='project-list'>
                 <p class='project-name' data-project-id='${project.id}'>${project.attributes.title}</p>
                 <button class='delete-project' data-project-id='${project.id}'>Delete</button>
                 <button class='update-project' data-project-id='${project.id}'>Update</button>
             </div>
         `);
 
-        projectsList.append(projectContainer);
+        projectsList.append(projectList);
     });
 
     // Add event listener for project name click

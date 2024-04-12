@@ -12,9 +12,11 @@ import "./auth/login.js";
 import "./auth/logout.js";
 import "./auth/register.js";
 
+import "./clients/index.js";
+import "./clients/create.js";
+
 import "./message.js";
 import "./bootstrap";
-import "./clients.js";
 // import "./StoreProject.js";
 
 // import { toggleSidebar } from "./functions";

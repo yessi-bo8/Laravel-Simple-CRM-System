@@ -6,10 +6,10 @@ $(document).ready(function () {
         // Get the email and password from the input fields
         // Get the CSRF token value from the meta tag
         const csrfToken = $('meta[name="csrf-token"]').attr("content");
-        console.log(csrfToken);
+
         const email = $("#email").val();
         const password = $("#password").val();
-        console.log("hoi");
+
         // Make AJAX request to submit login credentials
         $.ajax({
             url: "/login",

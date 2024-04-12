@@ -3,7 +3,6 @@ import $ from "jquery";
 $(document).ready(function () {
     const token = "2|iwlR0NefAp3yL8n1tdRQvdncsKlN8pr8SkzP1v3x8ed69f31";
 
-    // Function to fetch project details
     function fetchClientDetails(ClientId) {
         $.ajax({
             url: `/api/v1/clients/${ClientId}`,
@@ -14,9 +13,7 @@ $(document).ready(function () {
         });
     }
 
-    // Function to display project details
     function displayClientDetails(response) {
-        const clients = response.data;
         const client = response.data.attributes;
         const relationships = response.data.relationships;
 
@@ -41,13 +38,13 @@ $(document).ready(function () {
             <button id="go-back-to-list">Go back to list</button>
         `;
 
-        $("#client-details").html(clientDetails).show();
-        $("#clients-list").hide();
+        $(".client-details").html(clientDetails).show();
+        $(".client-containerr").hide();
         $("h1").text("Client info");
 
         $("#go-back-to-list").click(function () {
-            $("#clients-list").show();
-            $("#client-details").html("").hide();
+            $(".client-containerr").show();
+            $(".client-details").html("").hide();
             $("h1").text("All clients");
         });
     }
@@ -57,7 +54,6 @@ $(document).ready(function () {
         console.error(error);
     }
 
-    // Fetch projects using AJAX
     $.ajax({
         url: "/api/v1/clients",
         headers: { Authorization: "Bearer " + token },
@@ -66,13 +62,12 @@ $(document).ready(function () {
         error: handleError,
     });
 
-    // Function to display projects
     function displayClients(response) {
         const clients = response.data;
-        const clientsList = $("#clients-list");
+        const clientsList = $(".client-container");
 
         clients.forEach(function (client) {
-            const clientContainer = $("<div class='client-container'></div>");
+            const clientContainer = $("<div class='client-list'></div>");
 
             const clientLink = $("<a href='#'></a>")
                 .text(client.attributes.name)
@@ -89,6 +84,5 @@ $(document).ready(function () {
         });
     }
 
-    // Hide project details initially
-    $("#client-details").hide();
+    $(".client-details").hide();
 });

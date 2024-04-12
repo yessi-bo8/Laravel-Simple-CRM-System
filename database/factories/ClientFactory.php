@@ -27,7 +27,6 @@ class ClientFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
             'company' => fake()->company,
             'vat' => fake()->regexify('[0-9]{9}'),
             'address' => fake()->address(),
