@@ -17,12 +17,12 @@
                 <li><a href="/clients">Clients</a></li>
                 <li><a href="/projects">Projects</a></li>
                 <li><a href="/tasks">Tasks</a></li>
-                <li><a href="/account">My Account</a></li>
                 <li><a href="/home">Home</a></li>
                 @guest <!-- Show login and register links when user is not authenticated -->
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
                 @else <!-- Show logout link when user is authenticated -->
+                <li><a href="/account">My Account</a></li>
                 <form id="logout-form" method="POST">
                     @csrf <!-- CSRF protection -->
                     <button type="button" id="logout-button">Logout</button>

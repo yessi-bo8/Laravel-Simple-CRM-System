@@ -24,7 +24,11 @@ Route::resource('clients', WebController::class);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::resource('tasks', TaskController::class)->except(['update']);
-Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');});
+Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+Route::resource('projects', WebController::class);
+Route::resource('clients', WebController::class);
+});
+
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
