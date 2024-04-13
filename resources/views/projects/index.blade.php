@@ -2,6 +2,6 @@
 
 @vite(['resources/js/app.js'])
 @section('content')
-<div class="container">
+<div class="project-container">
 </div>
 @endsection

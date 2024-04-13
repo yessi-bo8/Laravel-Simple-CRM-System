@@ -10,7 +10,7 @@ class Client extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'company', 'VAT'
+        'name', 'vat', 'company', 'email', 'address'
     ];
 
     public function projects()

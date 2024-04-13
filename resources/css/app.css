@@ -39,7 +39,7 @@ footer {
     display: block; /* Show menu options when 'expanded' class is present */
 }
 
-.project-container,
+.project-list,
 #project-details {
     background-color: white;
     padding: 20px;

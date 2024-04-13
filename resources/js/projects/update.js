@@ -38,7 +38,7 @@ async function displayUpdateForm(projectId, clientOptions) {
             const project = response.data.attributes;
 
             // Hide project details
-            $(".container").empty();
+            $(".project-container").empty();
 
             // Populate the form with project details
             const updateForm = `
@@ -81,7 +81,7 @@ async function displayUpdateForm(projectId, clientOptions) {
                     `;
 
             // Show the update form
-            $(".container").append(updateForm);
+            $(".project-container").append(updateForm);
 
             // Find the client name corresponding to the project's client ID
             const clientId = response.data.relationships.id_client;

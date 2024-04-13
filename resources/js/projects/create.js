@@ -33,7 +33,7 @@ export function handleProjectCreation() {
 
             // Show form when the button is clicked
 
-            $(".container").html(`
+            $(".project-container").html(`
                 <div class="form-container" >
                     <form id="create-project-form" method="POST">
                         <label>Title:</label>

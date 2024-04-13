@@ -5,7 +5,9 @@ body {
     padding: 0;
 }
 
-.container h1 {
+.project-container h1,
+.client-container h1,
+.task-container h1 {
     text-align: center;
 }
 
@@ -16,8 +18,8 @@ body {
     text-align: center;
 }
 
-.project-container:hover,
-.client-container:hover,
+.project-list:hover,
+.client-list:hover,
 .task:hover {
     background-color: rgba(0, 0, 0, 0.1); /* Add shade on hover */
     /* You can adjust the opacity (last value) to change the darkness of the shade */
@@ -47,10 +49,10 @@ footer {
     display: block; /* Show menu options when 'expanded' class is present */
 }
 
-.project-container,
+.project-list,
 #project-details,
-.client-container,
-#client-details,
+.client-list,
+.client-details,
 .task-container {
     background-color: white;
     text-align: center;
@@ -184,7 +186,7 @@ ul li a:visited {
 }
 
 /* Position buttons */
-.client-container {
+.client-list {
     position: relative;
 }
 
