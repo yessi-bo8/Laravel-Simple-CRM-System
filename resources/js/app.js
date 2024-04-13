@@ -12,8 +12,9 @@ import "./auth/login.js";
 import "./auth/logout.js";
 import "./auth/register.js";
 
-import "./clients/index.js";
-import "./clients/create.js";
+import "./clients/show.js";
+import "./clients/update.js";
+import "./clients/delete.js";
 
 import "./message.js";
 import "./bootstrap";
