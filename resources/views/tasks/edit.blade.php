@@ -24,10 +24,10 @@
                 <option value="{{ $task->client->name }}" selected>{{ $task->client->name }}</option>
                 
                 <!-- Other options -->
-                @foreach ($clients as $client)
+                @foreach ($clients as $clientId => $clientName)
                     <!-- Exclude the default option -->
-                    @if ($client->name !== $task->client->name)
-                        <option value="{{ $client->name }}">{{ $client->name }}</option>
+                    @if ($clientName !== $task->client->name)
+                        <option value="{{ $clientName }}">{{ $clientName }}</option>
                     @endif
                 @endforeach
             </select>
@@ -40,10 +40,10 @@
                 <option value="{{ $task->project->title }}" selected>{{ $task->project->title }}</option>
                 
                 <!-- Other options -->
-                @foreach ($projects as $project)
+                @foreach ($projects as $projectId => $projectTitle)
                     <!-- Exclude the default option -->
-                    @if ($project->title !== $task->project->title)
-                        <option value="{{ $project->title }}">{{ $project->title }}</option>
+                    @if ($projectTitle !== $task->project->title)
+                        <option value="{{ $projectTitle }}">{{ $projectTitle }}</option>
                     @endif
                 @endforeach
             </select>

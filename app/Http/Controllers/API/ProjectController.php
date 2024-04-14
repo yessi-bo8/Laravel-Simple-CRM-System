@@ -9,6 +9,8 @@ use App\Http\Resources\ProjectResource;
 
 use App\Models\Project;
 use App\Models\Client;
+use App\Models\Role;
+use App\Models\User;
 
 use App\Traits\HTTPResponses;
 use Illuminate\Support\Facades\Auth;
@@ -19,15 +21,22 @@ class ProjectController extends Controller
 {
     use HTTPResponses;
     use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $this->authorize('viewAny', Project::class);
-        return ProjectResource::collection(
-            Project::where('user_id', Auth::user()->id)->get()
-        );
+        $user = auth()->user();
+        $isAdmin = $user->roles->contains('name', 'admin');
+
+        // Retrieve projects based on user's role
+        if ($isAdmin) {
+            $projects = Project::all();
+        } else {
+            $projects = $user->projects;
+        }
+        return ProjectResource::collection($projects);
     }
 
     /**
@@ -35,7 +44,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $this->authorize('create', Project::class);
+        // $this->authorize('create', Project::class);
         // Find the client based on the provided client name
         $client = Client::where('name', $request->client_name)->firstOrFail();
         $request->validated($request->all());
@@ -59,7 +68,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $this->authorize('view', $project);
+        // $this->authorize('view', $project);
         return new ProjectResource($project);
     }
 

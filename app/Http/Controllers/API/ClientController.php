@@ -19,7 +19,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', Client::class);
+        $this->authorize('index', Client::class);
         return ClientResource::collection(Client::all());
     }
 
@@ -37,7 +37,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $this->authorize('view', $client);
+        $this->authorize('show', $client);
         return new ClientResource($client);
     }
 

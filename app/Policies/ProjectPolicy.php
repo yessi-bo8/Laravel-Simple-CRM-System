@@ -13,25 +13,25 @@ class ProjectPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user)
+    public function index(User $user): bool
     {
-        return $user !== null;
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Project $project): bool
+    public function show(User $user, Project $project): bool
     {
-        return $project->user()->is($user) || $user->role_id == Role::IS_ADMIN;
+        return $project->user()->is($user) || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return $user !== null;
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
@@ -39,7 +39,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $project->user()->is($user);
+        return $project->user()->is($user) || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
@@ -47,22 +47,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return $project->user()->is($user) || $user->role_id == Role::IS_ADMIN;
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Project $project)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Project $project)
-    {
-        //
-    }
 }

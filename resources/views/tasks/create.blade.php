@@ -29,8 +29,8 @@
             <label for="client_name">Client:</label>
             <select name="client_name">
                 <option value="">Select Client</option>
-                @foreach ($clients as $client)
-                    <option value="{{ $client->name }}">{{ $client->name }}</option>
+                @foreach ($clients as $clientId => $clientName)
+                    <option value="{{ $clientName }}">{{ $clientName }}</option>
                 @endforeach
             </select>
             @error('client_name')
@@ -41,9 +41,10 @@
             <label for="project_title">Project:</label>
             <select name="project_title">
                 <option value="">Select Project</option>
-                @foreach ($projects as $project)
-                    <option value="{{ $project->title}}">{{ $project->title }}</option>
+                @foreach ($projects as $projectId => $projectTitle)
+                    <option value="{{ $projectTitle }}">{{ $projectTitle }}</option>
                 @endforeach
+
             </select>
             @error('project_title')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>
