@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Client;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -11,17 +12,17 @@ class ClientPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function index(User $user): bool
     {
-        return true;
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Client $client): bool
+    public function show(User $user, Client $client): bool
     {
-        return true;
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
@@ -29,7 +30,7 @@ class ClientPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
@@ -37,7 +38,7 @@ class ClientPolicy
      */
     public function update(User $user, Client $client): bool
     {
-        //
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
@@ -45,22 +46,7 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client): bool
     {
-        //
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Client $client): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Client $client): bool
-    {
-        //
-    }
 }

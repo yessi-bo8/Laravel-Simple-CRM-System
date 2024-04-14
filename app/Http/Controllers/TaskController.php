@@ -21,26 +21,25 @@ class TaskController extends Controller
         // Paginate the tasks with 10 tasks per page (adjust as needed)
         $tasks = Task::paginate(10);
 
-        // Wrap each task in a TaskResource instance
-        $tasks = TaskResource::collection($tasks);
+        // Return the tasks directly to the view without wrapping them in TaskResource
         return view('tasks.index', ['tasks' => $tasks]);
     }
 
     public function show(Task $task)
     {
-        $task_return = new TaskResource($task);
-        return view('tasks.show', ['task' => $task_return]);
+        return view('tasks.show', ['task' => $task]);
     }
 
     public function create()
     {
-        $clients = Client::all();
-        $projects = Project::all();
+        $clients = Client::pluck('name', 'id');
+        $projects = Project::pluck('title', 'id');
         return view('tasks.create', ['clients'=>$clients, 'projects' =>$projects]);
     }
 
     public function store(StoreTaskRequest $request)
     {
+        $this->authorize('store', Task::class);
         // Perform validation
         $validatedData = $request->validated();
 
@@ -50,7 +49,7 @@ class TaskController extends Controller
 
         // Create task
         $task = Task::create([
-            'user_id' => '2', // You might need to adjust this value
+            'user_id' => auth()->id(), // You might need to adjust this value
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
             'due_date' => $validatedData['due_date'],
@@ -66,14 +65,15 @@ class TaskController extends Controller
         }
 
         public function edit(Task $task){
-            $clients = Client::all();
-            $projects = Project::all();
+            $clients = Client::pluck('name', 'id');
+            $projects = Project::pluck('title', 'id');
             return view('tasks.edit', ['task' => $task, 'clients'=>$clients, 'projects'=>$projects]);
         }
 
 
         
         public function update(UpdateTaskRequest $request, Task $task) {
+            $this->authorize('update', Task::class);
 
             // Validate the incoming request data
             $validatedData = $request->validated();
@@ -88,6 +88,7 @@ class TaskController extends Controller
         }
 
         public function destroy(Task $task) {
+            $this->authorize('delete', Task::class);
             $task->delete();
             return redirect()->route('tasks.index')
             ->with('success', 'Task deleted successfully');

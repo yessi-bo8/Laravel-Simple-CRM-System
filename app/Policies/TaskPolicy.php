@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Project;
 use App\Models\Role;
 use App\Models\Task;
 use App\Models\User;
@@ -12,56 +13,41 @@ class TaskPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user)
+    public function index(User $user, Task $task): bool
     {
-        //
+        // Check if the task belongs to the user directly
+        $belongsToUser = $task->user->id == $user->id;
+
+        // Retrieve all tasks associated with the authenticated user
+        $userTasks = Task::where('user_id', $user->id)->pluck('project_id')->unique();
+        // Retrieve the projects associated with the tasks
+        $belongsToProject = Project::whereIn('id', $userTasks)->where('id', $task->project_id)->exists();
+
+        return $belongsToUser || $belongsToProject || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Task $task)
-    {
-        //
-    }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user)
+    public function store(User $user): bool
     {
-        //
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(Task $task): bool
+    public function update(User $user, Task $task): bool
     {
-        return true;
+        return $task->user()->is($user) || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Task $task): bool
+    public function delete(User $user): bool
     {
-        return $task->user()->is($user) || $user->role_id == Role::IS_ADMIN;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Task $task)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Task $task)
-    {
-        //
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 }
