@@ -26,7 +26,8 @@ function displayProjectDetails(response) {
                 <p>Event date: ${project.event_date}</p>
                 <p>User id: ${response.data.relationships.id}</p>
                 <p>Project id: ${response.data.id}</p>
-                <p>Client: ${response.data.relationships.id_client}</p>
+                <p>Client: ${response.data.relationships.client_name}</p>
+                <p>Assigned to User: ${response.data.relationships.user_name}</p>
                 <button class="delete-project" data-project-id="${response.data.id}">Delete</button>
                 <button class="update-project" data-project-id="${response.data.id}">Update</button>
                 <button class="back-project">Back to Projects</button>

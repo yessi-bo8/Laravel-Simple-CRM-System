@@ -15,7 +15,6 @@
         <p><strong>Status:</strong> {{ $task->status }}</p>
         <p><strong>Priority:</strong> {{ $task->priority }}</p>
         <p><strong>Client:</strong> {{ $task->client->name }}</p>
-        <p><strong>User:</strong> {{ $task->user_id }}</p>
         @if ($task->user->id == '2')
             <a href="{{ route('tasks.edit', ['task' => $task]) }}" class="update-button">Update</a>
             <form action="{{ route('tasks.destroy', ['task' => $task]) }}" method="POST" class="delete-form">

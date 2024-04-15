@@ -26,6 +26,7 @@ class StoreProjectRequest extends FormRequest
             "description" => ['required'],
             'event_date' => 'required|date',
             'client_name' => 'required|string',
+            'user_name' => 'required|string',
             'status' => 'required|string|in:pending,approved,rejected'
         ];
     }

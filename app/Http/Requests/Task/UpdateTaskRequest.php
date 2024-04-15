@@ -27,6 +27,7 @@ class UpdateTaskRequest extends FormRequest
             'description' => 'sometimes|string',
             'due_date' => 'sometimes|date',
             'client_name' => 'sometimes|string',
+            'user_name' => 'sometimes|string',
             'project_title' => 'sometimes|string',
             'status' => 'sometimes|string|in:pending,approved,rejected',
             'priority' => 'sometimes|string|in:low,medium,high',

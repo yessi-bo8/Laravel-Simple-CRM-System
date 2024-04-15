@@ -38,19 +38,31 @@
             @enderror
             </br>
 
+            <label for="user_name">Assigned to:</label>
+            <select name="user_name">
+                <option value="">Select User</option>
+                @foreach ($users as $userId => $userName)
+                    <option value="{{ $userName }}">{{ $userName }}</option>
+                @endforeach
+            </select>
+            @error('client_user')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
+            </br>
+
             <label for="project_title">Project:</label>
             <select name="project_title">
                 <option value="">Select Project</option>
                 @foreach ($projects as $projectId => $projectTitle)
                     <option value="{{ $projectTitle }}">{{ $projectTitle }}</option>
                 @endforeach
-
             </select>
             @error('project_title')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>
             @enderror
             </br>
 
+            <label for="status">Status:</label>
             <select name="status">
             <option value="">Select Status</option>
                 <option value="approved">approved</option>
@@ -62,6 +74,7 @@
             @enderror
             </br >
 
+            <label for="priority">Priority:</label>
             <select name="priority">
                 <option value="">Select Priority</option>
                 <option value="low">low</option>

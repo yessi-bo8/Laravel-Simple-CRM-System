@@ -45,3 +45,21 @@ export function showMessage(type, message, projectId) {
         modalContent.append(goToProjectButton);
     }
 }
+
+// Function to get error message from response
+export function getErrorMessage(response) {
+    if (response && response.errors) {
+        // If there are validation errors, construct error message
+        let errorMessage = "Validation error(s): ";
+        Object.keys(response.errors).forEach((field) => {
+            errorMessage += `${response.errors[field]} `;
+        });
+        return errorMessage;
+    } else if (response && response.error) {
+        // If there's a general error message, return it
+        return response.error;
+    } else {
+        // If no specific error message is found, return a generic message
+        return "Failed to create project. Please fix the errors and try again.";
+    }
+}
