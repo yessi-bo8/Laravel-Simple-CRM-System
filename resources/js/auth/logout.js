@@ -1,13 +1,12 @@
 import $ from "jquery";
+import { csrfToken } from "../config.js";
+import { showMessage } from "../message.js";
+import { handleError } from "../errors.js";
+import { getErrorMessage } from "../message.js";
+
 $(document).ready(function () {
     $("#logout-button").click(function (event) {
         event.preventDefault(); // Prevent default form submission behavior
-
-        // Log "hoi" to console
-        console.log("hoi");
-
-        // Get the CSRF token value from the meta tag
-        const csrfToken = $('meta[name="csrf-token"]').attr("content");
 
         // Remove the token from local storage
         localStorage.removeItem("token");
@@ -20,12 +19,13 @@ $(document).ready(function () {
                 "X-CSRF-TOKEN": csrfToken, // Include CSRF token in headers
             },
             success: function (response) {
-                // Redirect to the homepage or perform any other actions as needed
-                window.location.href = "/"; // Redirect to the homepage
+                window.location.href = "/";
+                showMessage("success", "Successfully logged out.");
             },
             error: function (xhr, status, error) {
-                // Handle logout error
-                console.error("Logout error:", error);
+                const response = xhr.responseJSON;
+                showMessage("error", getErrorMessage(response));
+                handleError;
             },
         });
     });

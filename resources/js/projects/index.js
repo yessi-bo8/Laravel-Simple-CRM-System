@@ -1,11 +1,12 @@
 import $ from "jquery";
 import { token } from "../config.js";
-import { handleError } from "./errors.js";
+import { handleError } from "../errors.js";
 import { fetchProjectDetails } from "./show.js";
 import { deleteProject } from "./delete.js";
 import { fetchProjectDetailsForUpdate } from "./update.js";
 import { handleProjectCreation } from "./create.js";
 import { showMessage } from "../message.js";
+import { getErrorMessage } from "../message.js";
 
 export function fetchAllProjects() {
     $.ajax({

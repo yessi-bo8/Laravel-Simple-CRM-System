@@ -1,4 +1,7 @@
 import $ from "jquery";
+import { showMessage } from "../message.js";
+import { handleError } from "../errors.js";
+import { getErrorMessage } from "../message.js";
 
 $(document).ready(function () {
     const token = "2|iwlR0NefAp3yL8n1tdRQvdncsKlN8pr8SkzP1v3x8ed69f31";
@@ -9,7 +12,11 @@ $(document).ready(function () {
             headers: { Authorization: "Bearer " + token },
             method: "GET",
             success: displayClientDetails,
-            error: handleError,
+            error: function (xhr, status, error) {
+                const response = xhr.responseJSON;
+                showMessage("error", getErrorMessage(response));
+                handleError;
+            },
         });
     }
 
@@ -59,7 +66,11 @@ $(document).ready(function () {
         headers: { Authorization: "Bearer " + token },
         method: "GET",
         success: displayClients,
-        error: handleError,
+        error: function (xhr, status, error) {
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
+        },
     });
 
     function displayClients(response) {

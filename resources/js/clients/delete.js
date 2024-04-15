@@ -1,6 +1,9 @@
 import $ from "jquery";
 import { token } from "../config.js";
 import { showMessage } from "../message.js";
+import { handleError } from "../errors.js";
+import { getErrorMessage } from "../message.js";
+
 $(document).ready(function () {
     // Add event listener for delete client button
     $(".delete-client").on("click", function () {
@@ -25,15 +28,11 @@ export function deleteProject(clientId) {
         success: function () {
             window.location.href = "/clients";
             showMessage("success", "Client deleted successfully.");
-            console.log("success");
         },
         error: function (xhr, status, error) {
-            console.error(error);
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
         },
     });
-}
-
-// Function to handle errors
-function handleError(xhr, status, error) {
-    console.error(error);
 }

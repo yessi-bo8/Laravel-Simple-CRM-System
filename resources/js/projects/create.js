@@ -1,9 +1,10 @@
 import $ from "jquery";
 import { token } from "../config.js";
+import { csrfToken } from "../config.js";
 import { showMessage } from "../message.js";
 import { getErrorMessage } from "../message.js";
 import { fetchProjectDetails } from "./show.js";
-import { handleError } from "./errors.js";
+import { handleError } from "../errors.js";
 
 // Function to handle project creation
 export function handleProjectCreation() {

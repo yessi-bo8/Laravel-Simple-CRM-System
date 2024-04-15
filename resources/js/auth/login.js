@@ -1,11 +1,12 @@
 import $ from "jquery";
+import { csrfToken } from "../config.js";
+import { showMessage } from "../message.js";
+import { handleError } from "../errors.js";
+import { getErrorMessage } from "../message.js";
+
 $(document).ready(function () {
     $("#login-form").submit(function (event) {
         event.preventDefault(); // Prevent default form submission
-
-        // Get the email and password from the input fields
-        // Get the CSRF token value from the meta tag
-        const csrfToken = $('meta[name="csrf-token"]').attr("content");
 
         const email = $("#email").val();
         const password = $("#password").val();
@@ -28,10 +29,12 @@ $(document).ready(function () {
 
                 // Redirect to the homepage or perform any other actions as needed
                 window.location.href = "/"; // Redirect to the homepage
+                showMessage("success", "Successfully logged in.");
             },
             error: function (xhr, status, error) {
-                // Handle login error
-                console.error("Login error:", error);
+                const response = xhr.responseJSON;
+                showMessage("error", getErrorMessage(response));
+                handleError;
             },
         });
     });

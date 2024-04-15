@@ -1,8 +1,9 @@
 import $ from "jquery";
 import { token } from "../config.js";
-import { handleError } from "./errors.js";
+import { handleError } from "../errors.js";
 import { showMessage } from "../message.js";
 import { fetchProjectDetails } from "./show.js";
+import { getErrorMessage } from "../message.js";
 
 // Function to fetch clients and display update form
 function fetchClientsAndDisplayUpdateForm(projectId) {

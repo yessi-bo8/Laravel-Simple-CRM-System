@@ -4,21 +4,20 @@ import "./config.js";
 import "./projects/index.js";
 import "./projects/create.js";
 import "./projects/delete.js";
-import "./projects/errors.js";
+import "./errors.js";
 import "./projects/show.js";
 import "./projects/update.js";
 import "./projects.js";
+
 import "./auth/login.js";
 import "./auth/logout.js";
 import "./auth/register.js";
 
 import "./clients/show.js";
-import "./clients/update.js";
 import "./clients/delete.js";
 
 import "./message.js";
 import "./bootstrap";
-// import "./StoreProject.js";
 
 // import { toggleSidebar } from "./functions";
 document.addEventListener("DOMContentLoaded", function () {

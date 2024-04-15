@@ -1,9 +1,10 @@
 import $ from "jquery";
 import { token } from "../config.js";
-import { handleError } from "./errors.js";
+import { handleError } from "../errors.js";
 import { fetchProjectDetailsForUpdate } from "./update.js";
 import { fetchAllProjects } from "./index.js";
 import { showMessage } from "../message.js";
+import { getErrorMessage } from "../message.js";
 
 // Function to fetch project details
 export function fetchProjectDetails(projectId) {
