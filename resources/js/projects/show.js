@@ -3,6 +3,8 @@ import { token } from "../config.js";
 import { handleError } from "./errors.js";
 import { fetchProjectDetailsForUpdate } from "./update.js";
 import { fetchAllProjects } from "./index.js";
+import { showMessage } from "../message.js";
+
 // Function to fetch project details
 export function fetchProjectDetails(projectId) {
     $.ajax({
@@ -10,7 +12,11 @@ export function fetchProjectDetails(projectId) {
         headers: { Authorization: "Bearer " + token },
         method: "GET",
         success: displayProjectDetails,
-        error: handleError,
+        error: function (xhr, status, error) {
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
+        },
     });
 }
 

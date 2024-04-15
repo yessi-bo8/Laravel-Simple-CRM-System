@@ -25,7 +25,11 @@ function fetchClientsAndDisplayUpdateForm(projectId) {
             // Show the update form
             displayUpdateForm(projectId, clientOptions);
         },
-        error: handleError,
+        error: function (xhr, status, error) {
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
+        },
     });
 }
 async function displayUpdateForm(projectId, clientOptions) {
@@ -103,7 +107,11 @@ async function displayUpdateForm(projectId, clientOptions) {
                 updateProject(projectId); // Call the updateProject function
             });
         },
-        error: handleError,
+        error: function (xhr, status, error) {
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
+        },
     });
 }
 
@@ -120,9 +128,11 @@ function getClientNameFromId(clientId) {
                 resolve(clientName); // Resolve the promise with the client name
             },
             error: function (xhr, status, error) {
-                // Handle errors
+                const response = xhr.responseJSON;
+                showMessage("error", getErrorMessage(response));
                 console.error("Error fetching client name:", error);
                 reject(error); // Reject the promise with the error
+                handleError;
             },
         });
     });
@@ -172,7 +182,11 @@ function updateProject(projectId) {
             // If the form data has changed, proceed with the update
             sendUpdateRequest(projectId, formData);
         },
-        error: handleError,
+        error: function (xhr, status, error) {
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
+        },
     });
 }
 
@@ -195,6 +209,10 @@ function sendUpdateRequest(projectId, formData) {
             showMessage("success", "Project updated successfully.");
             console.log("Successfully updated"); // Fix the log here
         },
-        error: handleError,
+        error: function (xhr, status, error) {
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
+        },
     });
 }

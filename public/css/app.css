@@ -273,6 +273,16 @@ ul li a:visited {
     overflow: auto;
 }
 
+#success-container {
+    background-color: lightgreen;
+    /* Add any other styling you want for the success modal container */
+}
+
+#error-container {
+    background-color: rgb(238, 144, 144);
+    /* Add any other styling you want for the success modal container */
+}
+
 /* Styles for modal content */
 .modal-content {
     background-color: #fefefe;

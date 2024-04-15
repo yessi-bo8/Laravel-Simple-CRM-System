@@ -2,6 +2,7 @@ import $ from "jquery";
 import { token } from "../config.js";
 import { showMessage } from "../message.js";
 import { fetchAllProjects } from "./index.js";
+import { handleError } from "./errors.js";
 
 // Function to delete project
 export function deleteProject(projectId) {
@@ -13,11 +14,10 @@ export function deleteProject(projectId) {
             fetchAllProjects();
             showMessage("success", "Project deleted successfully.");
         },
-        error: handleError,
+        error: function (xhr, status, error) {
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
+        },
     });
-}
-
-// Function to handle errors
-function handleError(xhr, status, error) {
-    console.error(error);
 }

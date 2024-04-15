@@ -3,13 +3,8 @@ import { token } from "../config.js";
 import { showMessage } from "../message.js";
 import { getErrorMessage } from "../message.js";
 import { fetchProjectDetails } from "./show.js";
-// Function to handle project creation
-// Function to display error message
-function displayErrorMessage(fieldName, message) {
-    const errorContainer = $(`#${fieldName}-error`);
-    errorContainer.text(message);
-    errorContainer.show(); // Show the error message
-}
+import { handleError } from "./errors.js";
+
 // Function to handle project creation
 export function handleProjectCreation() {
     let clientOptions = "";
@@ -60,22 +55,22 @@ export function handleProjectCreation() {
             <div class="form-container" >
                 <form id="create-project-form" method="POST">
                     <label>Title:</label>
-                    <input type="text" name="title">
+                    <input type="text" name="title" required>
                     <div id="title-error" class="alert alert-danger form_danger" style="display: none;"></div> <!-- Error container for title -->
                     <br />
 
                     <label for="description">Description:</label>
-                    <textarea name="description" rows="4" cols="50"></textarea>
+                    <textarea name="description" rows="4" cols="50" required></textarea>
                     <div id="description-error" class="alert alert-danger form_danger" style="display: none;"></div> <!-- Error container for description -->
                     <br />
         
                     <label>Date deadline:</label>
-                    <input type="date" name="event_date">
+                    <input type="date" name="event_date"required>
                     <div id="event_date-error" class="alert alert-danger form_danger" style="display: none;"></div> <!-- Error container for event_date -->
                     <br />
         
                     <label for="user_name">Assignee:</label>
-                    <select name="user_name">
+                    <select name="user_name" required>
                         <option value="">Select User</option>
                         ${userOptions}
                     </select>
@@ -83,7 +78,7 @@ export function handleProjectCreation() {
                     <br />
 
                     <label for="client_name">Client:</label>
-                    <select name="client_name">
+                    <select name="client_name" required>
                         <option value="">Select Client</option>
                         ${clientOptions} 
                     </select>
@@ -91,7 +86,7 @@ export function handleProjectCreation() {
                     <br />
 
                     <label for="status">Status:</label>
-                        <select name="status">
+                        <select name="status" required>
                             <option value="">Select Status</option>
                             <option value="approved">approved</option>
                             <option value="pending">pending</option>
@@ -109,10 +104,10 @@ export function handleProjectCreation() {
     // Handle form submission
     $(document).on("submit", "#create-project-form", function (event) {
         event.preventDefault();
-        const formData = $(this).serializeArray(); // Serialize form data to an array
-        const jsonData = {}; // Initialize an empty object for JSON data
 
         // Convert form data array to JSON object
+        const formData = $(this).serializeArray();
+        const jsonData = {};
         formData.forEach((field) => {
             jsonData[field.name] = field.value;
         });
@@ -136,12 +131,9 @@ export function handleProjectCreation() {
                 showMessage("success", "Project created successfully.");
             },
             error: function (xhr, status, error) {
-                // Parse the error response
                 const response = xhr.responseJSON;
-
-                // Show the error message using showMessage function
-                // Show the error message using showMessage function
                 showMessage("error", getErrorMessage(response));
+                handleError;
             },
         });
     });

@@ -1,10 +1,7 @@
 import $ from "jquery";
 
 export function showMessage(type, message, projectId) {
-    // Create a div element for the modal
     var modalContainer = $("<div></div>").addClass("modal-container");
-
-    // Create a div element for the modal content
     var modalContent = $("<div></div>").addClass("modal-content");
 
     // Create a span element for the close button
@@ -19,30 +16,22 @@ export function showMessage(type, message, projectId) {
 
     // Append the close button and message to the modal content
     modalContent.append(closeButton, messageDiv);
-
-    // Append the modal content to the modal container
     modalContainer.append(modalContent);
 
     // Append the modal container to the body
     $("body").append(modalContainer);
 
-    // Show the modal
     modalContainer.show();
 
     // If the type is "success", add the "Go to Project" button
-    if (type === "success" && projectId) {
-        // Create a button element for "Go to Project"
-        var goToProjectButton = $("<button>Go to Project</button>")
-            .attr("id", "go-to-project")
-            .addClass("btn")
-            .addClass("btn-primary")
-            .click(function () {
-                // Redirect to the corresponding project page
-                window.location.href = "/projects/" + projectId;
-            });
+    if (type === "success") {
+        // window.location.href = "/projects/" + projectId;
+        console.log("hhallooo!!!");
+        modalContent.attr("id", "success-container");
+    }
 
-        // Append the "Go to Project" button to the modal content
-        modalContent.append(goToProjectButton);
+    if (type === "error") {
+        modalContent.attr("id", "error-container");
     }
 }
 
@@ -52,7 +41,7 @@ export function getErrorMessage(response) {
         // If there are validation errors, construct error message
         let errorMessage = "Validation error(s): ";
         Object.keys(response.errors).forEach((field) => {
-            errorMessage += `${response.errors[field]} `;
+            errorMessage += `${response.errors[field]}\n`;
         });
         return errorMessage;
     } else if (response && response.error) {
@@ -60,6 +49,6 @@ export function getErrorMessage(response) {
         return response.error;
     } else {
         // If no specific error message is found, return a generic message
-        return "Failed to create project. Please fix the errors and try again.";
+        return "Error occured.";
     }
 }

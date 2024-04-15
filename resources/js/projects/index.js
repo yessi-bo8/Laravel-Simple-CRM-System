@@ -5,6 +5,7 @@ import { fetchProjectDetails } from "./show.js";
 import { deleteProject } from "./delete.js";
 import { fetchProjectDetailsForUpdate } from "./update.js";
 import { handleProjectCreation } from "./create.js";
+import { showMessage } from "../message.js";
 
 export function fetchAllProjects() {
     $.ajax({
@@ -12,7 +13,11 @@ export function fetchAllProjects() {
         headers: { Authorization: "Bearer " + token },
         method: "GET",
         success: displayProjects,
-        error: handleError,
+        error: function (xhr, status, error) {
+            const response = xhr.responseJSON;
+            showMessage("error", getErrorMessage(response));
+            handleError;
+        },
     });
 }
 
