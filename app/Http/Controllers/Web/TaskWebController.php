@@ -9,6 +9,7 @@ use App\Http\Resources\TaskResource;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -33,9 +34,10 @@ class TaskWebController extends Controller
 
     public function create()
     {
+        $users = User::pluck('name', 'id');
         $clients = Client::pluck('name', 'id');
         $projects = Project::pluck('title', 'id');
-        return view('tasks.create', ['clients'=>$clients, 'projects' =>$projects]);
+        return view('tasks.create', ['clients'=>$clients, 'projects' =>$projects, 'users'=>$users]);
     }
 
     public function store(StoreTaskRequest $request)
@@ -44,13 +46,25 @@ class TaskWebController extends Controller
         // Perform validation
         $validatedData = $request->validated();
 
-        // Find the client based on the provided client name
-        $client = Client::where('name', $validatedData['client_name'])->firstOrFail();
-        $project = Project::where('title', $validatedData['project_title'])->firstOrFail();
+        try {
+            $user = User::where('name', $request->user_name)->firstOrFail();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        try {
+            $client = Client::where('name', $request->client_name)->firstOrFail();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Client not found'], 404);
+        }
+        try {
+            $project = Project::where('title', $validatedData['project_title'])->firstOrFail();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Project not found'], 404);
+        }
 
         // Create task
         $task = Task::create([
-            'user_id' => auth()->id(), // You might need to adjust this value
+            'user_id' => $user->id, // You might need to adjust this value
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
             'due_date' => $validatedData['due_date'],

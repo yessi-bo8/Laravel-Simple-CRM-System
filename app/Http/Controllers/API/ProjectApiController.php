@@ -44,13 +44,23 @@ class ProjectApiController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        // $this->authorize('create', Project::class);
-        // Find the client based on the provided client name
-        $client = Client::where('name', $request->client_name)->firstOrFail();
+        // dd($request->client_name);
         $request->validated($request->all());
 
+        // Find the user and client based on the provided names
+        try {
+        $user = User::where('name', $request->user_name)->firstOrFail();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        try {
+        $client = Client::where('name', $request->client_name)->firstOrFail();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Client not found'], 404);
+        }
+
         $project = Project::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
             'title' => $request->title,
             'description' => $request->description,
             'event_date' => $request->event_date,

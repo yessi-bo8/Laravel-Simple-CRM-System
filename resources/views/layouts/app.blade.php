@@ -22,7 +22,6 @@
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
                 @else <!-- Show logout link when user is authenticated -->
-                <li><a href="/account">My Account</a></li>
                 <form id="logout-form" method="POST">
                     @csrf <!-- CSRF protection -->
                     <button type="button" id="logout-button">Logout</button>

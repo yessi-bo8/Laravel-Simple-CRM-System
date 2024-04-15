@@ -31,10 +31,11 @@ class ProjectResource extends JsonResource
                 'updated_up' => $this->updated_at,
             ],
             'relationships' => [
-                'id' => (string)$this->user->id,
-                'user name' => $this->user->name,
-                'user email' => $this->user->email,
+                'user_id' => (string)$this->user->id,
+                'user_name' => $this->user->name,
+                'user_email' => $this->user->email,
                 'id_client'=> (string)$this->client->id,
+                'client_name' => $this->client->name,
                 'role_name' => (string)$roleName,
             ]
         ];

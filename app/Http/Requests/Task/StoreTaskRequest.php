@@ -27,6 +27,7 @@ class StoreTaskRequest extends FormRequest
             "description" => ['required'],
             'due_date' => 'required|date',
             'client_name' => 'required|string',
+            'user_name' => 'required|string',
             'project_title' => 'required|string',
             'status' => 'required|string|in:pending,approved,rejected',
             'priority' => 'required|string|in:low,medium,high',
