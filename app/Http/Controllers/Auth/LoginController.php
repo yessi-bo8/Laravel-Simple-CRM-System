@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\LoginUserRequest;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginUserRequest;
+use App\Http\Requests\Auth\StoreUserRequest;
 use App\Models\User;
 use App\Traits\HTTPResponses;
 use Illuminate\Http\Request;

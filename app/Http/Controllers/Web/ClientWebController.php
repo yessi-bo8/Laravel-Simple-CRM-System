@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\Client\StoreClientRequest;
 use Illuminate\Support\Facades\Http;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateClientRequest;
+use App\Http\Requests\Project\StoreProjectRequest;
+use App\Http\Requests\Client\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use App\Models\Project;
@@ -16,15 +16,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 
-class WebController extends Controller
+class ClientWebController extends Controller
 {
     public function index() 
     {
         $clients = Client::all();
         $clients = ClientResource::collection($clients);
-        $view = Route::is('projects.*') ? 'projects.index' : (Route::is('clients.*') ? 'clients.index' : 'home');
-        $data = Route::is('projects.*') ? ['projects'=> ""] : (Route::is('clients.*') ? ['clients'=> $clients] : ['data'=>""]);
-        return view($view, $data);
+        return view('clients.index', ['clients'=>$clients]);
     }
 
     public function store(StoreClientRequest $request) 

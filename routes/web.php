@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\API\ProjectController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\Web\WebController;
+use App\Http\Controllers\Web\TaskWebController;
+use App\Http\Controllers\Web\ClientWebController;
+use App\Http\Controllers\Web\ProjectWebController;
+
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,18 +15,13 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('/account', function () {
-    return view('account');
-});
-
-Route::resource('projects', WebController::class);
-Route::resource('clients', WebController::class);
+Route::resource('projects', ProjectWebController::class)->only(['index']);
+Route::resource('clients', ClientWebController::class);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-Route::resource('tasks', TaskController::class)->except(['update']);
-Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-Route::resource('projects', WebController::class);
-Route::resource('clients', WebController::class);
+Route::resource('tasks', TaskWebController::class)->except(['update']);
+Route::patch('tasks/{task}', [TaskWebController::class, 'update'])->name('tasks.update');
+Route::resource('clients', ClientWebController::class);
 });
 
 

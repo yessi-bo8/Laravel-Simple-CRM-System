@@ -11,9 +11,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class ClientController extends Controller
+class ClientApiController extends Controller
 {
     use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -21,14 +22,6 @@ class ClientController extends Controller
     {
         $this->authorize('index', Client::class);
         return ClientResource::collection(Client::all());
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
      /**
@@ -39,21 +32,5 @@ class ClientController extends Controller
     {
         $this->authorize('show', $client);
         return new ClientResource($client);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

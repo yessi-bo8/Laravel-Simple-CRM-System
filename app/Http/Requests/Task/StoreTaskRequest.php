@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Task;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
-class StoreProjectRequest extends FormRequest
+class StoreTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +23,15 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => ['required', 'string', 'max:250'],
+            "name" => ['required', 'string', 'max:250'],
             "description" => ['required'],
-            'event_date' => 'required|date',
+            'due_date' => 'required|date',
             'client_name' => 'required|string',
-            'status' => 'required|string|in:pending,approved,rejected'
+            'project_title' => 'required|string',
+            'status' => 'required|string|in:pending,approved,rejected',
+            'priority' => 'required|string|in:low,medium,high',
         ];
     }
+
+
 }
