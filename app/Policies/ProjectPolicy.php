@@ -29,7 +29,7 @@ class ProjectPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function store(User $user): bool
     {
         return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }

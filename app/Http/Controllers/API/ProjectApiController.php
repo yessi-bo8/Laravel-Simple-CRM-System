@@ -42,8 +42,9 @@ class ProjectApiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreProjectRequest $request, Project $project)
     {
+        $this->authorize('store', $project);
         // dd($request->client_name);
         $request->validated($request->all());
 
@@ -78,7 +79,7 @@ class ProjectApiController extends Controller
      */
     public function show(Project $project)
     {
-        // $this->authorize('view', $project);
+        $this->authorize('show', $project);
         return new ProjectResource($project);
     }
 

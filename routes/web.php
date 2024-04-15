@@ -7,20 +7,13 @@ use App\Http\Controllers\Web\ProjectWebController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
-
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+Route::view('/', 'home')->name('home');
 
 Route::resource('projects', ProjectWebController::class)->only(['index']);
 Route::resource('clients', ClientWebController::class);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-Route::resource('tasks', TaskWebController::class)->except(['update']);
-Route::patch('tasks/{task}', [TaskWebController::class, 'update'])->name('tasks.update');
+Route::resource('tasks', TaskWebController::class)->names('tasks');
 Route::resource('clients', ClientWebController::class);
 });
 

@@ -20,11 +20,20 @@ class TaskWebController extends Controller
 
     public function index() 
     {
-        // Paginate the tasks with 10 tasks per page (adjust as needed)
-        $tasks = Task::paginate(10);
+        // Retrieve the authenticated user
+        $user = auth()->user();
 
-        // Return the tasks directly to the view without wrapping them in TaskResource
-        return view('tasks.index', ['tasks' => $tasks]);
+        // Retrieve tasks associated directly with the user or with projects the user is associated with
+        $userTasks = Task::where('user_id', $user->id)
+                        ->orWhereIn('project_id', function($query) use ($user) {
+                            $query->select('project_id')
+                                  ->from('tasks')
+                                  ->whereIn('user_id', [$user->id]);
+                        })
+                        ->paginate(10);
+
+        // Return the tasks to the view
+        return view('tasks.index', ['tasks' => $userTasks]);
     }
 
     public function show(Task $task)
