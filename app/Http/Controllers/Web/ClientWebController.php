@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientWebController extends Controller
 {
+    use AuthorizesRequests;
+    
     public function index() 
     {
         $clients = Client::all();
@@ -27,6 +29,7 @@ class ClientWebController extends Controller
 
     public function store(StoreClientRequest $request) 
     {
+        $this->authorize('store', Client::class);
         $validatedData = $request->validated();
 
         $client = Client::create([
@@ -52,6 +55,7 @@ class ClientWebController extends Controller
 
     public function update(UpdateClientRequest $request, Client $client)
     {
+        $this->authorize('update', Client::class);
         // Validate the incoming request data
         $validatedData = $request->validated();
         Log::info('Validated data: ' . json_encode($validatedData));
@@ -68,6 +72,7 @@ class ClientWebController extends Controller
 
     public function destroy(Client $client)
     {
+        $this->authorize('destroy', Client::class);
         $client->delete();
     }
 

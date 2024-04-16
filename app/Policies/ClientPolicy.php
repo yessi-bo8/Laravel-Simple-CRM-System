@@ -28,7 +28,7 @@ class ClientPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function store(User $user): bool
     {
         return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
@@ -44,7 +44,7 @@ class ClientPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Client $client): bool
+    public function destroy(User $user, Client $client): bool
     {
         return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
