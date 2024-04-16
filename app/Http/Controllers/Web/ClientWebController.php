@@ -64,7 +64,7 @@ class ClientWebController extends Controller
     public function update(UpdateClientRequest $request, Client $client)
     {
         try {
-        $this->authorize('update', Client::class);
+        $this->authorize('update', $client);
         $validatedData = $request->validated();
 
         Log::info('Validated data: ' . json_encode($validatedData));
@@ -83,7 +83,7 @@ class ClientWebController extends Controller
     public function destroy(Client $client)
     {
         try {
-            $this->authorize('destroy', Client::class);
+            $this->authorize('destroy', $client);
             $client->delete();
         } catch (\Exception $e) {
             throw new DeleteException("Failed to delete client: " . $e->getMessage());

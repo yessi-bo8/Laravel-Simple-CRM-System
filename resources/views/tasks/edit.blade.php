@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+@if($errors->has('error'))
+    <div class="alert alert-error">
+        {{ $errors->first('error') }}
+    </div>
+@endif
 <div class="form-container" >
     <h1>Edit Task</h1>
     <div>
@@ -12,7 +17,11 @@
 
             <label for="description">Description:</label>
             <textarea name="description" rows="4" cols="50">{{ $task->description }}</textarea> <!-- Fill in value from $task -->
+            @error('description')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
             <br />
+            
 
             <label>Date deadline:</label>
             <input type="date" name="due_date" value="{{ $task->due_date }}"> <!-- Fill in value from $task -->
@@ -33,6 +42,23 @@
             </select>
             <br>
 
+            <label for="user_id">Assigned to:</label>
+            <select name="user_id">
+                <!-- Default selected option -->
+                <option value="{{ $task->user->id }}" selected>{{ $task->user->name }}</option>
+                
+                <!-- Other options -->
+                @foreach ($users as $userId => $userName)
+                    <!-- Exclude the default option -->
+                    @if ($userId !== $task->user->id)
+                        <option value="{{ $userId }}">{{ $userName }}</option>
+                    @endif
+                @endforeach
+            </select>
+            @error('user_id')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
+            </br>
 
             <label for="project_id">Project:</label>
             <select name="project_id">
@@ -49,6 +75,7 @@
             </select>
             <br>
 
+            <label for="status">Status:</label>
             <select name="status">
                 <option value="approved" {{ $task->status == 'approved' ? 'selected' : '' }}>approved</option> <!-- Fill in value from $task and set selected if matches -->
                 <option value="pending" {{ $task->status == 'pending' ? 'selected' : '' }}>pending</option>
@@ -56,6 +83,7 @@
             </select>
             </br >
 
+            <label for="priority">Priority:</label>
             <select name="priority">
                 <option value="low" {{ $task->priority == 'low' ? 'selected' : '' }}>low</option> <!-- Fill in value from $task and set selected if matches -->
                 <option value="medium" {{ $task->priority == 'medium' ? 'selected' : '' }}>medium</option>
@@ -68,10 +96,5 @@
 
     </div>
 </div>
-@if($errors->has('no_changes'))
-    <div class="alert alert-error">
-        {{ $errors->first('no_changes') }}
-    </div>
-@endif
 @endsection
 

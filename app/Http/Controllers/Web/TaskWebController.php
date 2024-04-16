@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Exceptions\DeleteException;
+use App\Exceptions\NotFound\TaskNotFoundException;
 use App\Exceptions\StoreException;
 use App\Exceptions\UpdateException;
 use App\Http\Controllers\Controller;
@@ -16,10 +17,20 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Services\TaskService;
 
 class TaskWebController extends Controller
 {
     use AuthorizesRequests;
+
+    protected $taskService;
+
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
+
 
     public function index() 
     {
@@ -48,6 +59,7 @@ class TaskWebController extends Controller
         try {
             $this->authorize('store', Task::class);
             $validatedData = $request->validated();
+            Log::info('Validated Data:', $validatedData);
 
             $task = Task::create([
                 'user_id' => $validatedData['user_id'],
@@ -71,29 +83,32 @@ class TaskWebController extends Controller
             //Return just the names and titles
             $clients = Client::pluck('name', 'id');
             $projects = Project::pluck('title', 'id');
-            return view('tasks.edit', ['task' => $task, 'clients'=>$clients, 'projects'=>$projects]);
+            $users = User::pluck('name', 'id');
+            return view('tasks.edit', ['task' => $task, 'clients'=>$clients, 'projects'=>$projects, 'users'=>$users]);
         }
         
         public function update(UpdateTaskRequest $request, Task $task) {
             try {
-                $this->authorize('update', Task::class);
-                $validatedData = $request->validated();
-                $task->update($validatedData);
-
-                // Redirect the user to a relevant page or route
-                return redirect()->route('tasks.show', ['task' => $task])
-                                ->with('success', 'Task updated successfully');
+                $this->authorize('update', $task);
+                $validatedData = $request->all();
+                $updatedTask = $this->taskService->updateTask($task, $validatedData);
+        
+                return redirect()->route('tasks.show', ['task' => $updatedTask])
+                                 ->with('success', 'Task updated successfully');
+            } catch (TaskNotFoundException $e) {
+                return redirect()->back()
+                                 ->withErrors(['error' => $e->getMessage()]);
             } catch (\Exception $e) {
-                throw new UpdateException("Failed to Update task: " . $e->getMessage());
+                throw new UpdateException("Failed to update task: " . $e->getMessage());
             }
         }
 
         public function destroy(Task $task) {
             try {
-            $this->authorize('delete', Task::class);
-            $task->delete();
-            return redirect()->route('tasks.index')
-            ->with('success', 'Task deleted successfully');
+                $this->authorize('delete', $task);
+                $task->delete();
+                return redirect()->route('tasks.index')
+                ->with('success', 'Task deleted successfully');
             } catch (\Exception $e) {
                 throw new DeleteException("Failed to Delete task: " . $e->getMessage());
             }
