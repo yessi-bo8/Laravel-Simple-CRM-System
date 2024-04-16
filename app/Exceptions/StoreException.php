@@ -5,16 +5,16 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class ClientNotFoundException extends Exception
+class StoreException extends Exception
 {
-     /**
+   /**
      * Constructor to initialize the exception instance.
      *
      * @param string $message
      * @param int $code
      * @param \Throwable|null $previous
      */
-    public function __construct($message = "Client not found", $code = 404, Throwable $previous = null)
+    public function __construct($message = "Failed to store data", $code = 500, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

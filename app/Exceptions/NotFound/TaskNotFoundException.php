@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\NotFound;
 
 use Exception;
 use Throwable;
 
-class ProjectNotFoundException extends Exception
+class TaskNotFoundException extends Exception
 {
     /**
      * Constructor to initialize the exception instance.
@@ -14,7 +14,7 @@ class ProjectNotFoundException extends Exception
      * @param int $code
      * @param \Throwable|null $previous
      */
-    public function __construct($message = "Project not found", $code = 404, Throwable $previous = null)
+    public function __construct($message = "Task not found", $code = 404, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

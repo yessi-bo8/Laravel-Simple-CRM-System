@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Exceptions\ClientNotFoundException;
-use App\Exceptions\ProjectNotFoundException;
-use App\Exceptions\UserNotFoundException;
+use App\Exceptions\DeleteException;
+use App\Exceptions\NotFound\ProjectNotFoundException;
+use App\Exceptions\StoreException;
+use App\Exceptions\UpdateException;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Project\StoreProjectRequest;
@@ -60,19 +61,23 @@ class ProjectApiController extends Controller
      */
     public function store(StoreProjectRequest $request, Project $project)
     {
-        $this->authorize('store', $project);
-        $request->validated($request->all());
+        try {
+            $this->authorize('store', $project);
+            $request->validated($request->all());
 
-        $project = Project::create([
-            'user_id' => $request->user_id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'event_date' => $request->event_date,
-            'client_id' => $request->client_id,
-            'status' => $request->status ? $request->status : 'pending',
-        ]);
+            $project = Project::create([
+                'user_id' => $request->user_id,
+                'title' => $request->title,
+                'description' => $request->description,
+                'event_date' => $request->event_date,
+                'client_id' => $request->client_id,
+                'status' => $request->status ? $request->status : 'pending',
+            ]);
 
-        return new ProjectResource($project);
+            return new ProjectResource($project);
+        } catch (\Exception $e) {
+            throw new StoreException("Failed to store project: " . $e->getMessage());
+        }
     }
 
     /**
@@ -80,9 +85,13 @@ class ProjectApiController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $this->authorize('update', $project);
-        $project->update($request->only(['title', 'description', 'status', 'event_date']));
-        return new ProjectResource($project);
+        try {
+            $this->authorize('update', $project);
+            $project->update($request->only(['title', 'description', 'status', 'event_date']));
+            return new ProjectResource($project);
+        } catch (\Exception $e) {
+            throw new UpdateException("Failed to update project: " . $e->getMessage());
+        }
     }
 
     /**
@@ -90,8 +99,12 @@ class ProjectApiController extends Controller
      */
     public function destroy(Project $project)
     {
-        $this->authorize('delete', $project);
-        $project->delete();
+        try {
+            $this->authorize('delete', $project);
+            $project->delete();
+        } catch (\Exception $e) {
+            throw new DeleteException("Failed to delete project: " . $e->getMessage());
+        }
     }
 
 }

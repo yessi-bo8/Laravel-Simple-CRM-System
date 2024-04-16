@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Exceptions\DeleteException;
+use App\Exceptions\StoreException;
+use App\Exceptions\UpdateException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\StoreClientRequest;
 use Illuminate\Support\Facades\Http;
@@ -30,18 +33,22 @@ class ClientWebController extends Controller
 
     public function store(StoreClientRequest $request) 
     {
-        $this->authorize('store', Client::class);
-        $validatedData = $request->validated();
+        try {
+            $this->authorize('store', Client::class);
+            $validatedData = $request->validated();
 
-        $client = Client::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'company' => $validatedData['company'],
-            'vat' => $validatedData['vat'],
-            'address' => $validatedData['address'],
-        ]);
-        
-        return redirect()->route('clients.index', ['client' => $client]);
+            $client = Client::create([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'company' => $validatedData['company'],
+                'vat' => $validatedData['vat'],
+                'address' => $validatedData['address'],
+            ]);
+            
+            return redirect()->route('clients.index', ['client' => $client]);
+        } catch (\Exception $e) {
+            throw new StoreException("Failed to store client: " . $e->getMessage());
+        }
     }
 
     public function create() 
@@ -56,6 +63,7 @@ class ClientWebController extends Controller
 
     public function update(UpdateClientRequest $request, Client $client)
     {
+        try {
         $this->authorize('update', Client::class);
         $validatedData = $request->validated();
 
@@ -65,14 +73,21 @@ class ClientWebController extends Controller
 
         return redirect()->route('clients.index', ['client' => $client])
                         ->with('success', 'Task updated successfully');
+        } catch (\Exception $e) {
+            throw new UpdateException("Failed to update client: " . $e->getMessage());
+        }
 
     }
 
 
     public function destroy(Client $client)
     {
-        $this->authorize('destroy', Client::class);
-        $client->delete();
+        try {
+            $this->authorize('destroy', Client::class);
+            $client->delete();
+        } catch (\Exception $e) {
+            throw new DeleteException("Failed to delete client: " . $e->getMessage());
+        }
     }
 
 }

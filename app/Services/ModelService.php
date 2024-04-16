@@ -5,9 +5,9 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Project;
-use App\Exceptions\UserNotFoundException;
-use App\Exceptions\ClientNotFoundException;
-use App\Exceptions\ProjectNotFoundException;
+use App\Exceptions\NotFound\UserNotFoundException;
+use App\Exceptions\NotFound\ClientNotFoundException;
+use App\Exceptions\NotFound\ProjectNotFoundException;
 
 class ModelService
 {
