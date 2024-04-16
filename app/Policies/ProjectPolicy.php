@@ -15,7 +15,7 @@ class ProjectPolicy
      */
     public function index(User $user): bool
     {
-        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists() || $user->projects()->exists();
     }
 
     /**
