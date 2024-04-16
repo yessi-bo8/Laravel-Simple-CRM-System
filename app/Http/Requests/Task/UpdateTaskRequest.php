@@ -26,9 +26,9 @@ class UpdateTaskRequest extends FormRequest
             'name' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
             'due_date' => 'sometimes|date',
-            'client_name' => 'sometimes|string',
-            'user_name' => 'sometimes|string',
-            'project_title' => 'sometimes|string',
+            'client_id' => 'sometimes|string',
+            'user_id' => 'sometimes|string',
+            'project_id' => 'sometimes|string',
             'status' => 'sometimes|string|in:pending,approved,rejected',
             'priority' => 'sometimes|string|in:low,medium,high',
         ];
@@ -52,8 +52,8 @@ class UpdateTaskRequest extends FormRequest
                 'due_date' => $input['due_date'] !== optional($task)->due_date,
                 'status' => $input['status'] !== optional($task)->status,
                 'priority' => $input['priority'] !== optional($task)->priority,
-                'client_name' => $input['client_name'] !== optional($task)->client->name,
-                'project_title' => $input['project_title'] !== optional($task)->project->title,
+                'client_id' => $input['client_id'] !== optional($task)->client->id,
+                'project_id' => $input['project_id'] !== optional($task)->project->id,
             ])->values()->contains(function ($value) {
                 return $value;
             });

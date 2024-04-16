@@ -22,6 +22,7 @@ class ClientWebController extends Controller
     
     public function index() 
     {
+        $this->authorize('index', Client::class);
         $clients = Client::all();
         $clients = ClientResource::collection($clients);
         return view('clients.index', ['clients'=>$clients]);
@@ -56,14 +57,12 @@ class ClientWebController extends Controller
     public function update(UpdateClientRequest $request, Client $client)
     {
         $this->authorize('update', Client::class);
-        // Validate the incoming request data
         $validatedData = $request->validated();
+
         Log::info('Validated data: ' . json_encode($validatedData));
 
-        // Update the task with the validated data
         $client->update($validatedData);
 
-        // Redirect the user to a relevant page or route
         return redirect()->route('clients.index', ['client' => $client])
                         ->with('success', 'Task updated successfully');
 

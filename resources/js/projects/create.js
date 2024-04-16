@@ -29,7 +29,7 @@ export function handleProjectCreation() {
             clientOptions = clients
                 .map(
                     (client) =>
-                        `<option value="${client.attributes.name}">${client.attributes.name}</option>`
+                        `<option value="${client.id}">${client.attributes.name}</option>`
                 )
                 .join("");
 
@@ -38,7 +38,7 @@ export function handleProjectCreation() {
             userOptions = users
                 .map(
                     (user) =>
-                        `<option value="${user.attributes.name}">${user.attributes.name}</option>`
+                        `<option value="${user.id}">${user.attributes.name}</option>`
                 )
                 .join("");
             console.log("User Options:", userOptions); // Log the user options
@@ -56,7 +56,7 @@ export function handleProjectCreation() {
             <div class="form-container" >
                 <form id="create-project-form" method="POST">
                     <label>Title:</label>
-                    <input type="text" name="title" required>
+                    <input type="text" name="title">
                     <div id="title-error" class="alert alert-danger form_danger" style="display: none;"></div> <!-- Error container for title -->
                     <br />
 
@@ -70,20 +70,20 @@ export function handleProjectCreation() {
                     <div id="event_date-error" class="alert alert-danger form_danger" style="display: none;"></div> <!-- Error container for event_date -->
                     <br />
         
-                    <label for="user_name">Assignee:</label>
-                    <select name="user_name" required>
+                    <label for="user_id">Assignee:</label>
+                    <select name="user_id" required>
                         <option value="">Select User</option>
                         ${userOptions}
                     </select>
-                    <div id="user_name-error" class="alert alert-danger form_danger" style="display: none;"></div> <!-- Error container for user_id -->
+                    <div id="user_id-error" class="alert alert-danger form_danger" style="display: none;"></div> <!-- Error container for user_id -->
                     <br />
 
-                    <label for="client_name">Client:</label>
-                    <select name="client_name" required>
+                    <label for="client_id">Client:</label>
+                    <select name="client_id" required>
                         <option value="">Select Client</option>
                         ${clientOptions} 
                     </select>
-                    <div id="client_name-error" class="alert alert-danger form_danger" style="display: none;"></div>
+                    <div id="client_id-error" class="alert alert-danger form_danger" style="display: none;"></div>
                     <br />
 
                     <label for="status">Status:</label>

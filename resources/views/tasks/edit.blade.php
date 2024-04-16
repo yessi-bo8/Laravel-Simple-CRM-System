@@ -18,32 +18,32 @@
             <input type="date" name="due_date" value="{{ $task->due_date }}"> <!-- Fill in value from $task -->
             <br />
 
-            <label for="client_name">Client:</label>
-            <select name="client_name">
+            <label for="client_id">Client:</label>
+            <select name="client_id">
                 <!-- Default selected option -->
-                <option value="{{ $task->client->name }}" selected>{{ $task->client->name }}</option>
+                <option value="{{ $task->client->id }}" selected>{{ $task->client->name }}</option>
                 
                 <!-- Other options -->
                 @foreach ($clients as $clientId => $clientName)
                     <!-- Exclude the default option -->
-                    @if ($clientName !== $task->client->name)
-                        <option value="{{ $clientName }}">{{ $clientName }}</option>
+                    @if ($clientId !== $task->client->id)
+                        <option value="{{ $clientId }}">{{ $clientName }}</option>
                     @endif
                 @endforeach
             </select>
             <br>
 
 
-            <label for="project_title">Project:</label>
-            <select name="project_title">
+            <label for="project_id">Project:</label>
+            <select name="project_id">
                 <!-- Default selected option -->
-                <option value="{{ $task->project->title }}" selected>{{ $task->project->title }}</option>
+                <option value="{{ $task->project->id }}" selected>{{ $task->project->title }}</option>
                 
                 <!-- Other options -->
                 @foreach ($projects as $projectId => $projectTitle)
                     <!-- Exclude the default option -->
-                    @if ($projectTitle !== $task->project->title)
-                        <option value="{{ $projectTitle }}">{{ $projectTitle }}</option>
+                    @if ($projectId !== $task->project->id)
+                        <option value="{{ $projectId }}">{{ $projectTitle }}</option>
                     @endif
                 @endforeach
             </select>

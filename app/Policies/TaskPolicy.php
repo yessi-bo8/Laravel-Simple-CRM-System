@@ -27,6 +27,14 @@ class TaskPolicy
         return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 
+      /**
+     * Determine whether the user can update the model.
+     */
+    public function show(User $user, Task $task): bool
+    {
+        return $task->user()->is($user) || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+    }
+
     /**
      * Determine whether the user can update the model.
      */

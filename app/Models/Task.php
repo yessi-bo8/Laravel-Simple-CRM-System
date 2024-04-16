@@ -27,4 +27,18 @@ class Task extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function scopeAccessibleBy($query, $user)
+    {
+        $isAdmin = $user->roles->contains('name', 'admin', true);
+        if ($isAdmin) {
+            return $query;
+        } else {
+            return $query->where('user_id', $user->id)
+                         ->orWhereIn('project_id', function ($query) use ($user) {
+                             $query->select('project_id')
+                                   ->from('tasks')
+                                   ->whereIn('user_id', [$user->id]);
+                         });
+        }
+    }
 }

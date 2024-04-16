@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Web\TaskWebController;
 use App\Http\Controllers\Web\ClientWebController;
-use App\Http\Controllers\Web\ProjectWebController;
 
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -15,14 +14,13 @@ Route::get('/home', function () {
     return view('home');
 });
 
-Route::get('/projects', function () {
-    return view('projects.index');
-});
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::resource('tasks', TaskWebController::class)->names('tasks');
-Route::resource('clients', ClientWebController::class);
 Route::resource('clients', ClientWebController::class)->except(['show']);
+Route::get('/projects', function () {
+    return view('projects.index');
+});
 });
 
 

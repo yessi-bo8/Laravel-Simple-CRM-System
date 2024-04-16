@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exceptions\ClientNotFoundException;
+use App\Exceptions\ProjectNotFoundException;
+use App\Exceptions\UserNotFoundException;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Project\StoreProjectRequest;
@@ -13,9 +16,13 @@ use App\Models\Role;
 use App\Models\User;
 
 use App\Traits\HTTPResponses;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Psr\Container\NotFoundExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProjectApiController extends Controller
 {
@@ -25,18 +32,27 @@ class ProjectApiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         $user = auth()->user();
-        $isAdmin = $user->roles->contains('name', 'admin');
-
-        // Retrieve projects based on user's role
-        if ($isAdmin) {
-            $projects = Project::all();
-        } else {
-            $projects = $user->projects;
-        }
+        $this->authorize('index', Project::class);
+        $projects = Project::accessibleBy($user);
         return ProjectResource::collection($projects);
+    }
+
+    /**
+    * Display the specified resource.
+    * with behind the scenes laravel magic! directly pass in Taks object
+    */
+    public function show($projectId)
+    {
+        try {
+            $project = Project::findOrFail($projectId);
+            $this->authorize('show', $project);
+            return new ProjectResource($project);
+        } catch (ModelNotFoundException $exception) {
+            throw new ProjectNotFoundException();
+        }
     }
 
     /**
@@ -45,41 +61,17 @@ class ProjectApiController extends Controller
     public function store(StoreProjectRequest $request, Project $project)
     {
         $this->authorize('store', $project);
-        // dd($request->client_name);
         $request->validated($request->all());
 
-        // Find the user and client based on the provided names
-        try {
-        $user = User::where('name', $request->user_name)->firstOrFail();
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
-        try {
-        $client = Client::where('name', $request->client_name)->firstOrFail();
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
-            return response()->json(['error' => 'Client not found'], 404);
-        }
-
         $project = Project::create([
-            'user_id' => $user->id,
+            'user_id' => $request->user_id,
             'title' => $request->title,
             'description' => $request->description,
             'event_date' => $request->event_date,
-            'client_id' => $client->id,
+            'client_id' => $request->client_id,
             'status' => $request->status ? $request->status : 'pending',
         ]);
 
-        return new ProjectResource($project);
-        
-    }
-
-     /**
-     * Display the specified resource.
-     * with behind the scenes laravel magic! directly pass in Taks object
-     */
-    public function show(Project $project)
-    {
-        $this->authorize('show', $project);
         return new ProjectResource($project);
     }
 

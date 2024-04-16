@@ -11,5 +11,5 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/projects', ProjectApiController::class)->names('api.projects');
     Route::apiResource('/clients', ClientApiController::class)->only(['index', 'show']);
-    Route::apiResource('/users', UserApiController::class);
+    Route::apiResource('/users', UserApiController::class)->only('index');
 });
