@@ -7,7 +7,7 @@
     <form action="{{ route('tasks.update', ['task'=>$task]) }}" method="POST">
         @csrf
         @method('PATCH')
-            <label>Name:</label>
+            <label for="name">Name:</label>
             <input type="text" name="name" value="{{ $task->name }}" required> <!-- Fill in value from $task -->
             @error('name')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>

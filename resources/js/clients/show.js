@@ -33,17 +33,24 @@ $(document).ready(function () {
         }
 
         const clientDetails = `
-            <p>Title: ${client.name}</p>
-            <p>Company: ${client.company}</p>
-            <p>VAT: ${client.vat}</p>
-            <p>Email: ${client.email}</p>
-            </br>
-            <p>Projects: ${relationships.project}</p>
-            ${projectTitlesHTML}
-
-            
-            <button id="go-back-to-list">Go back to list</button>
-        `;
+  <div class="client-details">
+    <div class="details-header">
+      <h2>Client Details</h2>
+    </div>
+    <div class="details-content">
+      <p><strong>Title:</strong> ${client.name}</p>
+      <p><strong>Company:</strong> ${client.company}</p>
+      <p><strong>VAT:</strong> ${client.vat}</p>
+      <p><strong>Email:</strong> ${client.email}</p>
+      <hr>
+      <h3>Projects:</h3>
+      ${projectTitlesHTML}
+    </div>
+    <div class="details-footer">
+      <button id="go-back-to-list">Go Back to List</button>
+    </div>
+  </div>
+`;
 
         $(".client-details").html(clientDetails).show();
         $(".client-containerr").hide();

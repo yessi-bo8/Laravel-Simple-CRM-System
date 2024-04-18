@@ -5,9 +5,7 @@ body {
     padding: 0;
 }
 
-.project-container h1,
-.client-container h1,
-.task-container h1 {
+h1 {
     text-align: center;
 }
 
@@ -226,6 +224,8 @@ ul li a:visited {
 .form-container input[type="text"],
 .form-container input[type="date"],
 .form-container input[type="textfield"],
+.form-container input[type="email"],
+.form-container input[type="address"],
 .form-container select,
 .form-container textarea {
     width: 100%; /* Make input fields and textareas full width */
@@ -235,7 +235,11 @@ ul li a:visited {
     border-radius: 4px; /* Optional: Add border radius for input fields */
 }
 
-.form-container button {
+.form-container button,
+.button,
+.back-project,
+.back-client,
+#go-back-to-list {
     background-color: #007bff; /* Button background color */
     color: #fff; /* Button text color */
     padding: 10px 20px; /* Button padding */
@@ -370,7 +374,8 @@ ul li a:visited {
 }
 
 .delete-button,
-.delete-project {
+.delete-project,
+.delete-client {
     background-color: #f44336; /* Red */
     border: none;
     color: white;
