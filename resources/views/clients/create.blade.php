@@ -1,9 +1,8 @@
 @extends('layouts.app')
-
+@section('banner', 'Create Client')
 @vite(['resources/js/app.js'])
 @section('content')
 <div class="form-container">
-    <h1>New Client</h1>
     <form action="{{ route('clients.store') }}" method="POST">
         @csrf
         <label for="name">Name:</label>

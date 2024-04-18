@@ -43,6 +43,7 @@ function displayProjectDetails(response) {
     `;
 
     $(".project-container").html(projectDetails);
+    $("#banner-title").text("Current Project");
 
     // Add event listener for delete project button
     $(".delete-project").click(function () {

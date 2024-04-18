@@ -1,9 +1,8 @@
 @extends('layouts.app')
-
+@section('banner', 'All Clients')
 @vite(['resources/js/app.js'])
 @section('content')
 <div class="client-containerr">
-    <h1>All clients</h1>
     <a href="{{ route('clients.create') }}" class="create-button">Create Client</a>
     @foreach ($clients as $index => $client)
     <div class='client-list'>

@@ -10,7 +10,7 @@
 
 <body>
     <div class="upper-banner">
-        <h1>Welcome to My Website</h1>
+    <h1 id="banner-title">@yield('banner', 'Welcome to My Website')</h1>
         <div class="toggle-menu" id="toggle-menu">View Options</div>
         <div class="menu-options">
             <ul>

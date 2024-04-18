@@ -28,7 +28,6 @@ function displayProjects(response) {
     projectsList.empty();
 
     const titleAndButton = $(`
-        <h1>All Projects</h1>
         <button class="create-project">Create Project</button>
     `);
     projectsList.append(titleAndButton);

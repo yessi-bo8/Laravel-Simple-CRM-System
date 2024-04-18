@@ -1,8 +1,7 @@
 @extends('layouts.app')
-
+@section('banner', 'All Tasks')
 @vite(['resources/js/app.js'])
 @section('content')
-<h1>All Tasks</h1>
 @can('store', App\Models\Task::class)
 <a href="{{ route('tasks.create') }}"  class="create-button">Create Task</a>
 @endcan

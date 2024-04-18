@@ -41,6 +41,7 @@ function fetchUsersAndClientsAndDisplayUpdateForm(projectId) {
 
             // Show the update form
             displayUpdateForm(projectId, userOptions, clientOptions);
+            $("#banner-title").text("Update Project");
         })
         .fail(function (usersXHR, clientsXHR) {
             const usersResponse = usersXHR.responseJSON;
@@ -69,7 +70,6 @@ async function displayUpdateForm(projectId, userOptions, clientOptions) {
             const updateForm = `
                         <div class="form-container">
                             <div class="update-form">
-                                <h1>Update Project</h1>
                                 <form id="project-form">
                                     <input type="hidden" name="_token" value="${token}">
                                     <input type="hidden" name="project_id" value="${projectId}">

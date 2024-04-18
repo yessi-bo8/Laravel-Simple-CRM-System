@@ -1,7 +1,7 @@
 @extends('layouts.app')
+@section('banner', 'Update Client')
 @section('content')
 <div class="form-container" >
-    <h1>Edit Client</h1>
     <div>
     <form action="{{ route('clients.update', ['client'=>$client]) }}" method="POST">
         @csrf

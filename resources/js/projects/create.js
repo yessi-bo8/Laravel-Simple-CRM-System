@@ -45,6 +45,7 @@ export function handleProjectCreation() {
 
             // Show form after all data is loaded
             showForm();
+            $("#banner-title").text("Create Project");
         })
         .catch((error) => {
             console.error("Error loading data:", error);
@@ -54,7 +55,6 @@ export function handleProjectCreation() {
     function showForm() {
         $(".project-container").html(`
             <div class="form-container" >
-            <h1>Create Project</h1>
                 <form id="create-project-form" method="POST">
                     <label>Title:</label>
                     <input type="text" name="title" required>

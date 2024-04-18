@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('banner', 'Current Task')
 @vite(['resources/js/app.js'])
 @section('content')
 <div class="task-container">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
+@section('banner', 'Create Task')
 @section('content')
 <div class="form-container" >
-    <h1>New Task</h1>
     <form action="{{ route('tasks.store') }}" method="POST">
         @csrf
             <label for="name">Name:</label>

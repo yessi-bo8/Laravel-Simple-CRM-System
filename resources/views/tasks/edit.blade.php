@@ -1,8 +1,8 @@
 @extends('layouts.app')
+@section('banner', 'Update Task')
 @section('content')
 
 <div class="form-container" >
-    <h1>Edit Task</h1>
     <div>
     <form action="{{ route('tasks.update', ['task'=>$task]) }}" method="POST">
         @csrf
