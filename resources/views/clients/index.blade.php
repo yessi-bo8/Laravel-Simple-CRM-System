@@ -4,7 +4,7 @@
 @section('content')
 <div class="client-containerr">
     <h1>All clients</h1>
-    <a href="{{ route('clients.create') }}" class="button">Create Client</a>
+    <a href="{{ route('clients.create') }}" class="create-button">Create Client</a>
     @foreach ($clients as $index => $client)
     <div class='client-list'>
         <a href='#' class="client-details-link" data-client-id="{{$client->id}}">{{$client->name}}</a>

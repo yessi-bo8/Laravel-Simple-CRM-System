@@ -31,7 +31,7 @@ function displayProjectDetails(response) {
             <div class="task-details">
                 <p>Description: ${project.description}</p>
                 <p>Event date: ${project.event_date}</p>
-                <p>User id: ${response.data.relationships.id}</p>
+                <p>User id: ${response.data.relationships.user_id}</p>
                 <p>Project id: ${response.data.id}</p>
                 <p>Client: ${response.data.relationships.client_name}</p>
                 <p>Assigned to User: ${response.data.relationships.user_name}</p>

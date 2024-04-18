@@ -420,3 +420,31 @@ ul li a:visited {
 .approved-status {
     background-color: #ccffcc; /* Light green */
 }
+
+.create-button,
+.create-project {
+    display: inline-block;
+    background-color: #c8209b;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px;
+    outline: none; /* Remove default button focus style */
+}
+
+.create-button:hover,
+.create-project:hover {
+    background-color: #9545a0; /* Darker Green */
+}
+
+.create-button:active,
+.create-project:active {
+    background-color: #251b99; /* Even darker Green */
+}

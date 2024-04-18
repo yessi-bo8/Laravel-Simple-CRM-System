@@ -5,35 +5,55 @@ import { showMessage } from "../message.js";
 import { fetchProjectDetails } from "./show.js";
 import { getErrorMessage } from "../message.js";
 
-// Function to fetch clients and display update form
-function fetchClientsAndDisplayUpdateForm(projectId) {
-    $.ajax({
-        url: "/api/v1/clients",
-        headers: { Authorization: "Bearer " + token },
-        method: "GET",
-        success: function (clientsResponse) {
-            const clients = clientsResponse.data;
-            console.log(clients);
+// Function to fetch users and clients and display update form
+function fetchUsersAndClientsAndDisplayUpdateForm(projectId) {
+    $.when(
+        $.ajax({
+            url: "/api/v1/users",
+            headers: { Authorization: "Bearer " + token },
+            method: "GET",
+        }),
+        $.ajax({
+            url: "/api/v1/clients",
+            headers: { Authorization: "Bearer " + token },
+            method: "GET",
+        })
+    )
+        .done(function (usersResponse, clientsResponse) {
+            const users = usersResponse[0].data;
+            const clients = clientsResponse[0].data;
+
+            // Generate user options
+            const userOptions = users
+                .map(
+                    (user) =>
+                        `<option value="${user.id}">${user.attributes.name}</option>`
+                )
+                .join("");
 
             // Generate client options
             const clientOptions = clients
                 .map(
                     (client) =>
-                        `<option value="${client.attributes.name}">${client.attributes.name}</option>`
+                        `<option value="${client.id}">${client.attributes.name}</option>`
                 )
                 .join("");
 
             // Show the update form
-            displayUpdateForm(projectId, clientOptions);
-        },
-        error: function (xhr, status, error) {
-            const response = xhr.responseJSON;
-            showMessage("error", getErrorMessage(response));
+            displayUpdateForm(projectId, userOptions, clientOptions);
+        })
+        .fail(function (usersXHR, clientsXHR) {
+            const usersResponse = usersXHR.responseJSON;
+            const clientsResponse = clientsXHR.responseJSON;
+            showMessage(
+                "error",
+                getErrorMessage(usersResponse || clientsResponse)
+            );
             handleError;
-        },
-    });
+        });
 }
-async function displayUpdateForm(projectId, clientOptions) {
+
+async function displayUpdateForm(projectId, userOptions, clientOptions) {
     // Now fetch project details
     $.ajax({
         url: `/api/v1/projects/${projectId}`,
@@ -56,7 +76,7 @@ async function displayUpdateForm(projectId, clientOptions) {
                                     <label>Title:</label>
                                     <input type="text" name="title" value="${project.title}">
                                     <br />
-        
+                                    
                                     <label for="description">Description:</label>
                                     <textarea name="description" rows="4" cols="50">${project.description}</textarea>
                                     <br />
@@ -65,8 +85,14 @@ async function displayUpdateForm(projectId, clientOptions) {
                                     <input type="date" name="event_date" value="${project.event_date}">
                                     <br />
         
-                                    <label for="client_name">Client:</label>
-                                    <select name="client_name">
+                                    <label for="user_id">User:</label>
+                                    <select name="user_id">
+                                        ${userOptions}
+                                    </select>
+                                    <br />
+
+                                    <label for="client_id">Client:</label>
+                                    <select name="client_id">
                                         ${clientOptions}
                                     </select>
                                     <br />
@@ -88,19 +114,18 @@ async function displayUpdateForm(projectId, clientOptions) {
             // Show the update form
             $(".project-container").append(updateForm);
 
-            // Find the client name corresponding to the project's client ID
+            // Find the user ID corresponding to the project's user ID
+            const userId = response.data.relationships.user_id;
+            console.log(userId);
+
+            // Set the default selected user in the select element
+            $("select[name='user_id']").val(userId);
+
+            // Find the client ID corresponding to the project's client ID
             const clientId = response.data.relationships.id_client;
             console.log(clientId);
 
-            try {
-                const name = await getClientNameFromId(clientId);
-                console.log(name);
-
-                // Set the default selected client in the select element
-                $("select[name='client_name']").val(name);
-            } catch (error) {
-                console.error("Error getting client name:", error);
-            }
+            $("select[name='client_id']").val(clientId);
 
             // Add event listener for form submission
             $("#project-form").submit(function (event) {
@@ -116,32 +141,9 @@ async function displayUpdateForm(projectId, clientOptions) {
     });
 }
 
-function getClientNameFromId(clientId) {
-    return new Promise((resolve, reject) => {
-        // Make an API call to retrieve client data based on the ID
-        $.ajax({
-            url: `/api/v1/clients/${clientId}`, // Adjust the URL based on your API endpoint
-            headers: { Authorization: "Bearer " + token },
-            method: "GET",
-            success: function (response) {
-                // Assuming the response contains the client name
-                const clientName = response.data.attributes.name;
-                resolve(clientName); // Resolve the promise with the client name
-            },
-            error: function (xhr, status, error) {
-                const response = xhr.responseJSON;
-                showMessage("error", getErrorMessage(response));
-                console.error("Error fetching client name:", error);
-                reject(error); // Reject the promise with the error
-                handleError;
-            },
-        });
-    });
-}
-
 // Function to fetch project details for update
 export function fetchProjectDetailsForUpdate(projectId) {
-    fetchClientsAndDisplayUpdateForm(projectId);
+    fetchUsersAndClientsAndDisplayUpdateForm(projectId);
 }
 
 // Function to update project
@@ -151,9 +153,11 @@ function updateProject(projectId) {
         title: $("input[name='title']").val(),
         description: $("textarea[name='description']").val(),
         event_date: $("input[name='event_date']").val(),
-        client_name: $("select[name='client_name']").val(),
+        client_id: $("select[name='client_id']").val(),
+        user_id: $("select[name='user_id']").val(),
         status: $("select[name='status']").val(),
     };
+    console.log("Data being sent to update:", formData);
 
     // Fetch the original project data from the server
     $.ajax({
@@ -168,7 +172,8 @@ function updateProject(projectId) {
                 formData.title === project.title &&
                 formData.description === project.description &&
                 formData.event_date === project.event_date &&
-                // formData.client_name === project.client_name &&
+                formData.client_id === response.data.relationships.id_client &&
+                formData.user_id === response.data.relationships.user_id &&
                 formData.status === project.status;
 
             // If the form data hasn't changed, display an error message

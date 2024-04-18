@@ -9,6 +9,7 @@ use App\Exceptions\UpdateException;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Project\StoreProjectRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
 
 use App\Models\Project;
@@ -83,7 +84,7 @@ class ProjectApiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
         try {
             $this->authorize('update', $project);

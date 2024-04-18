@@ -3,7 +3,7 @@
 @vite(['resources/js/app.js'])
 @section('content')
 @can('store', App\Models\Task::class)
-<a href="{{ route('tasks.create') }}" class="button">Create Task</a>
+<a href="{{ route('tasks.create') }}"  class="create-button">Create Task</a>
 @endcan
 @if(session('success'))
     <div class="alert alert-success">

@@ -96,7 +96,7 @@ export function handleProjectCreation() {
                         <div id="status-error" class="alert alert-danger form_danger" style="display: none;"></div>
                         </br >
 
-                    <button type="submit">Make new Project</button>
+                    <button type="submit" class="create-button">Make new Project</button>
                 </form>
             </div>
         `);
