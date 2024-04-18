@@ -34,6 +34,15 @@
 
 
     <div class="content">
+    @if($errors->has('error'))
+        <div class="alert alert-error">
+            {{ $errors->first('error') }}
+        </div>
+    @elseif(session()->has('error'))
+        <div class="alert alert-error">
+            {{ session('error') }}
+        </div>
+    @endif
         @yield('content')
     </div>
 

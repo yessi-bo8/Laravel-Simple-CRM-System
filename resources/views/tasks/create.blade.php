@@ -2,29 +2,31 @@
 @section('content')
 <div class="form-container" >
     <h1>New Task</h1>
-    <div>
     <form action="{{ route('tasks.store') }}" method="POST">
         @csrf
-            <label>Name:</label>
-            <input type="text" name="name">
+            <label for="name">Name:</label>
+            <input type="text" name="name" required>
+            @error('name')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
             <br />
 
             <label for="description">Description:</label>
-            <textarea name="description" rows="4" cols="50"></textarea>
+            <textarea name="description" rows="4" cols="50" required></textarea>
             @error('description')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>
             @enderror
             <br />
 
             <label>Date deadline:</label>
-            <input type="date" name="due_date" value="">
+            <input type="date" name="due_date" value="" required>
             @error('due_date')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>
             @enderror
             <br />
 
             <label for="client_id">Client:</label>
-            <select name="client_id">
+            <select name="client_id" required>
                 <option value="">Select Client</option>
                 @foreach ($clients as $clientId => $clientName)
                     <option value="{{ $clientId }}">{{ $clientName }}</option>
@@ -36,7 +38,7 @@
             </br>
 
             <label for="user_id">Assigned to:</label>
-            <select name="user_id">
+            <select name="user_id" required>
                 <option value="">Select User</option>
                 @foreach ($users as $userId => $userName)
                     <option value="{{ $userId }}">{{ $userName }}</option>
@@ -48,7 +50,7 @@
             </br>
 
             <label for="project_id">Project:</label>
-            <select name="project_id">
+            <select name="project_id" required>
                 <option value="">Select Project</option>
                 @foreach ($projects as $projectId => $projectTitle)
                     <option value="{{ $projectId }}">{{ $projectTitle }}</option>
@@ -60,7 +62,7 @@
             </br>
 
             <label for="status">Status:</label>
-            <select name="status">
+            <select name="status" required>
             <option value="">Select Status</option>
                 <option value="approved">approved</option>
                 <option value="pending">pending</option>
@@ -72,7 +74,7 @@
             </br >
 
             <label for="priority">Priority:</label>
-            <select name="priority">
+            <select name="priority" required>
                 <option value="">Select Priority</option>
                 <option value="low">low</option>
                 <option value="medium">medium</option>
@@ -86,7 +88,6 @@
             <button type="submit">Make new Task</button>
         </form>
 
-    </div>
     </div>
 </div>
 @endsection

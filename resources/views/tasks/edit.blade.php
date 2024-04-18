@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('content')
-@if($errors->has('error'))
-    <div class="alert alert-error">
-        {{ $errors->first('error') }}
-    </div>
-@endif
+
 <div class="form-container" >
     <h1>Edit Task</h1>
     <div>
@@ -12,11 +8,14 @@
         @csrf
         @method('PATCH')
             <label>Name:</label>
-            <input type="text" name="name" value="{{ $task->name }}"> <!-- Fill in value from $task -->
+            <input type="text" name="name" value="{{ $task->name }}" required> <!-- Fill in value from $task -->
+            @error('name')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
             <br />
 
             <label for="description">Description:</label>
-            <textarea name="description" rows="4" cols="50">{{ $task->description }}</textarea> <!-- Fill in value from $task -->
+            <textarea name="description" rows="4" cols="50" required>{{ $task->description }}</textarea> <!-- Fill in value from $task -->
             @error('description')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>
             @enderror
@@ -24,11 +23,14 @@
             
 
             <label>Date deadline:</label>
-            <input type="date" name="due_date" value="{{ $task->due_date }}"> <!-- Fill in value from $task -->
+            <input type="date" name="due_date" value="{{ $task->due_date }}" required> <!-- Fill in value from $task -->
+            @error('due_date')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
             <br />
 
             <label for="client_id">Client:</label>
-            <select name="client_id">
+            <select name="client_id" required>
                 <!-- Default selected option -->
                 <option value="{{ $task->client->id }}" selected>{{ $task->client->name }}</option>
                 
@@ -40,10 +42,13 @@
                     @endif
                 @endforeach
             </select>
-            <br>
+            @error('client_id')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
+            <br />
 
             <label for="user_id">Assigned to:</label>
-            <select name="user_id">
+            <select name="user_id" required>
                 <!-- Default selected option -->
                 <option value="{{ $task->user->id }}" selected>{{ $task->user->name }}</option>
                 
@@ -61,7 +66,7 @@
             </br>
 
             <label for="project_id">Project:</label>
-            <select name="project_id">
+            <select name="project_id" required>
                 <!-- Default selected option -->
                 <option value="{{ $task->project->id }}" selected>{{ $task->project->title }}</option>
                 
@@ -73,23 +78,32 @@
                     @endif
                 @endforeach
             </select>
-            <br>
+            @error('project_id')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
+            <br />
 
             <label for="status">Status:</label>
-            <select name="status">
+            <select name="status" required>
                 <option value="approved" {{ $task->status == 'approved' ? 'selected' : '' }}>approved</option> <!-- Fill in value from $task and set selected if matches -->
                 <option value="pending" {{ $task->status == 'pending' ? 'selected' : '' }}>pending</option>
                 <option value="rejected" {{ $task->status == 'rejected' ? 'selected' : '' }}>rejected</option>
             </select>
+            @error('status')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
             </br >
 
             <label for="priority">Priority:</label>
-            <select name="priority">
+            <select name="priority" required>
                 <option value="low" {{ $task->priority == 'low' ? 'selected' : '' }}>low</option> <!-- Fill in value from $task and set selected if matches -->
                 <option value="medium" {{ $task->priority == 'medium' ? 'selected' : '' }}>medium</option>
                 <option value="high" {{ $task->priority == 'high' ? 'selected' : '' }}>high</option>
             </select>
-            </br>
+            @error('priority')
+                <div class="alert alert-danger form_danger">{{ $message }}</div>
+            @enderror
+            </br >
 
             <button type="submit">Edit Task</button>
         </form>

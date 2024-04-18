@@ -54,9 +54,10 @@ export function handleProjectCreation() {
     function showForm() {
         $(".project-container").html(`
             <div class="form-container" >
+            <h1>Create Project</h1>
                 <form id="create-project-form" method="POST">
                     <label>Title:</label>
-                    <input type="text" name="title">
+                    <input type="text" name="title" required>
                     <div id="title-error" class="alert alert-danger form_danger" style="display: none;"></div> <!-- Error container for title -->
                     <br />
 

@@ -16,6 +16,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use App\Services\TaskService;
+use Exception;
 
 class TaskWebController extends Controller
 {
@@ -90,12 +91,12 @@ class TaskWebController extends Controller
             $this->authorize('update', $task);
             $validatedData = $request->all();
             $updatedTask = $this->taskService->updateTask($task, $validatedData);
-        
+
             return redirect()->route('tasks.show', ['task' => $updatedTask])
                             ->with('success', 'Task updated successfully');
         } catch (TaskNotFoundException $e) {
             return redirect()->back()
-                    ->withErrors(['error' => $e->getMessage()]);
+                    ->with('error', $e->getMessage());
         } catch (\Exception $e) {
             Log::error('Error updating task: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to update task. Please try again.');

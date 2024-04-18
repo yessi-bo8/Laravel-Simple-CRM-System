@@ -74,31 +74,31 @@ async function displayUpdateForm(projectId, userOptions, clientOptions) {
                                     <input type="hidden" name="_token" value="${token}">
                                     <input type="hidden" name="project_id" value="${projectId}">
                                     <label>Title:</label>
-                                    <input type="text" name="title" value="${project.title}">
+                                    <input type="text" name="title" value="${project.title}" required>
                                     <br />
                                     
                                     <label for="description">Description:</label>
-                                    <textarea name="description" rows="4" cols="50">${project.description}</textarea>
+                                    <textarea name="description" rows="4" cols="50" required>${project.description}</textarea>
                                     <br />
         
                                     <label>Date deadline:</label>
-                                    <input type="date" name="event_date" value="${project.event_date}">
+                                    <input type="date" name="event_date" value="${project.event_date}" required>
                                     <br />
         
                                     <label for="user_id">User:</label>
-                                    <select name="user_id">
+                                    <select name="user_id" required>
                                         ${userOptions}
                                     </select>
                                     <br />
 
                                     <label for="client_id">Client:</label>
-                                    <select name="client_id">
+                                    <select name="client_id" required>
                                         ${clientOptions}
                                     </select>
                                     <br />
         
                                     <label for="status">Status:</label>
-                                    <select name="status">
+                                    <select name="status" required>
                                         <option value="approved">approved</option>
                                         <option value="pending">pending</option>
                                         <option value="rejected">rejected</option>
