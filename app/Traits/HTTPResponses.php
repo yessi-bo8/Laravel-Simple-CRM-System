@@ -2,14 +2,17 @@
 
 namespace App\Traits;
 
+use Illuminate\Http\Response;
+
 trait HTTPResponses
 {
     protected function success($data, $message = null, $code = 200)
     {
+        $statusText = Response::$statusTexts[$code] ?? 'Unknown Status';
         return response()->json(
         [
             'status'=> 'Request was successful.',
-            'message' => $message,
+            'message' => $message ?? $statusText,
             'data' => $data
         ], $code
         );

@@ -20,27 +20,27 @@ class LoginController extends Controller
     }
 
     public function login(LoginUserRequest $request)
-{
-    // Validate the request
-    // $validatedData = $request->validated();
-    $request->validated($request->all());
-        
-    //login and create a session
-    if (!Auth::attempt(($request->only('email', 'password')))) {
-        return $this->error('', 'Credentials do not match', 401);
+    {
+        // Validate the request
+        // $validatedData = $request->validated();
+        $request->validated($request->all());
+            
+        //login and create a session
+        if (!Auth::attempt(($request->only('email', 'password')))) {
+            return $this->error('', 'Credentials do not match', 401);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        // Create a token
+        $token = $user->createToken('Api Token of ' . $user->name)->plainTextToken;
+
+        // Return the user and token data along with the redirect header
+        return $this->success([
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
-
-    $user = User::where('email', $request->email)->first();
-
-    // Create a token
-    $token = $user->createToken('Api Token of ' . $user->name)->plainTextToken;
-
-    // Return the user and token data along with the redirect header
-    return response()->json([
-        'user' => $user,
-        'token' => $token,
-    ]);
-}
 
 
     public function showRegistrationForm()

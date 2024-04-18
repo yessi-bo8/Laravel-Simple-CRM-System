@@ -2,29 +2,24 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
+
 use App\Exceptions\DeleteException;
 use App\Exceptions\NotFound\ProjectNotFoundException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exceptions\StoreException;
 use App\Exceptions\UpdateException;
-use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 use App\Http\Resources\ProjectResource;
 
 use App\Models\Project;
-use App\Models\Client;
-use App\Models\Role;
-use App\Models\User;
 
 use App\Traits\HTTPResponses;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Psr\Container\NotFoundExceptionInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 class ProjectApiController extends Controller
 {
@@ -39,7 +34,9 @@ class ProjectApiController extends Controller
         $user = auth()->user();
         $this->authorize('index', Project::class);
         $projects = Project::accessibleBy($user);
-        return ProjectResource::collection($projects);
+        $projectResources = ProjectResource::collection($projects);
+
+        return $this->success($projectResources);
     }
 
     /**
@@ -51,7 +48,9 @@ class ProjectApiController extends Controller
         try {
             $project = Project::findOrFail($projectId);
             $this->authorize('show', $project);
-            return new ProjectResource($project);
+            $projectResource = new ProjectResource($project);
+
+            return $this->success($projectResource);
         } catch (ModelNotFoundException $exception) {
             throw new ProjectNotFoundException();
         }
@@ -75,7 +74,8 @@ class ProjectApiController extends Controller
                 'status' => $request->status ? $request->status : 'pending',
             ]);
 
-            return new ProjectResource($project);
+            $projectResource = new ProjectResource($project);
+            return $this->success($projectResource);
         } catch (\Exception $e) {
             throw new StoreException("Failed to store project: " . $e->getMessage());
         }
@@ -89,7 +89,9 @@ class ProjectApiController extends Controller
         try {
             $this->authorize('update', $project);
             $project->update($request->only(['title', 'description', 'status', 'event_date']));
-            return new ProjectResource($project);
+
+            $projectResource = new ProjectResource($project);
+            return $this->success($projectResource);
         } catch (\Exception $e) {
             throw new UpdateException("Failed to update project: " . $e->getMessage());
         }

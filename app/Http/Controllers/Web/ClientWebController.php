@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Exceptions\DeleteException;
-use App\Exceptions\StoreException;
-use App\Exceptions\UpdateException;
 use App\Http\Controllers\Controller;
+
 use App\Http\Requests\Client\StoreClientRequest;
-use Illuminate\Support\Facades\Http;
-use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Client\UpdateClientRequest;
+
 use App\Http\Resources\ClientResource;
+
 use App\Models\Client;
-use App\Models\Project;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Auth;
 
 class ClientWebController extends Controller
 {
@@ -47,7 +42,8 @@ class ClientWebController extends Controller
             
             return redirect()->route('clients.index', ['client' => $client]);
         } catch (\Exception $e) {
-            throw new StoreException("Failed to store client: " . $e->getMessage());
+            Log::error('Error storing client: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to store client. Please try again.');
         }
     }
 
@@ -74,7 +70,8 @@ class ClientWebController extends Controller
         return redirect()->route('clients.index', ['client' => $client])
                         ->with('success', 'Task updated successfully');
         } catch (\Exception $e) {
-            throw new UpdateException("Failed to update client: " . $e->getMessage());
+            Log::error('Error updating task: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update client. Please try again.');
         }
 
     }
@@ -86,7 +83,8 @@ class ClientWebController extends Controller
             $this->authorize('destroy', $client);
             $client->delete();
         } catch (\Exception $e) {
-            throw new DeleteException("Failed to delete client: " . $e->getMessage());
+            Log::error('Error deleting client: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete client. Please try again.');
         }
     }
 
