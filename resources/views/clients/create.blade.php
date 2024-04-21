@@ -3,8 +3,12 @@
 @vite(['resources/js/app.js'])
 @section('content')
 <div class="form-container">
-    <form action="{{ route('clients.store') }}" method="POST">
+    <form action="{{ route('clients.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <label for="profile_picture">Add profile picture:</label>
+        <input type="file" name="profile_picture" accept="image/png, image/jpeg">
+        </br>
+
         <label for="name">Name:</label>
         <input name="name" type="text" id="clientName" required>
         @error('name')

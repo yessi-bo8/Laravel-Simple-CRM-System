@@ -28,6 +28,19 @@ class ClientWebController extends Controller
 
     public function store(StoreClientRequest $request) 
     {
+        if ($request->hasFile('profile_picture')) {
+            // Store the uploaded image
+            try {
+                $filePath = $request->profile_picture->store('public/uploads');
+            } catch (\Exception $e) {
+                Log::error('Error uploading profile picture: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to upload profile picture. Please try again.');
+            }
+        } else {
+            // No file uploaded, set $filePath to null or any default value
+            $filePath = null; // Or any default value you prefer
+        }
+
         try {
             $this->authorize('store', Client::class);
             $validatedData = $request->validated();
@@ -38,6 +51,7 @@ class ClientWebController extends Controller
                 'company' => $validatedData['company'],
                 'vat' => $validatedData['vat'],
                 'address' => $validatedData['address'],
+                'profile_picture' => $filePath,
             ]);
             
             return redirect()->route('clients.index', ['client' => $client]);

@@ -32,6 +32,10 @@ $(document).ready(function () {
             });
         }
 
+        // const profilePictureHTML = client.profile_picture
+        //     ? `<img src="${client.profile_picture}" alt="Profile Picture">`
+        //     : "";
+
         const clientDetails = `
   <div class="client-details">
     <div class="details-header">
@@ -42,6 +46,9 @@ $(document).ready(function () {
       <p><strong>Company:</strong> ${client.company}</p>
       <p><strong>VAT:</strong> ${client.vat}</p>
       <p><strong>Email:</strong> ${client.email}</p>
+      <p><strong>Picture:</strong> <img src="${client.profile_picture}" alt="Profile Picture"></p>
+      </br>
+      </p>
       <hr>
       <h3>Projects:</h3>
       ${projectTitlesHTML}
