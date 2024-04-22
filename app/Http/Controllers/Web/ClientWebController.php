@@ -28,9 +28,22 @@ class ClientWebController extends Controller
 
     public function store(StoreClientRequest $request) 
     {
+        $this->authorize('store', Client::class);
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('profile_picture')) {
+            // Store the uploaded image
+            try {
+                $filePath = $request->file('profile_picture')->store('public/uploads');
+            } catch (\Exception $e) {
+                Log::error('Error uploading profile picture: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to upload profile picture. Please try again.');
+            }
+        } else {
+            $filePath = null;
+        }
+
         try {
-            $this->authorize('store', Client::class);
-            $validatedData = $request->validated();
 
             $client = Client::create([
                 'name' => $validatedData['name'],
@@ -38,6 +51,7 @@ class ClientWebController extends Controller
                 'company' => $validatedData['company'],
                 'vat' => $validatedData['vat'],
                 'address' => $validatedData['address'],
+                'profile_picture' => $filePath,
             ]);
             
             return redirect()->route('clients.index', ['client' => $client]);
@@ -59,10 +73,23 @@ class ClientWebController extends Controller
 
     public function update(UpdateClientRequest $request, Client $client)
     {
-        try {
         $this->authorize('update', $client);
         $validatedData = $request->validated();
 
+        if ($request->hasFile('profile_picture')) {
+            // Store the uploaded image
+            try {
+                $filePath = $request->file('profile_picture')->store('public/uploads');
+            } catch (\Exception $e) {
+                Log::error('Error uploading profile picture: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to upload profile picture. Please try again.');
+            }
+        } else {
+            $filePath = null;
+        }
+        $validatedData['profile_picture'] = $filePath;
+
+        try {
         Log::info('Validated data: ' . json_encode($validatedData));
 
         $client->update($validatedData);

@@ -17,7 +17,7 @@ class TaskService
     public function updateTask(Task $task, array $validatedData)
     {
         // Define the list of required fields
-        $requiredFields = ['name', 'description', 'due_date', 'project_id', 'status', 'client_id', 'priority'];
+        $requiredFields = ['name', 'description', 'due_date', 'project_id', 'user_id', 'status', 'client_id', 'priority'];
 
         // Check if any required field has changed
         foreach ($requiredFields as $field) {

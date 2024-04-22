@@ -453,3 +453,15 @@ ul li a:visited {
 .create-project:active {
     background-color: #251b99; /* Even darker Green */
 }
+
+.details-content img {
+    display: block; /* Ensure the image is displayed as a block element */
+    margin: auto; /* Center the image horizontally */
+}
+
+.profile-picture {
+    width: 150px; /* Adjust the width as needed */
+    height: 150px; /* Adjust the height as needed */
+    border-radius: 50%; /* Make the image circular */
+    object-fit: cover; /* Ensure the image covers the entire container */
+}

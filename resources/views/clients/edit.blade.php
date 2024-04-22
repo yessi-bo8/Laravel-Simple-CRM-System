@@ -3,9 +3,22 @@
 @section('content')
 <div class="form-container" >
     <div>
-    <form action="{{ route('clients.update', ['client'=>$client]) }}" method="POST">
+    <form action="{{ route('clients.update', ['client'=>$client]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
+        @if ($client->profile_picture)
+        <img id="profile_picture_preview" src="{{ Storage::url($client->profile_picture) }}" alt="Current Profile Picture" class="profile-picture">
+        @else
+            <p>No profile picture uploaded.</p>
+        @endif
+
+        <label for="profile_picture">Add new profile picture:</label>
+        <input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg">
+
+        @error('profile_picture')
+            <div class="alert alert-danger form_danger">{{ $message }}</div>
+        @enderror
+
         <label for="name">Name:</label>
         <input name="name" type="text" id="clientName" value="{{ $client->name }}" required>
         @error('name')
