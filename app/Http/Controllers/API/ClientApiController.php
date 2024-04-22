@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exceptions\DeleteException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
@@ -33,5 +34,15 @@ class ClientApiController extends Controller
         $this->authorize('show', $client);
         $clientResource = new ClientResource($client);
         return $this->success($clientResource);
+    }
+
+    public function destroy(Client $client)
+    {
+        try {
+            $this->authorize('destroy', $client);
+            $client->delete();
+        } catch (\Exception $e) {
+            throw new DeleteException("Failed to delete client: " . $e->getMessage());
+        }
     }
 }

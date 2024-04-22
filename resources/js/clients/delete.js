@@ -19,9 +19,8 @@ $(document).ready(function () {
 // Function to delete project
 export function deleteProject(clientId) {
     $.ajax({
-        url: `/clients/${clientId}`,
+        url: `/api/v1/clients/${clientId}`,
         headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // Include CSRF token
             Authorization: "Bearer " + token,
         },
         method: "DELETE",

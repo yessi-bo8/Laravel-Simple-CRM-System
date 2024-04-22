@@ -102,17 +102,4 @@ class ClientWebController extends Controller
         }
 
     }
-
-
-    public function destroy(Client $client)
-    {
-        try {
-            $this->authorize('destroy', $client);
-            $client->delete();
-        } catch (\Exception $e) {
-            Log::error('Error deleting client: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete client. Please try again.');
-        }
-    }
-
 }

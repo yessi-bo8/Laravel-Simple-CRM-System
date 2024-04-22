@@ -17,7 +17,7 @@ Route::get('/home', function () {
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::resource('tasks', TaskWebController::class)->names('tasks');
-Route::resource('clients', ClientWebController::class)->except(['show']);
+Route::resource('clients', ClientWebController::class)->except(['show', 'destroy']);
 Route::get('/projects', function () {
     return view('projects.index');
 });
