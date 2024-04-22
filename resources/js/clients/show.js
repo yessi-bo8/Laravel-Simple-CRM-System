@@ -46,7 +46,7 @@ $(document).ready(function () {
       <p><strong>Company:</strong> ${client.company}</p>
       <p><strong>VAT:</strong> ${client.vat}</p>
       <p><strong>Email:</strong> ${client.email}</p>
-      <p><strong>Picture:</strong> <img src="${client.profile_picture}" alt="Profile Picture"></p>
+      <p><strong>Picture:</strong> <img src="${client.profile_picture}" alt="Profile Picture" class="profile-picture"></p>
       </br>
       </p>
       <hr>

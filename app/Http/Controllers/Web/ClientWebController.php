@@ -28,22 +28,22 @@ class ClientWebController extends Controller
 
     public function store(StoreClientRequest $request) 
     {
+        $this->authorize('store', Client::class);
+        $validatedData = $request->validated();
+
         if ($request->hasFile('profile_picture')) {
             // Store the uploaded image
             try {
-                $filePath = $request->profile_picture->store('public/uploads');
+                $filePath = $request->file('profile_picture')->store('public/uploads');
             } catch (\Exception $e) {
                 Log::error('Error uploading profile picture: ' . $e->getMessage());
                 return redirect()->back()->with('error', 'Failed to upload profile picture. Please try again.');
             }
         } else {
-            // No file uploaded, set $filePath to null or any default value
-            $filePath = null; // Or any default value you prefer
+            $filePath = null;
         }
 
         try {
-            $this->authorize('store', Client::class);
-            $validatedData = $request->validated();
 
             $client = Client::create([
                 'name' => $validatedData['name'],
@@ -73,10 +73,23 @@ class ClientWebController extends Controller
 
     public function update(UpdateClientRequest $request, Client $client)
     {
-        try {
         $this->authorize('update', $client);
         $validatedData = $request->validated();
 
+        if ($request->hasFile('profile_picture')) {
+            // Store the uploaded image
+            try {
+                $filePath = $request->file('profile_picture')->store('public/uploads');
+            } catch (\Exception $e) {
+                Log::error('Error uploading profile picture: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Failed to upload profile picture. Please try again.');
+            }
+        } else {
+            $filePath = null;
+        }
+        $validatedData['profile_picture'] = $filePath;
+
+        try {
         Log::info('Validated data: ' . json_encode($validatedData));
 
         $client->update($validatedData);

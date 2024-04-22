@@ -15,6 +15,7 @@ import "./auth/register.js";
 
 import "./clients/show.js";
 import "./clients/delete.js";
+import "./clients/profile_picture.js";
 
 import "./message.js";
 import "./bootstrap";
