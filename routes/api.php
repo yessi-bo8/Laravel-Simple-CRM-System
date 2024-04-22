@@ -14,5 +14,3 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/clients', ClientApiController::class)->only(['index', 'show', 'destroy']);
     Route::apiResource('/users', UserApiController::class)->only('index');
 });
-
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');

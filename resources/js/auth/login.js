@@ -16,12 +16,12 @@ $(document).ready(function () {
             url: "/login",
             method: "POST",
             headers: {
-                "X-CSRF-TOKEN": csrfToken, // Include CSRF token in headers
+                "X-CSRF-TOKEN": csrfToken,
             },
             data: { email: email, password: password },
             success: function (response) {
                 // Handle successful login response
-                const token = response.token;
+                const token = response.data.token;
                 console.log(token); // Log the token value
 
                 // Store the token in localStorage
