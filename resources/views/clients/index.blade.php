@@ -4,6 +4,11 @@
 @section('content')
 <div class="client-containerr">
     <a href="{{ route('clients.create') }}" class="create-button">Create Client</a>
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
     @foreach ($clients as $index => $client)
     <div class='client-list'>
         <a href='#' class="client-details-link" data-client-id="{{$client->id}}">{{$client->name}}</a>

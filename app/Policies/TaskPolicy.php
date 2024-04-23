@@ -46,7 +46,7 @@ class TaskPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function destroy(User $user): bool
     {
         return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }

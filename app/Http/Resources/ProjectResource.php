@@ -14,12 +14,6 @@ class ProjectResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // Get the user's roles
-        $roles = $this->user->roles;
-
-        // Get the first role ID from the collection of roles
-        $roleName = $roles->isNotEmpty() ? (string) $roles->first()->name : null;
-
         return [
             'id' => (string)$this->id,
             'attributes' => [
@@ -36,7 +30,7 @@ class ProjectResource extends JsonResource
                 'user_email' => $this->user->email,
                 'id_client'=> (string)$this->client->id,
                 'client_name' => $this->client->name,
-                'role_name' => (string)$roleName,
+                'role_names' => $this->user->roles->pluck('name')->toArray(),
             ]
         ];
  

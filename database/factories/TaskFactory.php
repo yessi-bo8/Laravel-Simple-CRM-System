@@ -36,6 +36,8 @@ class TaskFactory extends Factory
             'priority' => $this->faker->randomElement(['low', 'medium', 'high']),
             'user_id' => $this->faker->randomElement($userIds),
             'client_id' => $this->faker->randomElement($clientIds),
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

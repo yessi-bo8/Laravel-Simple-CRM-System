@@ -45,7 +45,7 @@ class ProjectPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Project $project): bool
+    public function destroy(User $user, Project $project): bool
     {
         return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }

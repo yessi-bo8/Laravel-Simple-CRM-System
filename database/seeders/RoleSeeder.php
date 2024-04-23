@@ -13,15 +13,13 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        // Define role data
+        // Define roles
         $roles = [
             ['name' => 'admin', 'description' => 'Administrator role'],
             ['name' => 'moderator', 'description' => 'Moderator role'],
             ['name' => 'user', 'description' => 'Regular user role'],
-            // Add more roles as needed
         ];
-
-        // Insert role data into the roles table
+        
         DB::table('roles')->insert($roles);
     }
 }

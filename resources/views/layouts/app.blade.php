@@ -15,7 +15,9 @@
         <div class="toggle-menu" id="toggle-menu">View Options</div>
         <div class="menu-options">
             <ul>
+                @can('index', App\Models\Client::class)
                 <li><a href="/clients">Clients</a></li>
+                @endcan
                 <li><a href="/projects">Projects</a></li>
                 <li><a href="/tasks">Tasks</a></li>
                 <li><a href="/home">Home</a></li>
@@ -34,16 +36,16 @@
 
 
     <div class="content">
-    @if($errors->has('error'))
+    @if ($errors->any())
         <div class="alert alert-error">
-            {{ $errors->first('error') }}
-        </div>
-    @elseif(session()->has('error'))
-        <div class="alert alert-error">
-            {{ session('error') }}
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
-        @yield('content')
+    @yield('content')
     </div>
 
     <footer>

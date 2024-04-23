@@ -31,6 +31,8 @@ class ClientFactory extends Factory
             'vat' => fake()->regexify('[0-9]{9}'),
             'address' => fake()->address(),
             'remember_token' => Str::random(10),
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

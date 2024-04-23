@@ -16,6 +16,7 @@ export function fetchAllProjects() {
         success: displayProjects,
         error: function (xhr, status, error) {
             const response = xhr.responseJSON;
+            console.log(response);
             showMessage("error", getErrorMessage(response));
             handleError;
         },

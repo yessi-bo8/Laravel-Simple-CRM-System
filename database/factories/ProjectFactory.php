@@ -30,6 +30,8 @@ class ProjectFactory extends Factory
              'user_id' => $this->faker->randomElement($userIds),
              'client_id' => $this->faker->randomElement($clientIds),
              'status' => $this->faker->randomElement(['pending', 'in progress', 'completed']),
+             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+             'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
          ];
     }
 }
