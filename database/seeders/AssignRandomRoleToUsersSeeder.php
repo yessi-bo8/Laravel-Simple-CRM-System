@@ -15,10 +15,12 @@ class AssignRandomRoleToUsersSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
+        // Get users without roles
+        $usersWithoutRoles = User::whereDoesntHave('roles')->get();
+        
         $roles = Role::all();
 
-        $users->each(function ($user) use ($roles) {
+        $usersWithoutRoles->each(function ($user) use ($roles) {
             $randomRole = $roles->random();
             $user->roles()->attach($randomRole);
         });

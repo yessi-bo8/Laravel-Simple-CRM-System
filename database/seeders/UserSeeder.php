@@ -15,18 +15,19 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $userRole = Role::firstOrCreate(['name' => 'user']);
+
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
-            'role_id' => Role::where('name', 'admin')->first()->id,
-        ]);
-    
+        ])->roles()->attach($adminRole);
+
         User::factory()->create([
             'name' => 'Regular User',
             'email' => 'user@example.com',
             'password' => bcrypt('password'),
-            'role_id' => Role::where('name', 'user')->first()->id,
-        ]);
+        ])->roles()->attach($userRole);
     }
 }

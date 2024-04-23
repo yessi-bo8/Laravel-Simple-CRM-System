@@ -19,7 +19,7 @@ $(document).ready(function () {
                 "X-CSRF-TOKEN": csrfToken, // Include CSRF token in headers
             },
             success: function (response) {
-                showMessage("success", response.message);
+                showMessage("success", "Successfully logged out.");
                 setTimeout(function () {
                     window.location.href = "/";
                 }, 1000);

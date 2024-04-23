@@ -31,7 +31,7 @@ class Project extends Model
 
     public function scopeAccessibleBy($query, $user)
     {
-        $isAdmin = $user->roles->contains('name', 'admin', true);
+        $isAdmin = $user->roles->contains('name', 'admin');
         if ($isAdmin) {
             return $query->get();
         } else {

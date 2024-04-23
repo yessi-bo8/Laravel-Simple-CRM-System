@@ -15,12 +15,13 @@
         <div class="toggle-menu" id="toggle-menu">View Options</div>
         <div class="menu-options">
             <ul>
+            @auth
                 @can('index', App\Models\Client::class)
                 <li><a href="/clients">Clients</a></li>
                 @endcan
                 <li><a href="/projects">Projects</a></li>
                 <li><a href="/tasks">Tasks</a></li>
-                <li><a href="/home">Home</a></li>
+            @endauth
                 @guest <!-- Show login and register links when user is not authenticated -->
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>

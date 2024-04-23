@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Task extends Model
 {
@@ -29,7 +30,8 @@ class Task extends Model
 
     public function scopeAccessibleBy($query, $user)
     {
-        $isAdmin = $user->roles->contains('name', 'admin', true);
+        $isAdmin = $user->roles->contains('name', 'admin');
+        Log::info('$isAdmin value: ' . ($isAdmin ? 'true' : 'false'));
         if ($isAdmin) {
             return $query;
         } else {

@@ -86,7 +86,7 @@ class ProjectApiController extends Controller
     {
         try {
             $this->authorize('update', $project);
-            $project->update($request->only(['title', 'description', 'status', 'event_date']));
+            $project->update($request->only(['title', 'description', 'status', 'event_date', 'user_id', 'client_id']));
 
             $projectResource = new ProjectResource($project);
             return $this->success($projectResource);

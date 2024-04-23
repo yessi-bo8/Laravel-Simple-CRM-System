@@ -34,6 +34,7 @@ class TaskWebController extends Controller
     public function index() 
     {
         $user = auth()->user();
+        Log::info('User roles: ' . $user->roles->pluck('name')->implode(', '));
         $tasks = Task::accessibleBy($user)->paginate(10);
         return view('tasks.index', ['tasks' => $tasks]);
     }

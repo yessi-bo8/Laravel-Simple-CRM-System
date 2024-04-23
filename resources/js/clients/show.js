@@ -1,11 +1,10 @@
 import $ from "jquery";
 import { showMessage } from "../message.js";
+import { token } from "../config.js";
 import { handleError } from "../errors.js";
 import { getErrorMessage } from "../message.js";
 
 $(document).ready(function () {
-    const token = "2|iwlR0NefAp3yL8n1tdRQvdncsKlN8pr8SkzP1v3x8ed69f31";
-
     function fetchClientDetails(ClientId) {
         $.ajax({
             url: `/api/v1/clients/${ClientId}`,
@@ -69,23 +68,20 @@ $(document).ready(function () {
             $("h1").text("All clients");
         });
     }
-
-    // Function to handle errors
-    function handleError(xhr, status, error) {
-        console.error(error);
+    const currentUrl = window.location.pathname;
+    if (currentUrl === "/clients") {
+        $.ajax({
+            url: "/api/v1/clients",
+            headers: { Authorization: "Bearer " + token },
+            method: "GET",
+            success: displayClients,
+            error: function (xhr, status, error) {
+                const response = xhr.responseJSON;
+                showMessage("error", getErrorMessage(response));
+                handleError;
+            },
+        });
     }
-
-    $.ajax({
-        url: "/api/v1/clients",
-        headers: { Authorization: "Bearer " + token },
-        method: "GET",
-        success: displayClients,
-        error: function (xhr, status, error) {
-            const response = xhr.responseJSON;
-            showMessage("error", getErrorMessage(response));
-            handleError;
-        },
-    });
 
     function displayClients(response) {
         const clients = response.data;
