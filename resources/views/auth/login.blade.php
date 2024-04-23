@@ -2,7 +2,7 @@
 
 @vite(['resources/js/app.js'])
 @section('content')
-<div>
+<div class="form-container">
     <h2>Login</h2>
     <form id="login-form">
         @csrf

@@ -9,11 +9,11 @@
         @if ($client->profile_picture)
         <img id="profile_picture_preview" src="{{ Storage::url($client->profile_picture) }}" alt="Current Profile Picture" class="profile-picture">
         @else
-            <p>No profile picture uploaded.</p>
+        <img id="profile_picture_preview" class="profile-picture" src="" alt="Profile Picture Preview">
         @endif
 
-        <label for="profile_picture">Add new profile picture:</label>
-        <input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg">
+        <label for="profile_picture" class="picture-button">Add new profile picture</label>
+        <input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg" style="display: none;">
 
         @error('profile_picture')
             <div class="alert alert-danger form_danger">{{ $message }}</div>

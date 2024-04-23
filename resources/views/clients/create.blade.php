@@ -10,8 +10,8 @@
 <img id="profile_picture_preview" class="profile-picture" src="" alt="Profile Picture Preview">
 
 <!-- Input for profile picture -->
-<label for="profile_picture">Add profile picture:</label>
-<input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg">
+<label for="profile_picture" class="picture-button">Add profile picture</label>
+<input type="file" id="profile_picture" name="profile_picture" accept="image/png, image/jpeg" style="display: none;">
 
 @error('profile_picture')
     <div class="alert alert-danger form_danger">{{ $message }}</div>

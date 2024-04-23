@@ -226,6 +226,7 @@ ul li a:visited {
 .form-container input[type="textfield"],
 .form-container input[type="email"],
 .form-container input[type="address"],
+.form-container input[type="password"],
 .form-container select,
 .form-container textarea {
     width: 100%; /* Make input fields and textareas full width */
@@ -427,7 +428,8 @@ ul li a:visited {
 }
 
 .create-button,
-.create-project {
+.create-project,
+.picture-button {
     display: inline-block;
     background-color: #c8209b;
     border: none;
