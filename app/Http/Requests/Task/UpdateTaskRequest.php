@@ -29,7 +29,7 @@ class UpdateTaskRequest extends FormRequest
             'client_id' => 'required|integer',
             'user_id' => 'required|integer',
             'project_id' => 'required|integer',
-            'status' => 'required|string|in:pending,approved,rejected',
+            'status' => 'required|string|in:pending,in progress,completed',
             'priority' => 'required|string|in:low,medium,high',
         ];
     }

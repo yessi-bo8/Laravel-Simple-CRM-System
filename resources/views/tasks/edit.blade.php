@@ -85,9 +85,9 @@
 
             <label for="status">Status:</label>
             <select name="status" required>
-                <option value="approved" {{ $task->status == 'approved' ? 'selected' : '' }}>approved</option> <!-- Fill in value from $task and set selected if matches -->
-                <option value="pending" {{ $task->status == 'pending' ? 'selected' : '' }}>pending</option>
-                <option value="rejected" {{ $task->status == 'rejected' ? 'selected' : '' }}>rejected</option>
+                <option value="pending" {{ $task->status == 'pending' ? 'selected' : '' }}>pending</option> <!-- Fill in value from $task and set selected if matches -->
+                <option value="in progress" {{ $task->status == 'in progress' ? 'selected' : '' }}>in progress</option>
+                <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>completed</option>
             </select>
             @error('status')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>

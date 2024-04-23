@@ -64,9 +64,9 @@
             <label for="status">Status:</label>
             <select name="status" required>
             <option value="">Select Status</option>
-                <option value="approved">approved</option>
                 <option value="pending">pending</option>
-                <option value="rejected">rejected</option>
+                <option value="in progress">in progress</option>
+                <option value="completed">completed</option>
             </select>
             @error('status')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>

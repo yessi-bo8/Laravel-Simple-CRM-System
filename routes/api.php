@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\API\ClientApiController;
 use App\Http\Controllers\API\ProjectApiController;
 use App\Http\Controllers\Api\UserApiController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //Protected routes

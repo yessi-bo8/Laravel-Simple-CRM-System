@@ -29,7 +29,7 @@ class ProjectFactory extends Factory
              'event_date' => $this->faker->date(),
              'user_id' => $this->faker->randomElement($userIds),
              'client_id' => $this->faker->randomElement($clientIds),
-             'status' => $this->faker->randomElement(['pending', 'in progress', 'completed']),
+             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
              'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
              'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
          ];

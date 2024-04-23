@@ -418,12 +418,16 @@ ul li a:visited {
     background-color: #f9f9f9;
 }
 
-.rejected-status {
+.pending-status {
     background-color: #ffcccc; /* Light red */
 }
 
-.approved-status {
+.completed-status {
     background-color: #ccffcc; /* Light green */
+}
+
+.progress-status {
+    background-color: rgb(252, 252, 154);
 }
 
 .create-button,

@@ -27,7 +27,7 @@
             @forelse ($tasks as $task)
             <tr class="{{ $loop->iteration % 2 == 0 ? 'even-row' : 'odd-row' }}">
                 <td><a href="{{ route('tasks.show', ['task' => $task->id]) }}">{{ $task->name }}</a></td>
-                <td class="{{ $task->status === 'pending' ? 'rejected-status' : ($task->status === 'completed' ? 'approved-status' : '') }}">{{ $task->status }}</td>
+                <td class="{{ $task->status === 'pending' ? 'pending-status' : ($task->status === 'in progress' ? 'progress-status' : ($task->status === 'completed' ? 'completed-status' : '')) }}">{{ $task->status }}</td>
                 <td class="project-cell">{{ $task->project->title }}</td> <!-- Add a class to the Project column -->
                 <td class="action-buttons">
                     @can('update', $task)
