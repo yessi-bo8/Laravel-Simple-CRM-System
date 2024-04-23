@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Exceptions\DeleteException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClientResource;
-use App\Models\Client;
-use App\Traits\HTTPResponses;
+
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+use App\Models\Client;
+
+use App\Traits\HTTPResponses;
+
 
 
 class ClientApiController extends Controller
@@ -42,7 +45,7 @@ class ClientApiController extends Controller
             $this->authorize('destroy', $client);
             $client->delete();
         } catch (\Exception $e) {
-            throw new DeleteException("Failed to delete client: " . $e->getMessage());
+            return $this->error(null, 'Failed to delete client: ' . $e->getMessage(), 500);
         }
     }
 }

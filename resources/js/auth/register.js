@@ -30,8 +30,10 @@ $(document).ready(function () {
             },
             success: function (response) {
                 console.log("sucessfull registered");
-                window.location.href = "/login";
-                showMessage("success", "Successfully registered.");
+                showMessage("success", response.message);
+                setTimeout(function () {
+                    window.location.href = "/login";
+                }, 1000);
             },
             error: function (xhr, status, error) {
                 const response = xhr.responseJSON;

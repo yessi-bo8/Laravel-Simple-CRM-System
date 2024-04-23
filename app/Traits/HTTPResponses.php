@@ -20,10 +20,11 @@ trait HTTPResponses
 
     protected function error($data, $message = null, $code)
     {
+        $statusText = Response::$statusTexts[$code] ?? 'Unknown Status';
         return response()->json(
         [
             'status'=> 'Request was not successful.',
-            'message' => $message,
+            'error' => $message ?? $statusText,
             'data' => $data
         ], $code
         );

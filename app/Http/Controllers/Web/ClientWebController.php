@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-
 use App\Http\Requests\Client\StoreClientRequest;
 use App\Http\Requests\Client\UpdateClientRequest;
-
 use App\Http\Resources\ClientResource;
-
-use App\Models\Client;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+use App\Models\Client;
+
 
 class ClientWebController extends Controller
 {
@@ -54,7 +53,7 @@ class ClientWebController extends Controller
                 'profile_picture' => $filePath,
             ]);
             
-            return redirect()->route('clients.index', ['client' => $client]);
+            return redirect()->route('clients.index', ['client' => $client])->with('success', 'Client created successfully');;
         } catch (\Exception $e) {
             Log::error('Error storing client: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to store client. Please try again.');
@@ -95,7 +94,7 @@ class ClientWebController extends Controller
         $client->update($validatedData);
 
         return redirect()->route('clients.index', ['client' => $client])
-                        ->with('success', 'Task updated successfully');
+                        ->with('success', 'Client updated successfully');
         } catch (\Exception $e) {
             Log::error('Error updating task: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to update client. Please try again.');

@@ -7,7 +7,7 @@ import "./projects/delete.js";
 import "./errors.js";
 import "./projects/show.js";
 import "./projects/update.js";
-import "./projects.js";
+import "./projects/projects.js";
 
 import "./auth/login.js";
 import "./auth/logout.js";

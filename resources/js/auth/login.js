@@ -22,14 +22,12 @@ $(document).ready(function () {
             success: function (response) {
                 // Handle successful login response
                 const token = response.data.token;
-                console.log(token); // Log the token value
-
                 // Store the token in localStorage
                 localStorage.setItem("token", token);
-
-                // Redirect to the homepage or perform any other actions as needed
-                window.location.href = "/"; // Redirect to the homepage
-                showMessage("success", "Successfully logged in.");
+                showMessage("success", response.message);
+                setTimeout(function () {
+                    window.location.href = "/";
+                }, 1000);
             },
             error: function (xhr, status, error) {
                 const response = xhr.responseJSON;

@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\StoreUserRequest;
-use App\Models\User;
-use App\Traits\HTTPResponses;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\User;
+
+use App\Traits\HTTPResponses;
+
 
 class LoginController extends Controller
 {
@@ -39,7 +43,7 @@ class LoginController extends Controller
         return $this->success([
             'user' => $user,
             'token' => $token,
-        ]);
+        ], 'Successfully logged in.');
     }
 
 
@@ -60,9 +64,9 @@ class LoginController extends Controller
 
         return $this->success([
             "user" =>$user,
-            //Laravel Sanctum
             'token' => $user->createToken('Api Token of ' . $user->name)->plainTextToken
-        ]);
+        ], 'Successfully registered.'
+        );
     }
 
     public function logout(Request $request)

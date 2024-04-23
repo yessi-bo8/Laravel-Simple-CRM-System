@@ -25,8 +25,10 @@ export function deleteProject(clientId) {
         },
         method: "DELETE",
         success: function () {
-            window.location.href = "/clients";
             showMessage("success", "Client deleted successfully.");
+            setTimeout(function () {
+                window.location.href = "/clients";
+            }, 1000);
         },
         error: function (xhr, status, error) {
             const response = xhr.responseJSON;

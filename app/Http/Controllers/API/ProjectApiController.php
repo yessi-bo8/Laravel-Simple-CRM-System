@@ -3,18 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-
-use App\Exceptions\DeleteException;
-use App\Exceptions\NotFound\ProjectNotFoundException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Exceptions\StoreException;
-use App\Exceptions\UpdateException;
-
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
 use App\Http\Resources\ProjectResource;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use App\Models\Project;
 
@@ -31,12 +25,17 @@ class ProjectApiController extends Controller
      */
     public function index()
     {
+        try {
         $user = auth()->user();
         $this->authorize('index', Project::class);
         $projects = Project::accessibleBy($user);
         $projectResources = ProjectResource::collection($projects);
-
         return $this->success($projectResources);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return $this->error("", 'You do not have permission to view any projects.', 403);
+        } catch (\Exception $e) {
+            return $this->error("", 'An error occurred while processing your request.', 500);
+        }
     }
 
     /**
@@ -49,10 +48,9 @@ class ProjectApiController extends Controller
             $project = Project::findOrFail($projectId);
             $this->authorize('show', $project);
             $projectResource = new ProjectResource($project);
-
             return $this->success($projectResource);
         } catch (ModelNotFoundException $exception) {
-            throw new ProjectNotFoundException();
+            return $this->error(null, 'Failed to show project: ' . $exception->getMessage(), 500);
         }
     }
 
@@ -77,7 +75,7 @@ class ProjectApiController extends Controller
             $projectResource = new ProjectResource($project);
             return $this->success($projectResource);
         } catch (\Exception $e) {
-            throw new StoreException("Failed to store project: " . $e->getMessage());
+            return $this->error(null, 'Failed to store project: ' . $e->getMessage(), 500);
         }
     }
 
@@ -93,7 +91,7 @@ class ProjectApiController extends Controller
             $projectResource = new ProjectResource($project);
             return $this->success($projectResource);
         } catch (\Exception $e) {
-            throw new UpdateException("Failed to update project: " . $e->getMessage());
+            return $this->error(null, 'Failed to update project: ' . $e->getMessage(), 500);
         }
     }
 
@@ -103,10 +101,10 @@ class ProjectApiController extends Controller
     public function destroy(Project $project)
     {
         try {
-            $this->authorize('delete', $project);
+            $this->authorize('destroy', $project);
             $project->delete();
         } catch (\Exception $e) {
-            throw new DeleteException("Failed to delete project: " . $e->getMessage());
+            return $this->error(null, 'Failed to delete project: ' . $e->getMessage(), 500);
         }
     }
 

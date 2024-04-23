@@ -14,12 +14,6 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // Load the roles relationship
-        $this->load('roles');
-
-        // Get an array of role names
-        $roleNames = $this->roles->pluck('name')->toArray();
-
         return [
             'id' => (string)$this->id,
             'attributes' => [
@@ -29,7 +23,7 @@ class UserResource extends JsonResource
                 'updated_up' => $this->updated_at,
             ],
             'relationships' => [
-                'role_name' => $roleNames,
+                'role_name' => $this->roles->pluck('name')->toArray(),
             ]
         ];
     }

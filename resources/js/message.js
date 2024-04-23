@@ -4,7 +4,6 @@ export function showMessage(type, message, projectId) {
     var modalContainer = $("<div></div>").addClass("modal-container");
     var modalContent = $("<div></div>").addClass("modal-content");
 
-    // Create a span element for the close button
     var closeButton = $("<span>&times;</span>").addClass("close-button");
     closeButton.click(function () {
         // Hide the modal when the close button is clicked
@@ -23,10 +22,7 @@ export function showMessage(type, message, projectId) {
 
     modalContainer.show();
 
-    // If the type is "success", add the "Go to Project" button
     if (type === "success") {
-        // window.location.href = "/projects/" + projectId;
-        console.log("hhallooo!!!");
         modalContent.attr("id", "success-container");
     }
 

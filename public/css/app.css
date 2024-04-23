@@ -71,18 +71,17 @@ footer {
 .alert-success {
     background-color: #4caf50; /* Green */
     color: white;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
-    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .alert-error {
     background-color: #d14141; /* Green */
     color: white;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .form_danger {

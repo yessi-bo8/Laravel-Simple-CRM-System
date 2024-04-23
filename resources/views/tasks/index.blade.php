@@ -11,39 +11,43 @@
     </div>
 @endif
 <div class="task-container">
-<table class="task-table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Project</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach ($tasks as $task)
-    <tr class="{{ $loop->iteration % 2 == 0 ? 'even-row' : 'odd-row' }}">
-        <td><a href="{{ route('tasks.show', ['task' => $task->id]) }}">{{ $task->name }}</a></td>
-        <td class="{{ $task->status === 'pending' ? 'rejected-status' : ($task->status === 'completed' ? 'approved-status' : '') }}">{{ $task->status }}</td>
-        <td class="project-cell">{{ $task->project->title }}</td> <!-- Add a class to the Project column -->
-        <td class="action-buttons">
-            @can('update', $task)
-                <a href="{{ route('tasks.edit', ['task' => $task]) }}" class="update-button">Update</a>
-            @endcan
-            @can('delete', $task)
-                <form action="{{ route('tasks.destroy', ['task' => $task]) }}" method="POST" class="delete-form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
-                </form>
-            @endcan
-        </td>
-    </tr>
-@endforeach
-
-    </tbody>
-</table>
-
+    @if ($tasks->isEmpty())
+        <p>No current assigned tasks</p>
+    @else
+    <table class="task-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Project</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($tasks as $task)
+            <tr class="{{ $loop->iteration % 2 == 0 ? 'even-row' : 'odd-row' }}">
+                <td><a href="{{ route('tasks.show', ['task' => $task->id]) }}">{{ $task->name }}</a></td>
+                <td class="{{ $task->status === 'pending' ? 'rejected-status' : ($task->status === 'completed' ? 'approved-status' : '') }}">{{ $task->status }}</td>
+                <td class="project-cell">{{ $task->project->title }}</td> <!-- Add a class to the Project column -->
+                <td class="action-buttons">
+                    @can('update', $task)
+                        <a href="{{ route('tasks.edit', ['task' => $task]) }}" class="update-button">Update</a>
+                    @endcan
+                    @can('destroy', $task)
+                        <form action="{{ route('tasks.destroy', ['task' => $task]) }}" method="POST" class="delete-form">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
+                        </form>
+                    @endcan
+                </td>
+            </tr>
+            @empty
+                <!-- No tasks found -->
+            @endforelse
+        </tbody>
+    </table>
+    @endif
 </div>
 
 <div class="pagination justify-content-center">
@@ -76,6 +80,4 @@
         @endif
     </ul>
 </div>
-
-
 @endsection

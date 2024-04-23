@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Exceptions\NotFound\TaskNotFoundException;
 use App\Http\Controllers\Controller;
-
 use App\Http\Requests\Task\StoreTaskRequest;
 use App\Http\Requests\Task\UpdateTaskRequest;
+
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Log;
 use App\Services\TaskService;
+
+use App\Exceptions\NotFound\TaskNotFoundException;
 use Exception;
 
 class TaskWebController extends Controller
@@ -70,7 +71,7 @@ class TaskWebController extends Controller
                 'priority' => $validatedData['priority'],
             ]);
             
-            return redirect()->route('tasks.show', ['task' => $task]);
+            return redirect()->route('tasks.show', ['task' => $task])->with('success', 'Task created successfully');
         } catch (\Exception $e) {
             Log::error('Error storing task: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to store task. Please try again.');
@@ -106,7 +107,7 @@ class TaskWebController extends Controller
     public function destroy(Task $task) 
     {
         try {
-            $this->authorize('delete', $task);
+            $this->authorize('destroy', $task);
             $task->delete();
             return redirect()->route('tasks.index')
                 ->with('success', 'Task deleted successfully');
