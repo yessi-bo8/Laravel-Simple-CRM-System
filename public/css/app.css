@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     background-color: #ecedef;
     margin: 0;
     padding: 0;
@@ -17,17 +17,17 @@ h1 {
 }
 
 .project-list:hover,
-.client-list:hover,
-.task:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Add shade on hover */
-    /* You can adjust the opacity (last value) to change the darkness of the shade */
+.client-list:hover {
+    background-color: rgba(0, 0, 0, 0.2); /* Add shade on hover */
 }
 
-.toggle-menu {
+.toggle-menu,
+a {
     cursor: pointer;
 }
+
 .content {
-    padding: 20px;
+    padding: 25px;
     margin-left: 50px;
     margin-right: 50px;
 }
@@ -48,10 +48,10 @@ footer {
 }
 
 .project-list,
-#project-details,
 .client-list,
 .client-details,
-.task-container {
+.task-container,
+#project-details {
     background-color: white;
     text-align: center;
     padding: 20px;
@@ -59,17 +59,25 @@ footer {
     margin-bottom: 20px;
     width: 100%;
     display: flex;
-    align-items: center; /* Center items vertically */
+    align-items: center;
     justify-content: space-between;
 }
 
-.project-details-link {
-    flex-grow: 1; /* Expand to fill remaining space */
-    margin-right: 10px; /* Add space between the title and buttons */
+.buttons-container {
+    margin-left: auto; /* Push buttons container to the right */
+    display: flex; /* Use flexbox for buttons container */
+    align-items: center; /* Align buttons vertically */
+}
+
+.client-list .update-button,
+.client-list .delete-client,
+.project-list .update-button,
+.project-list .delete-client {
+    margin-left: 10px; /* Add some spacing between buttons */
 }
 
 .alert-success {
-    background-color: #4caf50; /* Green */
+    background-color: #4caf50;
     color: white;
     padding: 10px;
     text-align: center;
@@ -77,7 +85,7 @@ footer {
 }
 
 .alert-error {
-    background-color: #d14141; /* Green */
+    background-color: #d14141;
     color: white;
     padding: 10px;
     text-align: center;
@@ -85,13 +93,12 @@ footer {
 }
 
 .form_danger {
-    color: rgb(129, 7, 7); /* Set text color to red */
-    font-style: italic; /* Make text italic */
-    font-size: smaller; /* Decrease font size */
+    color: rgb(129, 7, 7);
+    font-style: italic;
 }
 
 ul {
-    list-style-type: none; /* Remove default bullet points */
+    list-style-type: none;
     padding: 0;
 }
 
@@ -99,10 +106,39 @@ ul li {
     display: inline;
 }
 
+form#logout-form,
+form#logout-form button {
+    display: inline;
+}
+
 ul li a {
-    color: white; /* Set text color to white */
-    text-decoration: none; /* Remove underline */
-    padding: 10px; /* Add padding for spacing */
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+button {
+    /* Inherit font size from parent (body) */
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+ul li button {
+    /* Remove default button styles */
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    /* Add styles to mimic anchor element */
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+ul li a:hover,
+ul li button:hover {
+    background-color: #333; /* Change background color on hover */
 }
 
 a {
@@ -110,97 +146,45 @@ a {
     text-decoration: none; /* Remove underline */
 }
 
-ul li a:hover {
-    background-color: #333; /* Change background color on hover */
-}
-
-ul li a:visited {
-    color: white; /* Keep text color white for visited links */
-}
-
-/* Button style */
-.button {
-    background-color: #4caf50; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: background-color 0.3s;
-}
-
-/* Button hover effect */
-.button:hover {
-    background-color: #45a049;
-}
-
-.project-details-link,
-.client-details-link {
-    color: black;
-    text-decoration: none;
-}
 /* Style for delete button */
-.btn-delete,
-.btn-update {
-    background-color: transparent;
-    color: #000;
-    border: 2px solid transparent;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-    text-decoration: none;
-    font-size: 14px; /* Adjust font size as needed */
-}
-
-.btn-delete:hover,
-.btn-update:hover {
-    background-color: transparent;
-    border-color: #000;
-}
-
-/* Style for delete button */
-.btn-delete {
+.update-project,
+.update-button,
+.delete-button,
+.delete-project,
+.delete-client {
     color: #fff;
+    border: 2px solid transparent;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 10px; /* Add margin to separate buttons */
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Style for delete button */
+.delete-button,
+.delete-project,
+.delete-client {
     background-color: #dc3545;
 }
 
-.btn-delete:hover {
+.delete-button:hover,
+.delete-project:hover,
+.delete-client:hover {
     background-color: #c82333;
 }
 
 /* Style for update button */
-.btn-update {
-    color: #fff;
+.update-button,
+.update-project {
     background-color: #28a745;
 }
 
-.btn-update:hover {
+.update-button:hover,
+.update-project:hover {
     background-color: #218838;
-}
-
-/* Position buttons */
-.client-list {
-    position: relative;
-}
-
-.btn-delete,
-.btn-update {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.btn-delete {
-    right: 90px; /* Adjust the value based on your layout */
-}
-
-.btn-update {
-    right: 5px;
 }
 
 .form-container {
@@ -210,9 +194,8 @@ ul li a:visited {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Box shadow for a subtle elevation effect */
 }
 
-/* Additional styling for form elements (optional) */
 .form-container form {
-    max-width: 400px; /* Optional: Limit form width */
+    max-width: 400px; /* Limit form width */
 }
 
 .form-container label {
@@ -228,11 +211,11 @@ ul li a:visited {
 .form-container input[type="password"],
 .form-container select,
 .form-container textarea {
-    width: 100%; /* Make input fields and textareas full width */
-    padding: 8px; /* Add padding to input fields */
-    margin-bottom: 16px; /* Add space below input fields */
-    border: 1px solid #ccc; /* Optional: Add border for input fields */
-    border-radius: 4px; /* Optional: Add border radius for input fields */
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .form-container button,
@@ -248,7 +231,11 @@ ul li a:visited {
     cursor: pointer; /* Change cursor to pointer on hover */
 }
 
-.form-container button:hover {
+.form-container button:hover,
+.button:hover,
+.back-project:hover,
+.back-client:hover,
+#go-back-to-list:hover {
     background-color: #0056b3; /* Button background color on hover */
 }
 
@@ -265,27 +252,12 @@ ul li a:visited {
     overflow: auto;
 }
 
-/* Styles for modal content */
-.modal-container {
-    display: none; /* Initially hidden */
-    position: fixed;
-    z-index: 9999; /* Ensure it's on top of other elements */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    overflow: auto;
-}
-
 #success-container {
     background-color: lightgreen;
-    /* Add any other styling you want for the success modal container */
 }
 
 #error-container {
     background-color: rgb(238, 144, 144);
-    /* Add any other styling you want for the success modal container */
 }
 
 /* Styles for modal content */
@@ -296,15 +268,13 @@ ul li a:visited {
     border: 1px solid #888;
     border-radius: 5px;
     width: 80%;
-    max-width: 500px; /* Set maximum width for the modal */
+    max-width: 500px;
     text-align: center;
 }
 
-/* Close button style */
 .close-button {
     color: #aaa;
     float: right;
-    font-size: 28px;
     font-weight: bold;
 }
 
@@ -327,10 +297,10 @@ ul li a:visited {
 }
 
 .task {
-    background-color: #ffffff; /* White background */
-    border: 1px solid #ccc; /* Add border */
-    padding: 20px; /* Padding around task */
-    border-radius: 8px; /* Rounded corners */
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
 }
 
 /* Style for pagination links */
@@ -356,36 +326,6 @@ ul li a:visited {
 
 .pagination a:hover {
     background-color: #f0f0f0;
-}
-
-.update-button,
-.update-project {
-    background-color: #4caf50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-right: 10px; /* Add margin to separate buttons */
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.delete-button,
-.delete-project,
-.delete-client {
-    background-color: #f44336; /* Red */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
 }
 
 .task-table {
@@ -441,32 +381,36 @@ ul li a:visited {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
     border-radius: 8px;
-    outline: none; /* Remove default button focus style */
 }
 
 .create-button:hover,
-.create-project:hover {
+.create-project:hover,
+.picture-button:hover {
     background-color: #9545a0; /* Darker Green */
 }
 
 .create-button:active,
-.create-project:active {
+.create-project:active,
+.picture-button:active {
     background-color: #251b99; /* Even darker Green */
 }
 
 .details-content img {
     display: block; /* Ensure the image is displayed as a block element */
-    margin: auto; /* Center the image horizontally */
+    margin: auto;
 }
 
 .profile-picture {
-    width: 150px; /* Adjust the width as needed */
-    height: 150px; /* Adjust the height as needed */
+    width: 150px;
+    height: 150px;
     border-radius: 50%; /* Make the image circular */
-    object-fit: cover; /* Ensure the image covers the entire container */
+    object-fit: cover;
+}
+
+.buttons-details button {
+    margin-bottom: 10px; /* Add some spacing between buttons */
 }

@@ -30,12 +30,14 @@ function displayProjectDetails(response) {
             <h2>${project.title}</h2>
             <hr>
             <div class="task-details">
-                <p>Description: ${project.description}</p>
-                <p>Event date: ${project.event_date}</p>
-                <p>User id: ${response.data.relationships.user_id}</p>
-                <p>Project id: ${response.data.id}</p>
-                <p>Client: ${response.data.relationships.client_name}</p>
-                <p>Assigned to User: ${response.data.relationships.user_name}</p>
+                <p><strong>Description:</strong> ${project.description}</p>
+                <p><strong>Event date:</strong> ${project.event_date}</p>
+                <p><strong>User id:</strong> ${response.data.relationships.user_id}</p>
+                <p><strong>Project id:</strong> ${response.data.id}</p>
+                <p><strong>Client:</strong> ${response.data.relationships.client_name}</p>
+                <p><strong>Assigned to User:</strong> ${response.data.relationships.user_name}</p>
+            </div>
+            <div class="buttons-details">
                 <button class="delete-project" data-project-id="${response.data.id}">Delete</button>
                 <button class="update-project" data-project-id="${response.data.id}">Update</button>
                 <button class="back-project">Back to Projects</button>

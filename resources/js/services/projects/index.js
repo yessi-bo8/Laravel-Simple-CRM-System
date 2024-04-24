@@ -35,9 +35,11 @@ function displayProjects(response) {
     response.data.forEach(function (project) {
         const projectList = $(`
             <div class='project-list'>
-                <p class='project-name' data-project-id='${project.id}'>${project.attributes.title}</p>
-                <button class='delete-project' data-project-id='${project.id}'>Delete</button>
-                <button class='update-project' data-project-id='${project.id}'>Update</button>
+                <a class='project-name' data-project-id='${project.id}'>${project.attributes.title}</a>
+                <div class="buttons-container">
+                    <button class='update-project' data-project-id='${project.id}'>Update</button>
+                    <button class='delete-project' data-project-id='${project.id}'>Delete</button>
+                </div
             </div>
         `);
 

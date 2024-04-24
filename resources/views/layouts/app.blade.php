@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/css/app.css">
     @vite(['resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 
 <body>
@@ -26,10 +27,12 @@
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
                 @else <!-- Show logout link when user is authenticated -->
-                <form id="logout-form" method="POST">
+                <li>
+                    <form id="logout-form" method="POST">
                     @csrf <!-- CSRF protection -->
-                    <button type="button" id="logout-button">Logout</button>
-                </form>
+                        <button type="button" id="logout-button">Logout</button>
+                    </form>
+                </li>
                 @endguest
             </ul>
         </div>
