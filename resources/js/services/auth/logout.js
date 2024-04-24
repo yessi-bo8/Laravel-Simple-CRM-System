@@ -1,22 +1,21 @@
 import $ from "jquery";
-import { csrfToken } from "../config.js";
-import { showMessage } from "../message.js";
-import { handleError } from "../errors.js";
-import { getErrorMessage } from "../message.js";
+import { csrfToken } from "../../config/config.js";
+import { showMessage } from "../../components/message.js";
+import { handleError } from "../../utils/errors.js";
+import { getErrorMessage } from "../../components/message.js";
 
 $(document).ready(function () {
     $("#logout-button").click(function (event) {
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault();
 
         // Remove the token from local storage
         localStorage.removeItem("token");
 
-        // Make AJAX request to logout
         $.ajax({
             url: "/logout",
             method: "POST",
             headers: {
-                "X-CSRF-TOKEN": csrfToken, // Include CSRF token in headers
+                "X-CSRF-TOKEN": csrfToken,
             },
             success: function (response) {
                 showMessage("success", "Successfully logged out.");

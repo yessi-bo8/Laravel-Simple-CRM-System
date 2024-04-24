@@ -18,7 +18,7 @@ class ClientResource extends JsonResource
         return [
             'id' => (string)$this->id,
             'attributes' => [
-                'profile_picture' => Storage::url($this->profile_picture),
+                'profile_picture' => $this->profile_picture ? Storage::url($this->profile_picture) : null,
                 'name' => $this->name,
                 'email' => $this->email,
                 'company' => $this->company,

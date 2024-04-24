@@ -1,8 +1,8 @@
 import $ from "jquery";
-import { showMessage } from "../message.js";
-import { token } from "../config.js";
-import { handleError } from "../errors.js";
-import { getErrorMessage } from "../message.js";
+import { showMessage } from "../../components/message.js";
+import { token } from "../../config/config.js";
+import { handleError } from "../../utils/errors.js";
+import { getErrorMessage } from "../../components/message.js";
 
 $(document).ready(function () {
     function fetchClientDetails(ClientId) {
@@ -31,32 +31,34 @@ $(document).ready(function () {
             });
         }
 
-        // const profilePictureHTML = client.profile_picture
-        //     ? `<img src="${client.profile_picture}" alt="Profile Picture">`
-        //     : "";
-
         const clientDetails = `
-  <div class="client-details">
-    <div class="details-header">
-      <h2>Client Details</h2>
-    </div>
-    <div class="details-content">
-      <p><strong>Title:</strong> ${client.name}</p>
-      <p><strong>Company:</strong> ${client.company}</p>
-      <p><strong>VAT:</strong> ${client.vat}</p>
-      <p><strong>Email:</strong> ${client.email}</p>
-      <p><strong>Picture:</strong> <img src="${client.profile_picture}" alt="Profile Picture" class="profile-picture"></p>
-      </br>
-      </p>
-      <hr>
-      <h3>Projects:</h3>
-      ${projectTitlesHTML}
-    </div>
-    <div class="details-footer">
-      <button id="go-back-to-list">Go Back to List</button>
-    </div>
-  </div>
-`;
+        <div class="client-details">
+            <div class="details-header">
+            <h2>Client Details</h2>
+            </div>
+            <div class="details-content">
+                <p><strong>Title:</strong> ${client.name}</p>
+                <p><strong>Company:</strong> ${client.company}</p>
+                <p><strong>VAT:</strong> ${client.vat}</p>
+                <p><strong>Email:</strong> ${client.email}</p>
+                <p><strong>Picture:</strong> 
+                ${
+                    client.profile_picture
+                        ? `<img src="${client.profile_picture}" alt="Profile Picture" class="profile-picture">`
+                        : "No current profile picture"
+                }
+                </p>
+                </br>
+                
+                <hr>
+                <h3>Projects:</h3>
+                ${projectTitlesHTML}
+            </div>
+            <div class="details-footer">
+                <button id="go-back-to-list">Go Back to List</button>
+            </div>
+        </div>
+        `;
 
         $(".client-details").html(clientDetails).show();
         $(".client-containerr").hide();
@@ -68,6 +70,7 @@ $(document).ready(function () {
             $("h1").text("All clients");
         });
     }
+
     const currentUrl = window.location.pathname;
     if (currentUrl === "/clients") {
         $.ajax({

@@ -1,13 +1,11 @@
 import $ from "jquery";
-import { token } from "../config.js";
-import { showMessage } from "../message.js";
-import { handleError } from "../errors.js";
-import { getErrorMessage } from "../message.js";
+import { token } from "../../config/config.js";
+import { showMessage } from "../../components/message.js";
+import { handleError } from "../../utils/errors.js";
+import { getErrorMessage } from "../../components/message.js";
 
 $(document).ready(function () {
-    // Add event listener for delete client button
     $(".delete-client").on("click", function () {
-        // Get the client ID from the data attribute
         const clientId = $(this).data("client-id");
         console.log("Client ID:", clientId);
 
@@ -16,7 +14,6 @@ $(document).ready(function () {
     });
 });
 
-// Function to delete project
 export function deleteProject(clientId) {
     $.ajax({
         url: `/api/v1/clients/${clientId}`,

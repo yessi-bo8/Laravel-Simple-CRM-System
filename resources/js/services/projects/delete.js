@@ -1,11 +1,10 @@
 import $ from "jquery";
-import { token } from "../config.js";
-import { showMessage } from "../message.js";
+import { token } from "../../config/config.js";
+import { showMessage } from "../../components/message.js";
+import { getErrorMessage } from "../../components/message.js";
 import { fetchAllProjects } from "./index.js";
-import { handleError } from "../errors.js";
-import { getErrorMessage } from "../message.js";
+import { handleError } from "../../utils/errors.js";
 
-// Function to delete project
 export function deleteProject(projectId) {
     $.ajax({
         url: `/api/v1/projects/${projectId}`,

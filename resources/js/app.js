@@ -1,34 +1,24 @@
 // import "../css/app.css";
 import $ from "jquery";
-import "./config.js";
-import "./projects/index.js";
-import "./projects/create.js";
-import "./projects/delete.js";
-import "./errors.js";
-import "./projects/show.js";
-import "./projects/update.js";
-import "./projects/projects.js";
+import "./config/config.js";
+import "./utils/errors.js";
 
-import "./auth/login.js";
-import "./auth/logout.js";
-import "./auth/register.js";
+import "./components/navbar.js";
 
-import "./clients/show.js";
-import "./clients/delete.js";
-import "./clients/profile_picture.js";
+import "./services/projects/index.js";
+import "./services/projects/create.js";
+import "./services/projects/delete.js";
+import "./services/projects/show.js";
+import "./services/projects/update.js";
+import "./services/projects/projects.js";
 
-import "./message.js";
+import "./services/auth/login.js";
+import "./services/auth/logout.js";
+import "./services/auth/register.js";
+
+import "./services/clients/show.js";
+import "./services/clients/delete.js";
+import "./services/clients/profile_picture.js";
+
+import "./components/message.js";
 import "./bootstrap";
-
-// import { toggleSidebar } from "./functions";
-document.addEventListener("DOMContentLoaded", function () {
-    var menuToggle = document.getElementById("toggle-menu");
-    var menuOptions = document.querySelector(".menu-options");
-
-    menuToggle.addEventListener("click", function () {
-        // Toggle the 'expanded' class on menuOptions
-        menuOptions.classList.toggle("expanded");
-    });
-});
-
-console.log("app.js is loaded");

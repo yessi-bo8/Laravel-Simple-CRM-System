@@ -6,18 +6,12 @@ export function showMessage(type, message, projectId) {
 
     var closeButton = $("<span>&times;</span>").addClass("close-button");
     closeButton.click(function () {
-        // Hide the modal when the close button is clicked
         modalContainer.hide();
     });
 
-    // Create a div element for the message
     var messageDiv = $("<div></div>").attr("id", "message").text(message);
-
-    // Append the close button and message to the modal content
     modalContent.append(closeButton, messageDiv);
     modalContainer.append(modalContent);
-
-    // Append the modal container to the body
     $("body").append(modalContainer);
 
     modalContainer.show();
@@ -33,14 +27,14 @@ export function showMessage(type, message, projectId) {
 
 // Function to get error message from response
 export function getErrorMessage(response) {
-    if (response && response.errors) {
+    if (response.errors) {
         // If there are validation errors, construct error message
         let errorMessage = "Validation error(s): ";
         Object.keys(response.errors).forEach((field) => {
             errorMessage += `${response.errors[field]}\n`;
         });
         return errorMessage;
-    } else if (response && response.error) {
+    } else if (response.error) {
         // If there's a general error message, return it
         return response.error;
     } else {

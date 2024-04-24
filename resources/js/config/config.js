@@ -1,4 +1,3 @@
-// config.js
 import $ from "jquery";
 
 export const token = localStorage.getItem("token");

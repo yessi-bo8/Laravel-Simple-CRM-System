@@ -1,12 +1,10 @@
 import $ from "jquery";
-import { token } from "../config.js";
-import { csrfToken } from "../config.js";
-import { showMessage } from "../message.js";
-import { getErrorMessage } from "../message.js";
+import { token } from "../../config/config.js";
+import { showMessage } from "../../components/message.js";
+import { getErrorMessage } from "../../components/message.js";
 import { fetchProjectDetails } from "./show.js";
-import { handleError } from "../errors.js";
+import { handleError } from "../../utils/errors.js";
 
-// Function to handle project creation
 export function handleProjectCreation() {
     let clientOptions = "";
     let userOptions = "";
@@ -41,7 +39,7 @@ export function handleProjectCreation() {
                         `<option value="${user.id}">${user.attributes.name}</option>`
                 )
                 .join("");
-            console.log("User Options:", userOptions); // Log the user options
+            console.log("User Options:", userOptions);
 
             // Show form after all data is loaded
             showForm();
@@ -114,7 +112,7 @@ export function handleProjectCreation() {
             jsonData[field.name] = field.value;
         });
 
-        console.log("JSON Data:", jsonData); // Log JSON data before sending
+        console.log("JSON Data:", jsonData);
 
         $.ajax({
             url: "/api/v1/projects",
@@ -125,7 +123,7 @@ export function handleProjectCreation() {
                 "Content-Type": "application/vnd.api+json",
                 Accept: "application/vnd.api+json",
             },
-            data: JSON.stringify(jsonData), // Send JSON data instead of form data
+            data: JSON.stringify(jsonData),
             success: function (response) {
                 const projectId = response.data.id;
                 console.log("Project created successfully:", response);

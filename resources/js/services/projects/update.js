@@ -1,9 +1,9 @@
 import $ from "jquery";
-import { token } from "../config.js";
-import { handleError } from "../errors.js";
-import { showMessage } from "../message.js";
+import { token } from "../../config/config.js";
+import { handleError } from "../../utils/errors.js";
 import { fetchProjectDetails } from "./show.js";
-import { getErrorMessage } from "../message.js";
+import { showMessage } from "../../components/message.js";
+import { getErrorMessage } from "../../components/message.js";
 
 // Function to fetch users and clients and display update form
 function fetchUsersAndClientsAndDisplayUpdateForm(projectId) {
@@ -55,7 +55,6 @@ function fetchUsersAndClientsAndDisplayUpdateForm(projectId) {
 }
 
 async function displayUpdateForm(projectId, userOptions, clientOptions) {
-    // Now fetch project details
     $.ajax({
         url: `/api/v1/projects/${projectId}`,
         headers: { Authorization: "Bearer " + token },
@@ -111,7 +110,6 @@ async function displayUpdateForm(projectId, userOptions, clientOptions) {
                         </div>
                     `;
 
-            // Show the update form
             $(".project-container").append(updateForm);
 
             // Find the user ID corresponding to the project's user ID
@@ -129,8 +127,8 @@ async function displayUpdateForm(projectId, userOptions, clientOptions) {
 
             // Add event listener for form submission
             $("#project-form").submit(function (event) {
-                event.preventDefault(); // Prevent the default form submission
-                updateProject(projectId); // Call the updateProject function
+                event.preventDefault();
+                updateProject(projectId);
             });
         },
         error: function (xhr, status, error) {
@@ -141,7 +139,6 @@ async function displayUpdateForm(projectId, userOptions, clientOptions) {
     });
 }
 
-// Function to fetch project details for update
 export function fetchProjectDetailsForUpdate(projectId) {
     fetchUsersAndClientsAndDisplayUpdateForm(projectId);
 }
@@ -196,9 +193,7 @@ function updateProject(projectId) {
     });
 }
 
-// Function to send the update request
 function sendUpdateRequest(projectId, formData) {
-    // Add CSRF token to formData
     formData._token = token;
 
     $.ajax({
@@ -213,7 +208,7 @@ function sendUpdateRequest(projectId, formData) {
         success: function () {
             fetchProjectDetails(projectId);
             showMessage("success", "Project updated successfully.");
-            console.log("Successfully updated"); // Fix the log here
+            console.log("Successfully updated");
         },
         error: function (xhr, status, error) {
             const response = xhr.responseJSON;
