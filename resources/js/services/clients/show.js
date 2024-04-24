@@ -34,7 +34,7 @@ $(document).ready(function () {
         const clientDetails = `
         <div class="client-details">
             <div class="details-header">
-            <h2>Client Details</h2>
+                <h2>Client Details</h2>
             </div>
             <div class="details-content">
                 <p><strong>Title:</strong> ${client.name}</p>

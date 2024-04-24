@@ -14,6 +14,7 @@
     @if ($tasks->isEmpty())
         <p>No current assigned tasks</p>
     @else
+    <div class="table">
     <table class="task-table">
         <thead>
             <tr>
@@ -47,6 +48,7 @@
             @endforelse
         </tbody>
     </table>
+</div>
     @endif
 </div>
 

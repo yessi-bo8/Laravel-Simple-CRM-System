@@ -26,10 +26,11 @@ export function fetchProjectDetails(projectId) {
 function displayProjectDetails(response) {
     const project = response.data.attributes;
     const projectDetails = `
-        <div class="task-container">
-            <h2>${project.title}</h2>
-            <hr>
-            <div class="task-details">
+        <div class="project-details">
+            <div class="details-header">
+                <h2>${project.title}</h2>
+            </div>
+            <div class="details-content">
                 <p><strong>Description:</strong> ${project.description}</p>
                 <p><strong>Event date:</strong> ${project.event_date}</p>
                 <p><strong>User id:</strong> ${response.data.relationships.user_id}</p>
@@ -37,7 +38,7 @@ function displayProjectDetails(response) {
                 <p><strong>Client:</strong> ${response.data.relationships.client_name}</p>
                 <p><strong>Assigned to User:</strong> ${response.data.relationships.user_name}</p>
             </div>
-            <div class="buttons-details">
+            <div class="details-footer">
                 <button class="delete-project" data-project-id="${response.data.id}">Delete</button>
                 <button class="update-project" data-project-id="${response.data.id}">Update</button>
                 <button class="back-project">Back to Projects</button>

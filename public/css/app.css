@@ -5,10 +5,6 @@ body {
     padding: 0;
 }
 
-h1 {
-    text-align: center;
-}
-
 .upper-banner {
     background-color: #3c4b64;
     color: white;
@@ -21,9 +17,15 @@ h1 {
     background-color: rgba(0, 0, 0, 0.2); /* Add shade on hover */
 }
 
-.toggle-menu,
 a {
     cursor: pointer;
+    color: black;
+    text-decoration: none; /* Remove underline */
+}
+
+form {
+    margin: 0px;
+    display: inline;
 }
 
 .content {
@@ -48,32 +50,51 @@ footer {
 }
 
 .project-list,
+.project-details,
 .client-list,
 .client-details,
 .task-container,
-#project-details {
+.task-details {
     background-color: white;
     text-align: center;
-    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.client-list a,
+.client-list button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.details-footer,
+.details-info,
+.details-header {
+    flex: 1 1 auto; /* shorthand for flex-grow, flex-shrink, and flex-basis */
+    padding: 10px;
+    border: 1px solid #000;
+    margin: 5px;
+    text-align: center;
+}
+
+.details-footer .button {
+    display: inline-block; /* Make the button inline-block */
 }
 
 .buttons-container {
     margin-left: auto; /* Push buttons container to the right */
     display: flex; /* Use flexbox for buttons container */
     align-items: center; /* Align buttons vertically */
-}
-
-.client-list .update-button,
-.client-list .delete-client,
-.project-list .update-button,
-.project-list .delete-client {
-    margin-left: 10px; /* Add some spacing between buttons */
 }
 
 .alert-success {
@@ -103,11 +124,6 @@ ul {
 }
 
 ul li {
-    display: inline;
-}
-
-form#logout-form,
-form#logout-form button {
     display: inline;
 }
 
@@ -141,12 +157,7 @@ ul li button:hover {
     background-color: #333; /* Change background color on hover */
 }
 
-a {
-    color: black;
-    text-decoration: none; /* Remove underline */
-}
-
-/* Style for delete button */
+/* Default styles for the buttons */
 .update-project,
 .update-button,
 .delete-button,
@@ -158,6 +169,7 @@ a {
     cursor: pointer;
     display: inline-block;
     margin-right: 10px; /* Add margin to separate buttons */
+    margin-bottom: 10px;
     text-align: center;
     border-radius: 5px;
     text-decoration: none;
@@ -285,7 +297,7 @@ a {
     cursor: pointer;
 }
 
-.task-container {
+.table {
     width: 100%;
     overflow-x: auto; /* Add horizontal scroll if content overflows */
     display: grid; /* Use CSS grid for layout */
@@ -328,15 +340,15 @@ a {
     background-color: #f0f0f0;
 }
 
-.task-table {
-    width: 100%;
+.table {
+    /* width: 100%; */
     border-collapse: collapse;
 }
 
 .task-table th,
 .task-table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
     white-space: nowrap;
     border: none; /* Remove borders from table cells */
     text-align: left;
@@ -345,8 +357,6 @@ a {
 .task-table th {
     background-color: #f2f2f2;
     text-align: left;
-    text-align: left; /* Align text to the left within each column */
-    padding: 10px; /* Add padding for better spacing */
     width: 40%;
 }
 
@@ -409,8 +419,4 @@ a {
     height: 150px;
     border-radius: 50%; /* Make the image circular */
     object-fit: cover;
-}
-
-.buttons-details button {
-    margin-bottom: 10px; /* Add some spacing between buttons */
 }
