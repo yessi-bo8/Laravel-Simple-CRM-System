@@ -1,17 +1,19 @@
 # CRM System
 
 **Description:**
-This is a basic CRM (Customer Relationship Management) system built using Laravel. It allows users to manage tasks, projects, and clients efficiently. The system features role-based authentication with Laravel's native role_user pivot table and utilizes Laravel Sanctum to protect routes.
+This is a basic CRM (Customer Relationship Management) system built using Laravel. It allows users to manage tasks, projects, and clients efficiently. The system features role-based authentication with a role_user pivot table and utilizes Laravel Sanctum to protect routes.
 
 **Key Features:**
 - Create, update, and delete tasks, projects, and clients
 - Role-based authentication (RBAC) system for secure access control
 - Integration with Laravel Sanctum for route protection
 - Clean data sending using Laravel resources and requests
+- Authorization logic enforced using Laravel policies, ensuring secure access to resources
+- Implementation of a consistent error and success handling approach throughout the application, facilitated by a custom trait
 - Demonstration of different data retrieval methods:
     - Projects: AJAX requests to ProjectApiController
     - Tasks: TaskWebController for sending task data and utilization of query scopes for task retrieval
-    - Clients: Hybrid approach with initial data retrieval via WebController and subsequent updates using AJAX requests
+    - Clients: Hybrid approach with initial data via WebController and certain subsequent updates using AJAX requests
 - Includes factories and seeders for easy database seeding
 - Seeders create an admin and a regular user for demonstration purposes
 
