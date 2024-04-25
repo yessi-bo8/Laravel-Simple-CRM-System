@@ -13,9 +13,9 @@ class TaskPolicy
     /**
      * Determine whether the user can view their tasks.
      */
-    public function index(User $user, Task $task): bool
+    public function index(User $user): bool
     {
-       return true; //Every user can view their tasks
+        return auth()->check();
     }
 
 
@@ -32,7 +32,7 @@ class TaskPolicy
      */
     public function show(User $user, Task $task): bool
     {
-        return $task->user()->is($user) || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return auth()->check();
     }
 
     /**
