@@ -1,21 +1,28 @@
 # CRM System
 
-This is a simple CRM (Customer Relationship Management) system built with Laravel. It allows you to manage clients, projects, and tasks.
+**Description:**
+This is a basic CRM (Customer Relationship Management) system built using Laravel. It allows users to manage tasks, projects, and clients efficiently. The system features role-based authentication with Laravel's native role_user pivot table and utilizes Laravel Sanctum to protect routes.
 
-## Features
+**Key Features:**
+- Create, update, and delete tasks, projects, and clients
+- Role-based authentication (RBAC) system for secure access control
+- Integration with Laravel Sanctum for route protection
+- Clean data sending using Laravel resources and requests
+- Demonstration of different data retrieval methods:
+    - Projects: AJAX requests to ProjectApiController
+    - Tasks: TaskWebController for sending task data and utilization of query scopes for task retrieval
+    - Clients: Hybrid approach with initial data retrieval via WebController and subsequent updates using AJAX requests
+- Includes factories and seeders for easy database seeding
+- Seeders create an admin and a regular user for demonstration purposes
 
-- **Client Management**: Add, edit, and delete clients.
-- **Project Management**: Create, update, and delete projects. Assign projects to clients.
-- **Task Management**: Track tasks associated with projects. Mark tasks as completed.
-- **Role-Based Access Control (RBAC)**: Different user roles with varying levels of access to system functionalities.
+**Technologies Used:**
+- Laravel framework
+- Laravel Sanctum for API authentication
+- MySQL database
+- AJAX for dynamic data retrieval and updates
+- PHP for server-side logic
 
-## Technologies Used
-
-- **Laravel**: A PHP framework for building web applications.
-- **MySQL**: A relational database management system used for storing data.
-- **JavaScript (Ajax)**: Used for dynamic updates and interactions on project-related pages.
-
-> Note: For the sake of demonstrating different techniques, Ajax is used for handling projects, while web controllers are used for managing clients.
+> Please note that the decision to utilize both API and web controllers, sometimes in combination, for handling different resources is intentional. This approach has been chosen to showcase various techniques and methodologies rather than prioritizing efficiency.
 
 ## Getting Started
 
@@ -59,10 +66,6 @@ This is a simple CRM (Customer Relationship Management) system built with Larave
 - Navigate to the client management section to add, edit, and delete clients.
 - Go to the project management section to create, update, and delete projects. You can also assign projects to clients here.
 - Use the task management section to track tasks associated with projects. Mark tasks as completed when done.
-
-## Role-Based Access Control (RBAC)
-
-- The system includes role-based access control, allowing different users to have varying levels of access to system functionalities based on their roles.
 
 ## Contributing
 
