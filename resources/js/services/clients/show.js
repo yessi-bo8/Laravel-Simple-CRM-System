@@ -52,7 +52,7 @@ $(document).ready(function () {
                 
                 <hr>
                 <h3>Projects:</h3>
-                ${projectTitlesHTML}
+                ${projectTitlesHTML ? projectTitlesHTML : "No current projects"}
             </div>
             <div class="details-footer">
                 <button id="go-back-to-list">Go Back to List</button>
@@ -61,11 +61,11 @@ $(document).ready(function () {
         `;
 
         $(".client-details").html(clientDetails).show();
-        $(".client-containerr").hide();
+        $(".client-container").hide();
         $("h1").text("Client info");
 
         $("#go-back-to-list").click(function () {
-            $(".client-containerr").show();
+            $(".client-container").show();
             $(".client-details").html("").hide();
             $("h1").text("All clients");
         });
@@ -87,21 +87,6 @@ $(document).ready(function () {
     }
 
     function displayClients(response) {
-        const clients = response.data;
-        const clientsList = $(".client-container");
-
-        clients.forEach(function (client) {
-            const clientContainer = $("<div class='client-list'></div>");
-
-            const clientLink = $("<a href='#'></a>")
-                .text(client.attributes.name)
-                .addClass("client-details-link")
-                .data("client-id", client.id)
-                .appendTo(clientContainer);
-
-            clientsList.append(clientContainer);
-        });
-
         $(".client-details-link").click(function (e) {
             e.preventDefault();
             fetchClientDetails($(this).data("client-id"));

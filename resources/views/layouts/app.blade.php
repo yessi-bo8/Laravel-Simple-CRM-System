@@ -13,7 +13,7 @@
 <body>
     <div class="upper-banner">
     <h1 id="banner-title">@yield('banner', 'Welcome to My Website')</h1>
-        <div class="toggle-menu" id="toggle-menu">View Options</div>
+        <a class="toggle-menu" id="toggle-menu">View Options</a>
         <div class="menu-options">
             <ul>
             @auth

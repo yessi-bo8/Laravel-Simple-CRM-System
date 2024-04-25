@@ -2,7 +2,7 @@
 @section('banner', 'All Clients')
 @vite(['resources/js/app.js'])
 @section('content')
-<div class="client-containerr">
+<div class="client-container">
     <a href="{{ route('clients.create') }}" class="create-button">Create Client</a>
     @if(session('success'))
     <div class="alert alert-success">
@@ -13,7 +13,7 @@
     <div class='client-list'>
         <a href='#' class="client-details-link" data-client-id="{{$client->id}}">{{$client->name}}</a>
         <div class="buttons-container">
-            <a href="{{ route('clients.edit', ['client' => $client]) }}" class="update-button">Update</a>
+            <a href="{{ route('clients.edit', ['client' => $client]) }}" class="update-client">Update</a>
             <button class='delete-client' data-client-id='{{$client->id}}' onclick="return confirm('Are you sure you want to delete this Client?')">Delete</button>
         </div>
     </div>

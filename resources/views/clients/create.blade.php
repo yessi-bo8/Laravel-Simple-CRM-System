@@ -5,8 +5,6 @@
 <div class="form-container">
     <form action="{{ route('clients.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-       
-            
         <img id="profile_picture_preview" class="profile-picture" src="" alt="Profile Picture Preview">
         <!-- Input for profile picture -->
         <label for="profile_picture" class="picture-button">Add profile picture</label>
@@ -17,7 +15,7 @@
         </br>
 
         <label for="name">Name:</label>
-        <input name="name" type="text" id="clientName">
+        <input name="name" type="text" id="clientName" required>
         @error('name')
             <div class="alert alert-danger form_danger">{{ $message }}</div>
         @enderror

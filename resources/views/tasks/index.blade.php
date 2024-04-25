@@ -32,13 +32,13 @@
                 <td class="project-cell">{{ $task->project->title }}</td> <!-- Add a class to the Project column -->
                 <td class="action-buttons">
                     @can('update', $task)
-                        <a href="{{ route('tasks.edit', ['task' => $task]) }}" class="update-button">Update</a>
+                        <a href="{{ route('tasks.edit', ['task' => $task]) }}" class="update-task">Update</a>
                     @endcan
                     @can('destroy', $task)
                         <form action="{{ route('tasks.destroy', ['task' => $task]) }}" method="POST" class="delete-form">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
+                            <button type="submit" class="delete-task" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
                         </form>
                     @endcan
                 </td>

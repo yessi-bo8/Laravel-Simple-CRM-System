@@ -32,11 +32,10 @@ function displayProjectDetails(response) {
             </div>
             <div class="details-content">
                 <p><strong>Description:</strong> ${project.description}</p>
+                <p><strong>Status:</strong> ${project.status}</p>
                 <p><strong>Event date:</strong> ${project.event_date}</p>
-                <p><strong>User id:</strong> ${response.data.relationships.user_id}</p>
-                <p><strong>Project id:</strong> ${response.data.id}</p>
                 <p><strong>Client:</strong> ${response.data.relationships.client_name}</p>
-                <p><strong>Assigned to User:</strong> ${response.data.relationships.user_name}</p>
+                <p><strong>Assigned to:</strong> ${response.data.relationships.user_name}</p>
             </div>
             <div class="details-footer">
                 <button class="delete-project" data-project-id="${response.data.id}">Delete</button>
