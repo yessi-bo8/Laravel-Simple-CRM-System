@@ -25,8 +25,6 @@ class LoginController extends Controller
 
     public function login(LoginUserRequest $request)
     {
-        // Validate the request
-        // $validatedData = $request->validated();
         $request->validated($request->all());
             
         //login and create a session
@@ -39,7 +37,7 @@ class LoginController extends Controller
         // Create a token
         $token = $user->createToken('Api Token of ' . $user->name)->plainTextToken;
 
-        // Return the user and token data along with the redirect header
+        // Return the user and token data
         return $this->success([
             'user' => $user,
             'token' => $token,

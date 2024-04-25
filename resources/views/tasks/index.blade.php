@@ -5,11 +5,6 @@
 @can('store', App\Models\Task::class)
 <a href="{{ route('tasks.create') }}"  class="create-button">Create Task</a>
 @endcan
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 <div class="task-container">
     @if ($tasks->isEmpty())
         <p>No current assigned tasks</p>
@@ -29,7 +24,7 @@
             <tr class="{{ $loop->iteration % 2 == 0 ? 'even-row' : 'odd-row' }}">
                 <td><a href="{{ route('tasks.show', ['task' => $task->id]) }}">{{ $task->name }}</a></td>
                 <td class="{{ $task->status === 'pending' ? 'pending-status' : ($task->status === 'in progress' ? 'progress-status' : ($task->status === 'completed' ? 'completed-status' : '')) }}">{{ $task->status }}</td>
-                <td class="project-cell">{{ $task->project->title }}</td> <!-- Add a class to the Project column -->
+                <td class="project-cell">{{ $task->project->title }}</td>
                 <td class="action-buttons">
                     @can('update', $task)
                         <a href="{{ route('tasks.edit', ['task' => $task]) }}" class="update-task">Update</a>

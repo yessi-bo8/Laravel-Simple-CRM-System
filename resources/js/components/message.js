@@ -35,8 +35,9 @@ export function getErrorMessage(response) {
         });
         return errorMessage;
     } else if (response.error) {
-        // If there's a general error message, return it
         return response.error;
+    } else if (response.message) {
+        return response.message;
     } else {
         // If no specific error message is found, return a generic message
         return "Error occured.";

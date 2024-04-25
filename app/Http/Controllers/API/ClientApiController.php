@@ -10,8 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Client;
 
 use App\Traits\HTTPResponses;
-
-
+use Illuminate\Auth\Access\AuthorizationException;
 
 class ClientApiController extends Controller
 {
@@ -23,9 +22,13 @@ class ClientApiController extends Controller
      */
     public function index()
     {
-        $this->authorize('index', Client::class);
-        $clientResources = ClientResource::collection(Client::all());
+        try {
+            $this->authorize('index', Client::class);
+            $clientResources = ClientResource::collection(Client::all());
         return $this->success($clientResources);
+        } catch (AuthorizationException $e) {
+            return $this->error(null, 'You do not have the required permissions for this operation.', 403);
+        }
     }
 
      /**
@@ -33,10 +36,14 @@ class ClientApiController extends Controller
      * with behind the scenes laravel magic! directly pass in Taks object
      */
     public function show(Client $client)
-    {
-        $this->authorize('show', $client);
-        $clientResource = new ClientResource($client);
-        return $this->success($clientResource);
+    {   
+        try {
+            $this->authorize('show', $client);
+            $clientResource = new ClientResource($client);
+            return $this->success($clientResource);
+        } catch (AuthorizationException $e) {
+            return $this->error(null, 'You do not have the required permissions for this operation.', 403);
+        }
     }
 
     public function destroy(Client $client)
@@ -44,6 +51,8 @@ class ClientApiController extends Controller
         try {
             $this->authorize('destroy', $client);
             $client->delete();
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return $this->error("", 'You do not have permission to delete this client', 403);
         } catch (\Exception $e) {
             return $this->error(null, 'Failed to delete client: ' . $e->getMessage(), 500);
         }

@@ -5,7 +5,7 @@
     <form action="{{ route('tasks.store') }}" method="POST">
         @csrf
             <label for="name">Name:</label>
-            <input type="text" name="name" required>
+            <input type="text" name="name">
             @error('name')
                 <div class="alert alert-danger form_danger">{{ $message }}</div>
             @enderror

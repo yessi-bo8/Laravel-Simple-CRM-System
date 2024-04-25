@@ -2,11 +2,6 @@
 @section('banner', 'Current Task')
 @vite(['resources/js/app.js'])
 @section('content')
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 <div class="task-details">
     <div class="details-header">
     <h2>{{ $task->name }}</h2>

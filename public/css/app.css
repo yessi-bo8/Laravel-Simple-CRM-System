@@ -89,6 +89,11 @@ ul li button:hover {
 }
 
 /* ====== Main Content Styles ====== */
+.main-content {
+    text-align: center;
+    padding: 15px;
+    background-color: white;
+}
 .project-list,
 .project-details,
 .client-list,
@@ -221,6 +226,7 @@ ul li button:hover {
     background-color: #4caf50;
     color: white;
     padding: 20px;
+    margin-top: 15px;
     border-radius: 5px;
     text-align: center;
 }
@@ -229,8 +235,13 @@ ul li button:hover {
     background-color: #d14141;
     color: white;
     padding: 20px;
+    margin-top: 15px;
     border-radius: 5px;
     text-align: center;
+}
+
+.alert-error ul {
+    margin: 0px;
 }
 
 .form_danger {
@@ -331,6 +342,7 @@ ul li button:hover {
 .form-container {
     background-color: #fff;
     padding: 20px;
+    margin: 15px 0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

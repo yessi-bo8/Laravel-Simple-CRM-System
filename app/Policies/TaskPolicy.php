@@ -32,7 +32,20 @@ class TaskPolicy
      */
     public function show(User $user, Task $task): bool
     {
-        return auth()->check();
+        if ($user->roles()->where('role_id', Role::IS_ADMIN)->exists()) {
+            return true;
+        }
+
+        if ($task->user_id == $user->id) {
+            return true;
+        }
+
+        // Check if the project of the task is associated with a task belonging to the user
+        if ($user->tasks()->where('project_id', $task->project_id)->exists()) {
+            return true; // User can view tasks related to their projects
+        }
+
+        return false;
     }
 
     /**

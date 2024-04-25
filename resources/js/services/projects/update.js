@@ -45,6 +45,7 @@ function fetchUsersAndClientsAndDisplayUpdateForm(projectId) {
         })
         .fail(function (usersXHR, clientsXHR) {
             const usersResponse = usersXHR.responseJSON;
+            console.log(usersResponse);
             const clientsResponse = clientsXHR.responseJSON;
             showMessage(
                 "error",

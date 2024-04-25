@@ -10,20 +10,20 @@ export function handleProjectCreation() {
     let userOptions = "";
 
     // Load clients, users, and tasks concurrently
-    Promise.all([
-        fetch("/api/v1/clients", {
-            headers: { Authorization: "Bearer " + token },
-        }),
-        fetch("/api/v1/users", {
-            headers: { Authorization: "Bearer " + token },
-        }),
-    ])
-        .then((responses) =>
-            Promise.all(responses.map((response) => response.json()))
-        )
-        .then(([clientsResponse, usersResponse]) => {
+    const clientsRequest = $.ajax({
+        url: "/api/v1/clients",
+        headers: { Authorization: "Bearer " + token },
+    });
+
+    const usersRequest = $.ajax({
+        url: "/api/v1/users",
+        headers: { Authorization: "Bearer " + token },
+    });
+
+    $.when(clientsRequest, usersRequest)
+        .done((clientsResponse, usersResponse) => {
             // Process clients data
-            const clients = clientsResponse.data;
+            const clients = clientsResponse[0].data;
             clientOptions = clients
                 .map(
                     (client) =>
@@ -32,7 +32,7 @@ export function handleProjectCreation() {
                 .join("");
 
             // Process users data
-            const users = usersResponse.data;
+            const users = usersResponse[0].data;
             userOptions = users
                 .map(
                     (user) =>
@@ -45,8 +45,9 @@ export function handleProjectCreation() {
             showForm();
             $("#banner-title").text("Create Project");
         })
-        .catch((error) => {
+        .fail((error) => {
             console.error("Error loading data:", error);
+            showMessage("error", getErrorMessage(error.responseJSON));
         });
 
     // Function to show the form after clients, users, and tasks are loaded
