@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use App\Models\Client;
-
+use Illuminate\Support\Facades\DB;
+use App\Traits\ErrorHandlingTrait;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ClientWebController extends Controller
 {
     use AuthorizesRequests;
+    use ErrorHandlingTrait;
     
     public function index() 
     {
@@ -43,7 +47,7 @@ class ClientWebController extends Controller
         }
 
         try {
-
+            DB::beginTransaction();
             $client = Client::create([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
@@ -52,11 +56,10 @@ class ClientWebController extends Controller
                 'address' => $validatedData['address'],
                 'profile_picture' => $filePath,
             ]);
-            
+            DB::commit();
             return redirect()->route('clients.index', ['client' => $client])->with('success', 'Client created successfully');;
         } catch (\Exception $e) {
-            Log::error('Error storing client: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to store client. Please try again.');
+            return $this->handleExceptions($e, "Client", "store");
         }
     }
 
@@ -86,18 +89,19 @@ class ClientWebController extends Controller
         } else {
             $filePath = null;
         }
+
         $validatedData['profile_picture'] = $filePath;
 
         try {
-        Log::info('Validated data: ' . json_encode($validatedData));
+            DB::beginTransaction();
+            Log::info('Validated data: ' . json_encode($validatedData));
 
-        $client->update($validatedData);
-
-        return redirect()->route('clients.index', ['client' => $client])
+            $client->update($validatedData);
+            DB::commit();
+            return redirect()->route('clients.index', ['client' => $client])
                         ->with('success', 'Client updated successfully');
         } catch (\Exception $e) {
-            Log::error('Error updating task: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update client. Please try again.');
+            return $this->handleExceptions($e, "Client", "update");
         }
 
     }

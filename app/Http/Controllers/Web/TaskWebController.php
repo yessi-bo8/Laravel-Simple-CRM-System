@@ -13,15 +13,20 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use app\Traits\ErrorHandlingTrait;
 
 use App\Services\TaskService;
 
 use App\Exceptions\NotFound\TaskNotFoundException;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 
 class TaskWebController extends Controller
 {
     use AuthorizesRequests;
+    use ErrorHandlingTrait;
 
     protected $taskService;
 
@@ -61,6 +66,7 @@ class TaskWebController extends Controller
             $validatedData = $request->validated();
             Log::info('Validated Data:', $validatedData);
 
+            DB::beginTransaction();
             $task = Task::create([
                 'user_id' => $validatedData['user_id'],
                 'name' => $validatedData['name'],
@@ -71,11 +77,10 @@ class TaskWebController extends Controller
                 'client_id' => $validatedData['client_id'],
                 'priority' => $validatedData['priority'],
             ]);
-            
+            DB::commit();
             return redirect()->route('tasks.show', ['task' => $task])->with('success', 'Task created successfully');
         } catch (\Exception $e) {
-            Log::error('Error storing task: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to store task. Please try again.');
+            return $this->handleExceptions($e, "Task", "store");
         }
 
     }
@@ -89,32 +94,32 @@ class TaskWebController extends Controller
     }
         
     public function update(UpdateTaskRequest $request, Task $task) {
+        
         try {
             $this->authorize('update', $task);
+            DB::beginTransaction();
             $validatedData = $request->all();
             $updatedTask = $this->taskService->updateTask($task, $validatedData);
 
+            DB::commit();
             return redirect()->route('tasks.show', ['task' => $updatedTask])
                             ->with('success', 'Task updated successfully');
-        } catch (TaskNotFoundException $e) {
-            return redirect()->back()
-                    ->with('error', $e->getMessage());
         } catch (\Exception $e) {
-            Log::error('Error updating task: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update task. Please try again.');
+            return $this->handleExceptions($e, "Task", "update");
         }
     }
 
     public function destroy(Task $task) 
     {
         try {
+            DB::beginTransaction();
             $this->authorize('destroy', $task);
             $task->delete();
+            DB::commit();
             return redirect()->route('tasks.index')
                 ->with('success', 'Task deleted successfully');
         } catch (\Exception $e) {
-            Log::error('Error deleting task: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete task. Please try again.');
+            return $this->handleExceptions($e, "Task", "delete");
         }
     }
 

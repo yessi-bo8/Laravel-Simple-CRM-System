@@ -22,13 +22,9 @@ class UserApiController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('index', User::class);
-            $userResources = UserResource::collection(User::all());
-            return $this->success($userResources);
-        } catch (AuthorizationException $e) {
-        return $this->error(null, 'You do not have the required permissions for this operation', 403);
-        }
+        $this->authorize('index', User::class);
+        $userResources = UserResource::collection(User::all());
+        return $this->success($userResources);
     }
 
 }

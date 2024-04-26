@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Traits\ErrorHandlingTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
@@ -13,29 +14,25 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Project;
 
 use App\Traits\HTTPResponses;
-
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\DB;
 
 class ProjectApiController extends Controller
 {
     use HTTPResponses;
     use AuthorizesRequests;
+    use ErrorHandlingTrait;
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        try {
         $user = auth()->user();
         $this->authorize('index', Project::class);
         $projects = Project::accessibleBy($user);
         $projectResources = ProjectResource::collection($projects);
         return $this->success($projectResources);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return $this->error("", 'You do not have permission to view projects.', 403);
-        } catch (\Exception $e) {
-            return $this->error("", 'An error occurred while processing your request.' . $e->getMessage(), 500);
-        }
     }
 
     /**
@@ -43,15 +40,13 @@ class ProjectApiController extends Controller
     */
     public function show($projectId)
     {
-        try {
+        try{ 
             $project = Project::findOrFail($projectId);
             $this->authorize('show', $project);
             $projectResource = new ProjectResource($project);
             return $this->success($projectResource);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return $this->error("", 'You do not have permission to view this project.', 403);
-        } catch (ModelNotFoundException $exception) {
-            return $this->error(null, 'Failed to show project: ' . $exception->getMessage(), 500);
+        } catch (ModelNotFoundException $e) {
+            return $this->error(null, 'Project not found', 404);
         }
     }
 
@@ -61,24 +56,17 @@ class ProjectApiController extends Controller
     public function store(StoreProjectRequest $request, Project $project)
     {
         try {
-            $this->authorize('store', $project);
-            $request->validated($request->all());
+            DB::beginTransaction();
 
-            $project = Project::create([
-                'user_id' => $request->user_id,
-                'title' => $request->title,
-                'description' => $request->description,
-                'event_date' => $request->event_date,
-                'client_id' => $request->client_id,
-                'status' => $request->status ? $request->status : 'pending',
-            ]);
-
+            $requestData = $request->validated();
+            $requestData['status'] = $request->status ?? 'pending';
+            $project = Project::create($requestData);
             $projectResource = new ProjectResource($project);
+            DB::commit();
+
             return $this->success($projectResource);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return $this->error("", 'You do not have permission to store a project.', 403);
         } catch (\Exception $e) {
-            return $this->error(null, 'Failed to store project: ' . $e->getMessage(), 500);
+            return $this->handleExceptions($e, "Project", "store");
         }
     }
 
@@ -88,15 +76,16 @@ class ProjectApiController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         try {
+            DB::beginTransaction();
+            
             $this->authorize('update', $project);
             $project->update($request->only(['title', 'description', 'status', 'event_date', 'user_id', 'client_id']));
-
             $projectResource = new ProjectResource($project);
+
+            DB::commit();
             return $this->success($projectResource);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return $this->error("", 'You do not have permission to update this project.', 403);
         } catch (\Exception $e) {
-            return $this->error(null, 'Failed to update project: ' . $e->getMessage(), 500);
+            return $this->handleExceptions($e, "Project", "update");
         }
     }
 
@@ -106,12 +95,15 @@ class ProjectApiController extends Controller
     public function destroy(Project $project)
     {
         try {
+            DB::beginTransaction();
+
             $this->authorize('destroy', $project);
             $project->delete();
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return $this->error("", 'You do not have permission to delete this project.', 403);
+            DB::commit();
+
+            return $this->success(null, "Project deleted successfully.");
         } catch (\Exception $e) {
-            return $this->error(null, 'Failed to delete project: ' . $e->getMessage(), 500);
+            return $this->handleExceptions($e, "Project", "delete");
         }
     }
 
