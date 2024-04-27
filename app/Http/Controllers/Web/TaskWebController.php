@@ -17,6 +17,8 @@ use App\Traits\ErrorHandlingTrait;
 
 use App\Services\TaskService;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Exceptions\NotFound\TaskNotFoundException;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -36,7 +38,7 @@ class TaskWebController extends Controller
     }
 
 
-    public function index() 
+    public function index(): View 
     {
         $user = auth()->user();
         Log::info('User roles: ' . $user->roles->pluck('name')->implode(', '));
@@ -44,13 +46,13 @@ class TaskWebController extends Controller
         return view('tasks.index', ['tasks' => $tasks]);
     }
 
-    public function show(Task $task)
+    public function show(Task $task): View
     {
         $this->authorize('show', $task);
         return view('tasks.show', ['task' => $task]);
     }
 
-    public function create()
+    public function create(): View 
     {
         $this->authorize('store', Task::class);
         //Return just the names and titles
@@ -60,7 +62,7 @@ class TaskWebController extends Controller
         return view('tasks.create', ['clients'=>$clients, 'projects' =>$projects, 'users'=>$users]);
     }
 
-    public function store(StoreTaskRequest $request)
+    public function store(StoreTaskRequest $request): RedirectResponse
     {
         try {
             $this->authorize('store', Task::class);
@@ -86,7 +88,8 @@ class TaskWebController extends Controller
 
     }
 
-    public function edit(Task $task){
+    public function edit(Task $task): View
+    {
         $this->authorize('update', $task);
         //Return just the names and titles
         $clients = Client::pluck('name', 'id');
@@ -95,8 +98,8 @@ class TaskWebController extends Controller
         return view('tasks.edit', ['task' => $task, 'clients'=>$clients, 'projects'=>$projects, 'users'=>$users]);
     }
         
-    public function update(UpdateTaskRequest $request, Task $task) {
-        
+    public function update(UpdateTaskRequest $request, Task $task): RedirectResponse 
+    {
         try {
             $this->authorize('update', $task);
             DB::beginTransaction();
@@ -111,7 +114,7 @@ class TaskWebController extends Controller
         }
     }
 
-    public function destroy(Task $task) 
+    public function destroy(Task $task): RedirectResponse 
     {
         try {
             $this->authorize('destroy', $task);

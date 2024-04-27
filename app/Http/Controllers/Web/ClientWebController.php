@@ -10,9 +10,12 @@ use App\Http\Resources\ClientResource;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use App\Services\ClientService;
 use App\Models\Client;
 use Illuminate\Support\Facades\DB;
 use App\Traits\ErrorHandlingTrait;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -20,8 +23,15 @@ class ClientWebController extends Controller
 {
     use AuthorizesRequests;
     use ErrorHandlingTrait;
+
+    protected $clientService;
+
+    public function __construct(ClientService $clientService)
+    {
+        $this->clientService = $clientService;
+    }
     
-    public function index() 
+    public function index(): View 
     {
         $this->authorize('index', Client::class);
         $clients = Client::all();
@@ -29,24 +39,13 @@ class ClientWebController extends Controller
         return view('clients.index', ['clients'=>$clients]);
     }
 
-    public function store(StoreClientRequest $request) 
+    public function store(StoreClientRequest $request): RedirectResponse
     {
-        $this->authorize('store', Client::class);
-        $validatedData = $request->validated();
-
-        if ($request->hasFile('profile_picture')) {
-            // Store the uploaded image
-            try {
-                $filePath = $request->file('profile_picture')->store('public/uploads');
-            } catch (\Exception $e) {
-                Log::error('Error uploading profile picture: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload profile picture. Please try again.');
-            }
-        } else {
-            $filePath = null;
-        }
-
         try {
+            $this->authorize('store', Client::class);
+            $validatedData = $request->validated();
+            $filePath = $this->clientService->handleProfilePictureUpload($request);
+
             DB::beginTransaction();
             $client = Client::create([
                 'name' => $validatedData['name'],
@@ -63,38 +62,26 @@ class ClientWebController extends Controller
         }
     }
 
-    public function create() 
+    public function create(): View
     {
         $this->authorize('store', Client::class);
         return view('clients.create');
     }
 
-    public function edit(Client $client)
+    public function edit(Client $client): View
     {
         $this->authorize('update', $client);
         return view('clients.edit', ['client' => $client]);
     }
 
-    public function update(UpdateClientRequest $request, Client $client)
+    public function update(UpdateClientRequest $request, Client $client): RedirectResponse  
     {
-        $this->authorize('update', $client);
-        $validatedData = $request->validated();
-
-        if ($request->hasFile('profile_picture')) {
-            // Store the uploaded image
-            try {
-                $filePath = $request->file('profile_picture')->store('public/uploads');
-            } catch (\Exception $e) {
-                Log::error('Error uploading profile picture: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload profile picture. Please try again.');
-            }
-        } else {
-            $filePath = null;
-        }
-
-        $validatedData['profile_picture'] = $filePath;
-
         try {
+            $this->authorize('update', $client);
+            $validatedData = $request->validated();
+            $filePath = $this->clientService->handleProfilePictureUpload($request);
+            $validatedData['profile_picture'] = $filePath;
+
             DB::beginTransaction();
             Log::info('Validated data: ' . json_encode($validatedData));
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ClientResource;
+use Illuminate\Http\JsonResponse;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -24,7 +25,7 @@ class ClientApiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $this->authorize('index', Client::class);
         $clientResources = ClientResource::collection(Client::all());
@@ -35,8 +36,9 @@ class ClientApiController extends Controller
      * Display the specified resource.
      * with behind the scenes laravel magic! directly pass in Taks object
      */
-    public function show(Client $client)
-    {   try {
+    public function show(Client $client): JsonResponse
+    {   
+        try {
             $this->authorize('show', $client);
             $clientResource = new ClientResource($client);
             return $this->success($clientResource);
@@ -45,7 +47,7 @@ class ClientApiController extends Controller
         }
     }
 
-    public function destroy(Client $client)
+    public function destroy(Client $client): JsonResponse
     {
         try {
             $this->authorize('destroy', $client);

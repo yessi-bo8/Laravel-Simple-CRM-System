@@ -10,6 +10,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 use App\Models\User;
 
@@ -21,12 +24,12 @@ class LoginController extends Controller
     use HTTPResponses;
     use AuthorizesRequests;
 
-    public function showLoginForm()
+    public function showLoginForm(): View
     {
         return view('auth.login');
     }
 
-    public function login(LoginUserRequest $request)
+    public function login(LoginUserRequest $request): JsonResponse
     {
         $request->validated($request->all());
             
@@ -48,13 +51,13 @@ class LoginController extends Controller
     }
 
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): View
     {
         $this->authorize('register', User::class);
         return view('auth.register');
     }
 
-    public function register(StoreUserRequest $request)
+    public function register(StoreUserRequest $request): JsonResponse
     {
         $this->authorize('register', User::class);
         $request->validated($request->all()); 
@@ -72,7 +75,7 @@ class LoginController extends Controller
         );
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         // Logout the user (clear session)
         Auth::logout();
