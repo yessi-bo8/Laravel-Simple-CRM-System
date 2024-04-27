@@ -14,7 +14,7 @@ class ClientPolicy
      */
     public function index(User $user): bool
     {
-        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists();
     }
 
     /**
@@ -22,7 +22,7 @@ class ClientPolicy
      */
     public function show(User $user, Client $client): bool
     {
-        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists();
     }
 
     /**
@@ -30,7 +30,7 @@ class ClientPolicy
      */
     public function store(User $user): bool
     {
-        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists();
     }
 
     /**
@@ -38,7 +38,7 @@ class ClientPolicy
      */
     public function update(User $user, Client $client): bool
     {
-        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists();
     }
 
     /**

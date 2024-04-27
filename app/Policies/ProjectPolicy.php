@@ -15,7 +15,8 @@ class ProjectPolicy
      */
     public function index(User $user): bool
     {
-        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists() || $user->projects()->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists()
+        || $user->projects()->exists();
     }
 
     /**
@@ -23,7 +24,12 @@ class ProjectPolicy
      */
     public function show(User $user, Project $project): bool
     {
-        return $project->user()->is($user) || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();;
+        if ($user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists()) {
+            return true;
+        }
+        
+        return $project->user()->is($user) // User is directly associated with the project
+            || $project->tasks()->where('user_id', $user->id)->exists(); // User is assigned tasks for the project
     }
 
     /**
@@ -31,7 +37,7 @@ class ProjectPolicy
      */
     public function store(User $user): bool
     {
-        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists();
     }
 
     /**
@@ -39,7 +45,8 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $project->user()->is($user) || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists()
+        || $project->user()->is($user);
     }
 
     /**

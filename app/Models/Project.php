@@ -32,12 +32,23 @@ class Project extends Model
     public function scopeAccessibleBy($query, $user)
     {
         $isAdmin = $user->roles->contains('name', 'admin');
-        if ($isAdmin) {
+        $isMod = $user->roles->contains('name', 'moderator');
+
+        if ($isAdmin || $isMod) {
             return $query->get();
         } else {
-            return $query->whereHas('user', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            })->get();
+            //Get the Projects that are assigned to the autheticated user
+            return $query->where(function ($query) use ($user) {
+                    $query->whereHas('user', function ($query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    }) //and get the Projects of which they are assigned a Task to
+                    ->orWhereIn('id', function ($query) use ($user) {
+                        $query->select('project_id')
+                            ->from('tasks')
+                            ->where('user_id', $user->id);
+                    });
+                })
+                ->get();
         }
     }
 }

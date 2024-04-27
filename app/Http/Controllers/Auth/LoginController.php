@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\StoreUserRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +19,8 @@ use App\Traits\HTTPResponses;
 class LoginController extends Controller
 {
     use HTTPResponses;
+    use AuthorizesRequests;
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -47,11 +50,13 @@ class LoginController extends Controller
 
     public function showRegistrationForm()
     {
+        $this->authorize('register', User::class);
         return view('auth.register');
     }
 
     public function register(StoreUserRequest $request)
     {
+        $this->authorize('register', User::class);
         $request->validated($request->all()); 
 
         $user = User::create([

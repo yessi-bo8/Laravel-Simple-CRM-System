@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $modRole = Role::firstOrCreate(['name' => 'moderator']);
         $userRole = Role::firstOrCreate(['name' => 'user']);
 
         User::factory()->create([
@@ -34,6 +35,6 @@ class UserSeeder extends Seeder
             'name' => 'Moderator User',
             'email' => 'moderator@example.com',
             'password' => bcrypt('password'),
-        ])->roles()->attach($userRole);
+        ])->roles()->attach($modRole);
     }
 }

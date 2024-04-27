@@ -13,6 +13,11 @@ class UserPolicy
      */
     public function index(User $user): bool
     {
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists();
+    }
+
+    public function register(User $user): bool
+    {
         return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
     }
 

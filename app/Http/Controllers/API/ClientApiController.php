@@ -37,9 +37,9 @@ class ClientApiController extends Controller
      */
     public function show(Client $client)
     {   try {
-        $this->authorize('show', $client);
-        $clientResource = new ClientResource($client);
-        return $this->success($clientResource);
+            $this->authorize('show', $client);
+            $clientResource = new ClientResource($client);
+            return $this->success($clientResource);
         } catch (ModelNotFoundException $exception) {
             return $this->error(null, 'Client not found.', 404);
         }
@@ -48,9 +48,8 @@ class ClientApiController extends Controller
     public function destroy(Client $client)
     {
         try {
-            DB::beginTransaction();
-
             $this->authorize('destroy', $client);
+            DB::beginTransaction();
             $client->delete();
             DB::commit();
 

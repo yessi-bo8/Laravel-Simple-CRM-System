@@ -65,11 +65,13 @@ class ClientWebController extends Controller
 
     public function create() 
     {
+        $this->authorize('store', Client::class);
         return view('clients.create');
     }
 
     public function edit(Client $client)
     {
+        $this->authorize('update', $client);
         return view('clients.edit', ['client' => $client]);
     }
 

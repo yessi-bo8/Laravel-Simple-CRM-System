@@ -52,6 +52,7 @@ class TaskWebController extends Controller
 
     public function create()
     {
+        $this->authorize('store', Task::class);
         //Return just the names and titles
         $users = User::pluck('name', 'id');
         $clients = Client::pluck('name', 'id');
@@ -86,6 +87,7 @@ class TaskWebController extends Controller
     }
 
     public function edit(Task $task){
+        $this->authorize('update', $task);
         //Return just the names and titles
         $clients = Client::pluck('name', 'id');
         $projects = Project::pluck('title', 'id');
@@ -112,8 +114,8 @@ class TaskWebController extends Controller
     public function destroy(Task $task) 
     {
         try {
-            DB::beginTransaction();
             $this->authorize('destroy', $task);
+            DB::beginTransaction();
             $task->delete();
             DB::commit();
             return redirect()->route('tasks.index')

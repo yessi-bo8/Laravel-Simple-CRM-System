@@ -11,7 +11,7 @@ use Illuminate\Auth\Access\Response;
 class TaskPolicy
 {
     /**
-     * Determine whether the user can view their tasks.
+     * Every logged in user can see the tasks retrieved by the Task scope
      */
     public function index(User $user): bool
     {
@@ -24,7 +24,7 @@ class TaskPolicy
      */
     public function store(User $user): bool
     {
-        return $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists();
     }
 
       /**
@@ -32,7 +32,7 @@ class TaskPolicy
      */
     public function show(User $user, Task $task): bool
     {
-        if ($user->roles()->where('role_id', Role::IS_ADMIN)->exists()) {
+        if ($user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists()) {
             return true;
         }
 
@@ -53,7 +53,8 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $task->user()->is($user) || $user->roles()->where('role_id', Role::IS_ADMIN)->exists();
+        return $user->roles()->whereIn('role_id', [Role::IS_ADMIN, Role::IS_MOD])->exists()
+        || $task->user()->is($user);
     }
 
     /**

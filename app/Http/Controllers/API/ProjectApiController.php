@@ -28,8 +28,8 @@ class ProjectApiController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
         $this->authorize('index', Project::class);
+        $user = auth()->user();
         $projects = Project::accessibleBy($user);
         $projectResources = ProjectResource::collection($projects);
         return $this->success($projectResources);
@@ -56,8 +56,8 @@ class ProjectApiController extends Controller
     public function store(StoreProjectRequest $request, Project $project)
     {
         try {
+            $this->authorize('store', $project);
             DB::beginTransaction();
-
             $requestData = $request->validated();
             $requestData['status'] = $request->status ?? 'pending';
             $project = Project::create($requestData);
@@ -76,13 +76,12 @@ class ProjectApiController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         try {
-            DB::beginTransaction();
-            
             $this->authorize('update', $project);
+            DB::beginTransaction();
             $project->update($request->only(['title', 'description', 'status', 'event_date', 'user_id', 'client_id']));
             $projectResource = new ProjectResource($project);
-
             DB::commit();
+
             return $this->success($projectResource);
         } catch (\Exception $e) {
             return $this->handleExceptions($e, "Project", "update");
@@ -95,9 +94,8 @@ class ProjectApiController extends Controller
     public function destroy(Project $project)
     {
         try {
-            DB::beginTransaction();
-
             $this->authorize('destroy', $project);
+            DB::beginTransaction();
             $project->delete();
             DB::commit();
 

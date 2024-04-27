@@ -27,7 +27,7 @@ class ProjectSeeder extends Seeder
                 'event_date' => $faker->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
                 'user_id' => $faker->randomElement($userIds),
                 'client_id' => $faker->randomElement($clientIds),
-                'status' => $faker->randomElement(['pending', 'in_progress', 'completed']),
+                'status' => $faker->randomElement(['pending','approved','rejected']),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

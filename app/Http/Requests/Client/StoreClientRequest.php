@@ -22,7 +22,7 @@ class StoreClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_picture' => 'image|max:2048|dimensions:min_width=100,min_height=100',
+            'profile_picture' => 'image|dimensions:min_width=100,min_height=100|max:2048',
             'name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'max:100', 'unique:clients'],
             'company' => ['required', 'string', 'max:100', 'unique:clients'],

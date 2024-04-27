@@ -31,16 +31,21 @@ class Task extends Model
     public function scopeAccessibleBy($query, $user)
     {
         $isAdmin = $user->roles->contains('name', 'admin');
+        $isMod = $user->roles->contains('name', 'moderator');
+        $isUser = $user->roles->contains('name', 'user');
         Log::info('$isAdmin value: ' . ($isAdmin ? 'true' : 'false'));
-        if ($isAdmin) {
+        Log::info('$isMod value: ' . ($isMod ? 'true' : 'false'));
+        Log::info('$isUser value: ' . ($isUser ? 'true' : 'false'));
+        
+        if ($isAdmin || $isMod) {
             return $query;
-        } else {
-            return $query->where('user_id', $user->id)
-                         ->orWhereIn('project_id', function ($query) use ($user) {
-                             $query->select('project_id')
-                                   ->from('tasks')
-                                   ->whereIn('user_id', [$user->id]);
-                         });
         }
+        
+        return $query->where('user_id', $user->id)
+                    ->orWhereIn('project_id', function ($query) use ($user) {
+                        $query->select('project_id')
+                            ->from('tasks')
+                            ->whereIn('user_id', [$user->id]);
+                    });
     }
 }

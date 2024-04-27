@@ -30,7 +30,7 @@ $(document).ready(function () {
                 console.log("sucessfull registered");
                 showMessage("success", response.message);
                 setTimeout(function () {
-                    window.location.href = "/login";
+                    window.history.back();
                 }, 1000);
             },
             error: function (xhr, status, error) {

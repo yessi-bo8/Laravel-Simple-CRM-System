@@ -26,7 +26,7 @@ class TaskSeeder extends Seeder
                 'name' => $faker->sentence,
                 'description' => $faker->paragraph,
                 'project_id' => $faker->randomElement($projectIds),
-                'status' => $faker->randomElement(['pending', 'in_progress', 'completed']),
+                'status' => $faker->randomElement(['pending', 'in progress', 'completed']),
                 'due_date' => $faker->dateTimeBetween('now', '+1 month')->format('Y-m-d'),
                 'priority' => $faker->randomElement(['low', 'medium', 'high']),
                 'user_id' => $faker->randomElement($userIds),
