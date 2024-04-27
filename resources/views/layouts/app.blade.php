@@ -18,13 +18,13 @@
             <ul>
             @auth
                 @can('index', App\Models\Client::class)
-                <li><a href="/clients">Clients</a></li>
-                @endcan
-                @can('register', App\Models\User::class)
-                <li><a href="{{ route('register') }}">Register an User</a></li>
+                    <li><a href="/clients">Clients</a></li>
                 @endcan
                 <li><a href="/projects">Projects</a></li>
                 <li><a href="/tasks">Tasks</a></li>
+                @can('register', App\Models\User::class)
+                    <li><a href="{{ route('register') }}">Register an User</a></li>
+                @endcan
             @endauth
                 @guest <!-- Show login and register links when user is not authenticated -->
                     <li><a href="{{ route('login') }}">Login</a></li>
@@ -67,6 +67,5 @@
         &copy; {{ date('Y') }} My Website
     </footer>
 
-    
 </body>
 </html>
