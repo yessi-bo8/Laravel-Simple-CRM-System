@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('banner', 'Register')
 @vite(['resources/js/app.js'])
 @section('content')
 <div class="form-container">
