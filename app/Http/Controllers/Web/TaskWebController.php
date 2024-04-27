@@ -13,7 +13,7 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-use app\Traits\ErrorHandlingTrait;
+use App\Traits\ErrorHandlingTrait;
 
 use App\Services\TaskService;
 
