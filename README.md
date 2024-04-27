@@ -68,11 +68,9 @@ This is a basic CRM (Customer Relationship Management) system built using Larave
 - Navigate to the client management section to add, edit, and delete clients.
 - Go to the project management section to create, update, and delete projects. You can also assign projects to clients here.
 - Use the task management section to track tasks associated with projects. Mark tasks as completed when done.
+- Register new users as an admin.
 
 ## Contributing
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request.
-
-## License
-
 
