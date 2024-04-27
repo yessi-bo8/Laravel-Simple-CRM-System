@@ -5,17 +5,19 @@ This is a basic CRM (Customer Relationship Management) system built using Larave
 
 **Key Features:**
 - Create, update, and delete tasks, projects, and clients
-- Role-based authentication (RBAC) system for secure access control
+- Role-based authentication (RBAC) system for secure access control (with Users, Moderators and Admins)
 - Integration with Laravel Sanctum for route protection
 - Clean data sending using Laravel resources and requests
 - Authorization logic enforced using Laravel policies, ensuring secure access to resources
-- Implementation of a consistent error and success handling approach throughout the application, facilitated by a custom trait
+- Implementation of a consistent error and success handling approach throughout the application, facilitated by custom traits
 - Demonstration of different data retrieval methods:
     - Projects: AJAX requests to ProjectApiController
-    - Tasks: TaskWebController for sending task data and utilization of query scopes for task retrieval
+    - Tasks: TaskWebController for sending task data and utilization of query scopes for Task and Project retrieval
     - Clients: Hybrid approach with initial data via WebController and certain subsequent updates using AJAX requests
 - Includes factories and seeders for easy database seeding
-- Seeders create an admin and a regular user for demonstration purposes
+- Seeders create a regular user, a moderator and an admin for demonstration purposes
+
+> Please note that the decision to utilize both API and web controllers, sometimes in combination, for handling different resources is intentional. This approach has been chosen to showcase various techniques and methodologies rather than prioritizing efficiency.
 
 **Technologies Used:**
 - Laravel framework
@@ -23,8 +25,6 @@ This is a basic CRM (Customer Relationship Management) system built using Larave
 - MySQL database
 - AJAX for dynamic data retrieval and updates
 - PHP for server-side logic
-
-> Please note that the decision to utilize both API and web controllers, sometimes in combination, for handling different resources is intentional. This approach has been chosen to showcase various techniques and methodologies rather than prioritizing efficiency.
 
 ## Getting Started
 
