@@ -28,6 +28,11 @@ class TaskWebController extends Controller
     use AuthorizesRequests;
     use ErrorHandlingTrait;
 
+    /**
+     * Display a listing of the tasks.
+     *
+     * @return View The view for the task index page.
+     */
     public function index(): View 
     {
         $user = auth()->user();
@@ -36,12 +41,23 @@ class TaskWebController extends Controller
         return view('tasks.index', ['tasks' => $tasks]);
     }
 
+    /**
+     * Display the specified task.
+     *
+     * @param Task $task The task instance to be displayed.
+     * @return View The view for the task show page.
+     */
     public function show(Task $task): View
     {
         $this->authorize('show', $task);
         return view('tasks.show', ['task' => $task]);
     }
 
+    /**
+     * Show the form for creating a new task.
+     *
+     * @return View The view for the task creation form.
+     */
     public function create(): View 
     {
         $this->authorize('store', Task::class);
@@ -52,6 +68,12 @@ class TaskWebController extends Controller
         return view('tasks.create', ['clients'=>$clients, 'projects' =>$projects, 'users'=>$users]);
     }
 
+    /**
+     * Store a newly created task.
+     *
+     * @param StoreTaskRequest $request The request containing the task data to be stored.
+     * @return RedirectResponse The redirect response after storing the task.
+     */
     public function store(StoreTaskRequest $request): RedirectResponse
     {
         try {
@@ -78,6 +100,12 @@ class TaskWebController extends Controller
 
     }
 
+    /**
+     * Show the form for editing the specified task.
+     *
+     * @param Task $task The task instance to be edited.
+     * @return View The view for the task editing form.
+     */
     public function edit(Task $task): View
     {
         $this->authorize('update', $task);
@@ -87,7 +115,14 @@ class TaskWebController extends Controller
         $users = User::pluck('name', 'id');
         return view('tasks.edit', ['task' => $task, 'clients'=>$clients, 'projects'=>$projects, 'users'=>$users]);
     }
-        
+
+     /**
+     * Update the specified task in storage.
+     *
+     * @param UpdateTaskRequest $request The request containing the updated task data.
+     * @param Task $task The task instance to be updated.
+     * @return RedirectResponse The redirect response after updating the task.
+     */    
     public function update(UpdateTaskRequest $request, Task $task): RedirectResponse 
     {
         try {
@@ -109,6 +144,12 @@ class TaskWebController extends Controller
         }
     }
 
+     /**
+     * Remove the specified task from storage.
+     *
+     * @param Task $task The task instance to be deleted.
+     * @return RedirectResponse The redirect response after deleting the task.
+     */
     public function destroy(Task $task): RedirectResponse 
     {
         try {

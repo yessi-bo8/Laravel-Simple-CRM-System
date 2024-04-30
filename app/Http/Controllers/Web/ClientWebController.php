@@ -32,6 +32,11 @@ class ClientWebController extends Controller
         $this->clientService = $clientService;
     }
     
+    /**
+     * Display a listing of the clients.
+     *
+     * @return View The view for the client index page.
+     */
     public function index(): View 
     {
         $this->authorize('index', Client::class);
@@ -40,6 +45,12 @@ class ClientWebController extends Controller
         return view('clients.index', ['clients'=>$clients]);
     }
 
+    /**
+     * Store a newly created client.
+     *
+     * @param StoreClientRequest $request The request containing the client data to be stored.
+     * @return RedirectResponse The redirect response after storing the client.
+     */
     public function store(StoreClientRequest $request): RedirectResponse
     {
         try {
@@ -63,18 +74,36 @@ class ClientWebController extends Controller
         }
     }
 
+    /**
+     * Show the form for creating a new client.
+     *
+     * @return View The view for the client creation form.
+     */
     public function create(): View
     {
         $this->authorize('store', Client::class);
         return view('clients.create');
     }
 
+    /**
+     * Show the form for editing the specified client.
+     *
+     * @param Client $client The client instance to be edited.
+     * @return View The view for the client editing form.
+     */
     public function edit(Client $client): View
     {
         $this->authorize('update', $client);
         return view('clients.edit', ['client' => $client]);
     }
 
+    /**
+     * Update the specified client in storage.
+     *
+     * @param UpdateClientRequest $request The request containing the updated client data.
+     * @param Client $client The client instance to be updated.
+     * @return RedirectResponse The redirect response after updating the client.
+     */
     public function update(UpdateClientRequest $request, Client $client): RedirectResponse  
     {
         try {

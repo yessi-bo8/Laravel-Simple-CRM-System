@@ -24,6 +24,8 @@ class ClientApiController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
+     * @return JsonResponse The JSON response containing the list of clients.
      */
     public function index(): JsonResponse
     {
@@ -34,7 +36,9 @@ class ClientApiController extends Controller
 
      /**
      * Display the specified resource.
-     * with behind the scenes laravel magic! directly pass in Taks object
+     *
+     * @param Client $client The client instance to be displayed.
+     * @return JsonResponse The JSON response containing the client data.
      */
     public function show(Client $client): JsonResponse
     {   
@@ -47,6 +51,12 @@ class ClientApiController extends Controller
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Client $client The client instance to be deleted.
+     * @return JsonResponse The JSON response indicating the success or failure of the operation.
+     */
     public function destroy(Client $client): JsonResponse
     {
         try {

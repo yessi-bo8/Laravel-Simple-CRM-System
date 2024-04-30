@@ -26,7 +26,9 @@ class ProjectApiController extends Controller
     use ErrorHandlingTrait;
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the projects.
+     *
+     * @return JsonResponse The JSON response containing the list of projects.
      */
     public function index(): JsonResponse
     {
@@ -38,8 +40,11 @@ class ProjectApiController extends Controller
     }
 
     /**
-    * Display the specified resource.
-    */
+     * Display the specified project.
+     *
+     * @param int $projectId The ID of the project to be displayed.
+     * @return JsonResponse The JSON response containing the project data.
+     */
     public function show($projectId): JsonResponse
     {
         try{ 
@@ -53,7 +58,11 @@ class ProjectApiController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created project.
+     *
+     * @param StoreProjectRequest $request The request containing the project data to be stored.
+     * @param Project $project The project instance.
+     * @return JsonResponse The JSON response indicating the success or failure of the operation.
      */
     public function store(StoreProjectRequest $request, Project $project): JsonResponse
     {
@@ -73,7 +82,11 @@ class ProjectApiController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified project.
+     *
+     * @param UpdateProjectRequest $request The request containing the updated project data.
+     * @param Project $project The project instance to be updated.
+     * @return JsonResponse The JSON response indicating the success or failure of the operation.
      */
     public function update(UpdateProjectRequest $request, Project $project): JsonResponse
     {
@@ -96,7 +109,10 @@ class ProjectApiController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified project from storage.
+     *
+     * @param Project $project The project instance to be deleted.
+     * @return JsonResponse The JSON response indicating the success or failure of the operation.
      */
     public function destroy(Project $project): JsonResponse
     {

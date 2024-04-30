@@ -18,7 +18,9 @@ class UserApiController extends Controller
     use HTTPResponses;
     
     /**
-     * Display a listing of the resource.
+     * Display a listing of the users.
+     *
+     * @return JsonResponse The JSON response containing the list of users.
      */
     public function index(): JsonResponse
     {

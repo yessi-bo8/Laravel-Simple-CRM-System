@@ -13,7 +13,14 @@ trait ErrorHandlingTrait
 {
     use HTTPResponses;
 
-
+    /**
+     * Handle errors and exceptions, including rolling back any active database transactions.
+     *
+     * @param  \Exception $exception The exception object.
+     * @param  string $message The error message.
+     * @param  int $statusCode The HTTP status code.
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse The response based on request type.
+     */
     private function handleError($exception, $message, $statusCode)
     {
         DB::rollBack();
@@ -30,6 +37,14 @@ trait ErrorHandlingTrait
     }
 
 
+    /**
+     * Handle exceptions and return appropriate response.
+     *
+     * @param  \Exception $e The exception object.
+     * @param  string $model The model name.
+     * @param  string $method The method name.
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse The response based on exception type.
+     */
     public function handleExceptions($e, $model, $method)
     {
         if ($e instanceof ModelNotFoundException) {
