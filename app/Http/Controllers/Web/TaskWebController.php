@@ -152,7 +152,7 @@ class TaskWebController extends Controller
             DB::beginTransaction();
             $task->delete();
             DB::commit();
-            
+
             return redirect()->route('tasks.index')
                 ->with('success', 'Task deleted successfully');
         } catch (\Exception $e) {

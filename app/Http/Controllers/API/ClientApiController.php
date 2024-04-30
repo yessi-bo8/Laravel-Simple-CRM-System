@@ -42,13 +42,9 @@ class ClientApiController extends Controller
      */
     public function show(Client $client): JsonResponse
     {   
-        try {
-            $this->authorize('show', $client);
-            $clientResource = new ClientResource($client);
-            return $this->success($clientResource);
-        } catch (ModelNotFoundException $exception) {
-            return $this->error(null, 'Client not found.', 404);
-        }
+        $this->authorize('show', $client);
+        $clientResource = new ClientResource($client);
+        return $this->success($clientResource);
     }
 
     /**
