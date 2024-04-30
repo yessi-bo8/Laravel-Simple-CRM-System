@@ -39,8 +39,8 @@ class ProjectApiController extends Controller
             $projects = Project::accessibleBy($user);
             $projectResources = ProjectResource::collection($projects);
             return $this->success($projectResources);
-        } catch (ModelNotFoundException $e) {
-            return $this->error(null, 'Project not found', 404);
+        } catch (\Exception $e) {
+            return $this->handleExceptions($e, "Project", "view");
         }
     }
 
@@ -57,8 +57,8 @@ class ProjectApiController extends Controller
             $this->authorize('show', $project);
             $projectResource = new ProjectResource($project);
             return $this->success($projectResource);
-        } catch (ModelNotFoundException $e) {
-            return $this->error(null, 'Project not found', 404);
+        } catch (\Exception $e) {
+            return $this->handleExceptions($e, "Project", "store");
         }
     }
 
