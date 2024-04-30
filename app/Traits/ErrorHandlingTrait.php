@@ -50,9 +50,6 @@ trait ErrorHandlingTrait
         if ($e instanceof ModelNotFoundException) {
             $message = $model . " not found.";
             $statusCode = 404;
-        } elseif ($e instanceof AuthorizationException) {
-            $message = "No Authorization to " . $method . " " . $model . ".";
-            $statusCode = 403;
         } elseif ($e instanceof ModelNotChangedException) {
             $message = "No changes were made to " . $model . ". Please make changes to update.";
             $statusCode = 422;

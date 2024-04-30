@@ -34,9 +34,14 @@ class ProjectApiController extends Controller
     {
         $this->authorize('index', Project::class);
         $user = auth()->user();
-        $projects = Project::accessibleBy($user);
-        $projectResources = ProjectResource::collection($projects);
-        return $this->success($projectResources);
+
+        try {
+            $projects = Project::accessibleBy($user);
+            $projectResources = ProjectResource::collection($projects);
+            return $this->success($projectResources);
+        } catch (ModelNotFoundException $e) {
+            return $this->error(null, 'Project not found', 404);
+        }
     }
 
     /**
@@ -47,7 +52,7 @@ class ProjectApiController extends Controller
      */
     public function show($projectId): JsonResponse
     {
-        try{ 
+        try { 
             $project = Project::findOrFail($projectId);
             $this->authorize('show', $project);
             $projectResource = new ProjectResource($project);
@@ -66,12 +71,13 @@ class ProjectApiController extends Controller
      */
     public function store(StoreProjectRequest $request, Project $project): JsonResponse
     {
+        $this->authorize('store', $project);
+
         try {
-            $this->authorize('store', $project);
-            
-            DB::beginTransaction();
             $validatedData = $request->validated();
             $validatedData['status'] = $request->status ?? 'pending';
+
+            DB::beginTransaction();
             $project = Project::create($validatedData);
             DB::commit();
 
@@ -91,12 +97,12 @@ class ProjectApiController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project): JsonResponse
     {
-        try {
-            $this->authorize('update', $project);
+        $this->authorize('update', $project);
 
-            DB::beginTransaction();
+        try {
             $validatedData = $request->validated();
             if ($project->fill($validatedData)->isDirty()) {
+                DB::beginTransaction();
                 $project->update($validatedData);
             } else {
                 throw new ModelNotChangedException();
@@ -118,8 +124,9 @@ class ProjectApiController extends Controller
      */
     public function destroy(Project $project): JsonResponse
     {
+        $this->authorize('destroy', $project);
+
         try {
-            $this->authorize('destroy', $project);
 
             DB::beginTransaction();
             $project->delete();

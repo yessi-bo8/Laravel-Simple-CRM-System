@@ -53,8 +53,9 @@ class ClientWebController extends Controller
      */
     public function store(StoreClientRequest $request): RedirectResponse
     {
+        $this->authorize('store', Client::class);
+
         try {
-            $this->authorize('store', Client::class);
             $validatedData = $request->validated();
             $filePath = $this->clientService->handleProfilePictureUpload($request);
             $validatedData['profile_picture'] = $filePath;
@@ -101,8 +102,9 @@ class ClientWebController extends Controller
      */
     public function update(UpdateClientRequest $request, Client $client): RedirectResponse  
     {
+        $this->authorize('update', $client);
+        
         try {
-            $this->authorize('update', $client);
             $validatedData = $request->validated();
 
             DB::beginTransaction();
@@ -116,7 +118,7 @@ class ClientWebController extends Controller
                 throw new ModelNotChangedException();
             }
             DB::commit();
-            
+
             return redirect()->route('clients.index', ['client' => $client])
                         ->with('success', 'Client updated successfully');
         } catch (\Exception $e) {

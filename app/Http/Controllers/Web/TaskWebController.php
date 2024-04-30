@@ -76,12 +76,11 @@ class TaskWebController extends Controller
      */
     public function store(StoreTaskRequest $request): RedirectResponse
     {
+        $this->authorize('store', Task::class);
+
         try {
-            $this->authorize('store', Task::class);
             $validatedData = $request->validated();
             Log::info('Validated Data:', $validatedData);
-            $validatedData['status'] = $request->status ?? 'pending';
-            $validatedData['priority'] = $request->status ?? 'low';
 
             DB::beginTransaction();
             $task = Task::create($validatedData);
@@ -119,8 +118,9 @@ class TaskWebController extends Controller
      */    
     public function update(UpdateTaskRequest $request, Task $task): RedirectResponse 
     {
+        $this->authorize('update', $task);
+
         try {
-            $this->authorize('update', $task);
             $validatedData = $request->validated();
 
             DB::beginTransaction();
@@ -146,8 +146,9 @@ class TaskWebController extends Controller
      */
     public function destroy(Task $task): RedirectResponse 
     {
+        $this->authorize('destroy', $task);
+
         try {
-            $this->authorize('destroy', $task);
 
             DB::beginTransaction();
             $task->delete();

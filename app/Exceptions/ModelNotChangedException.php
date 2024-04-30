@@ -14,7 +14,7 @@ class ModelNotChangedException extends Exception
      * @param int $code
      * @param \Throwable|null $previous
      */
-    public function __construct($message = "No changes were made to the Model", $code = 404, Throwable $previous = null)
+    public function __construct($message = "No changes were made to the Model", $code = 422, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

@@ -55,8 +55,9 @@ class ClientApiController extends Controller
      */
     public function destroy(Client $client): JsonResponse
     {
+        $this->authorize('destroy', $client);
+        
         try {
-            $this->authorize('destroy', $client);
 
             DB::beginTransaction();
             $client->delete();
