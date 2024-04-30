@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exceptions\ModelNotChangedException;
 use App\Traits\ErrorHandlingTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreProjectRequest;
@@ -79,10 +80,15 @@ class ProjectApiController extends Controller
         try {
             $this->authorize('update', $project);
             DB::beginTransaction();
-            $project->update($request->only(['title', 'description', 'status', 'event_date', 'user_id', 'client_id']));
-            $projectResource = new ProjectResource($project);
-            DB::commit();
+            $validatedData = $request->validated();
+            if ($project->fill($validatedData)->isDirty()) {
+                $project->update($validatedData);
+            } else {
+                throw new ModelNotChangedException();
+            }
 
+            DB::commit();
+            $projectResource = new ProjectResource($project);
             return $this->success($projectResource);
         } catch (\Exception $e) {
             return $this->handleExceptions($e, "Project", "update");

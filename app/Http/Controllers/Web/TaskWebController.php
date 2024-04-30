@@ -15,11 +15,9 @@ use App\Models\Task;
 use App\Models\User;
 use App\Traits\ErrorHandlingTrait;
 
-use App\Services\TaskService;
-
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use App\Exceptions\NotFound\TaskNotFoundException;
+use App\Exceptions\ModelNotChangedException;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -29,14 +27,6 @@ class TaskWebController extends Controller
 {
     use AuthorizesRequests;
     use ErrorHandlingTrait;
-
-    protected $taskService;
-
-    public function __construct(TaskService $taskService)
-    {
-        $this->taskService = $taskService;
-    }
-
 
     public function index(): View 
     {
@@ -102,12 +92,17 @@ class TaskWebController extends Controller
     {
         try {
             $this->authorize('update', $task);
+            $validatedData = $request->validated();
             DB::beginTransaction();
-            $validatedData = $request->all();
-            $updatedTask = $this->taskService->updateTask($task, $validatedData);
 
+            if ($task->fill($validatedData)->isDirty()) {
+                $task->update($validatedData);
+            } else {
+                throw new ModelNotChangedException();
+            }
+    
             DB::commit();
-            return redirect()->route('tasks.show', ['task' => $updatedTask])
+            return redirect()->route('tasks.show', ['task' => $task])
                             ->with('success', 'Task updated successfully');
         } catch (\Exception $e) {
             return $this->handleExceptions($e, "Task", "update");

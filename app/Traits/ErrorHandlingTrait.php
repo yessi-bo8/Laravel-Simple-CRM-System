@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 use App\Traits\HTTPResponses;
+use app\Exceptions\ModelNotChangedException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Request;
@@ -37,6 +38,9 @@ trait ErrorHandlingTrait
         } elseif ($e instanceof AuthorizationException) {
             $message = "No Authorization to " . $method . " " . $model . ".";
             $statusCode = 403;
+        } elseif ($e instanceof ModelNotChangedException) {
+            $message = "No changes were made to " . $model . ". Please make changes to update.";
+            $statusCode = 422;
         } else {
             $message = "Failed to " . $method . " " . $model . ".";
             $statusCode = 500;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Exceptions\NotFound;
+namespace App\Exceptions;
 
 use Exception;
 use Throwable;
 
-class TaskNotFoundException extends Exception
+class ModelNotChangedException extends Exception
 {
     /**
      * Constructor to initialize the exception instance.
@@ -14,7 +14,7 @@ class TaskNotFoundException extends Exception
      * @param int $code
      * @param \Throwable|null $previous
      */
-    public function __construct($message = "Task not found", $code = 404, Throwable $previous = null)
+    public function __construct($message = "No changes were made to the Model", $code = 404, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

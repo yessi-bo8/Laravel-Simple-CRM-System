@@ -164,26 +164,6 @@ function updateProject(projectId) {
         method: "GET",
         success: function (response) {
             const project = response.data.attributes;
-
-            // Compare the current form data with the original project data
-            const formDataUnchanged =
-                formData.title === project.title &&
-                formData.description === project.description &&
-                formData.event_date === project.event_date &&
-                formData.client_id === response.data.relationships.id_client &&
-                formData.user_id === response.data.relationships.user_id &&
-                formData.status === project.status;
-
-            // If the form data hasn't changed, display an error message
-            if (formDataUnchanged) {
-                showMessage(
-                    "error",
-                    "No changes detected. Please make changes to update."
-                );
-                return; // Exit the function to prevent the AJAX request
-            }
-
-            // If the form data has changed, proceed with the update
             sendUpdateRequest(projectId, formData);
         },
         error: function (xhr, status, error) {

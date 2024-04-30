@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Exceptions\ModelNotChangedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\StoreClientRequest;
 use App\Http\Requests\Client\UpdateClientRequest;
@@ -79,13 +80,17 @@ class ClientWebController extends Controller
         try {
             $this->authorize('update', $client);
             $validatedData = $request->validated();
-            $filePath = $this->clientService->handleProfilePictureUpload($request);
-            $validatedData['profile_picture'] = $filePath;
-
             DB::beginTransaction();
             Log::info('Validated data: ' . json_encode($validatedData));
+            
+            if ($client->fill($validatedData)->isDirty()) {
+                $filePath = $this->clientService->handleProfilePictureUpload($request);
+                $validatedData['profile_picture'] = $filePath;
+                $client->update($validatedData);
+            } else {
+                throw new ModelNotChangedException();
+            }
 
-            $client->update($validatedData);
             DB::commit();
             return redirect()->route('clients.index', ['client' => $client])
                         ->with('success', 'Client updated successfully');
