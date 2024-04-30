@@ -61,13 +61,14 @@ class ClientApiController extends Controller
     {
         try {
             $this->authorize('destroy', $client);
+
             DB::beginTransaction();
             $client->delete();
             DB::commit();
 
             return $this->success(null, "Client deleted successfully.");
         } catch (\Exception $e) {
-            return $this->handleExceptions($e, "Client", "store");
+            return $this->handleExceptions($e, "Client", "delete");
         }
     }
 }

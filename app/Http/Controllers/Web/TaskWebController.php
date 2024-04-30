@@ -80,19 +80,13 @@ class TaskWebController extends Controller
             $this->authorize('store', Task::class);
             $validatedData = $request->validated();
             Log::info('Validated Data:', $validatedData);
+            $validatedData['status'] = $request->status ?? 'pending';
+            $validatedData['priority'] = $request->status ?? 'low';
 
             DB::beginTransaction();
-            $task = Task::create([
-                'user_id' => $validatedData['user_id'],
-                'name' => $validatedData['name'],
-                'description' => $validatedData['description'],
-                'due_date' => $validatedData['due_date'],
-                'project_id' => $validatedData['project_id'],
-                'status' => $validatedData['status'] ?? 'pending',
-                'client_id' => $validatedData['client_id'],
-                'priority' => $validatedData['priority'],
-            ]);
+            $task = Task::create($validatedData);
             DB::commit();
+
             return redirect()->route('tasks.show', ['task' => $task])->with('success', 'Task created successfully');
         } catch (\Exception $e) {
             return $this->handleExceptions($e, "Task", "store");
@@ -128,15 +122,15 @@ class TaskWebController extends Controller
         try {
             $this->authorize('update', $task);
             $validatedData = $request->validated();
-            DB::beginTransaction();
 
+            DB::beginTransaction();
             if ($task->fill($validatedData)->isDirty()) {
                 $task->update($validatedData);
             } else {
                 throw new ModelNotChangedException();
             }
-    
             DB::commit();
+
             return redirect()->route('tasks.show', ['task' => $task])
                             ->with('success', 'Task updated successfully');
         } catch (\Exception $e) {
@@ -154,9 +148,11 @@ class TaskWebController extends Controller
     {
         try {
             $this->authorize('destroy', $task);
+
             DB::beginTransaction();
             $task->delete();
             DB::commit();
+            
             return redirect()->route('tasks.index')
                 ->with('success', 'Task deleted successfully');
         } catch (\Exception $e) {

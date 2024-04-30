@@ -57,17 +57,12 @@ class ClientWebController extends Controller
             $this->authorize('store', Client::class);
             $validatedData = $request->validated();
             $filePath = $this->clientService->handleProfilePictureUpload($request);
+            $validatedData['profile_picture'] = $filePath;
 
             DB::beginTransaction();
-            $client = Client::create([
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-                'company' => $validatedData['company'],
-                'vat' => $validatedData['vat'],
-                'address' => $validatedData['address'],
-                'profile_picture' => $filePath,
-            ]);
+            $client = Client::create($validatedData);
             DB::commit();
+
             return redirect()->route('clients.index', ['client' => $client])->with('success', 'Client created successfully');;
         } catch (\Exception $e) {
             return $this->handleExceptions($e, "Client", "store");
@@ -109,6 +104,7 @@ class ClientWebController extends Controller
         try {
             $this->authorize('update', $client);
             $validatedData = $request->validated();
+
             DB::beginTransaction();
             Log::info('Validated data: ' . json_encode($validatedData));
             
@@ -119,8 +115,8 @@ class ClientWebController extends Controller
             } else {
                 throw new ModelNotChangedException();
             }
-
             DB::commit();
+            
             return redirect()->route('clients.index', ['client' => $client])
                         ->with('success', 'Client updated successfully');
         } catch (\Exception $e) {

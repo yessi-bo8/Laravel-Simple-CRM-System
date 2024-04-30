@@ -68,13 +68,14 @@ class ProjectApiController extends Controller
     {
         try {
             $this->authorize('store', $project);
+            
             DB::beginTransaction();
-            $requestData = $request->validated();
-            $requestData['status'] = $request->status ?? 'pending';
-            $project = Project::create($requestData);
-            $projectResource = new ProjectResource($project);
+            $validatedData = $request->validated();
+            $validatedData['status'] = $request->status ?? 'pending';
+            $project = Project::create($validatedData);
             DB::commit();
 
+            $projectResource = new ProjectResource($project);
             return $this->success($projectResource);
         } catch (\Exception $e) {
             return $this->handleExceptions($e, "Project", "store");
@@ -92,6 +93,7 @@ class ProjectApiController extends Controller
     {
         try {
             $this->authorize('update', $project);
+
             DB::beginTransaction();
             $validatedData = $request->validated();
             if ($project->fill($validatedData)->isDirty()) {
@@ -99,8 +101,8 @@ class ProjectApiController extends Controller
             } else {
                 throw new ModelNotChangedException();
             }
-
             DB::commit();
+
             $projectResource = new ProjectResource($project);
             return $this->success($projectResource);
         } catch (\Exception $e) {
@@ -118,6 +120,7 @@ class ProjectApiController extends Controller
     {
         try {
             $this->authorize('destroy', $project);
+
             DB::beginTransaction();
             $project->delete();
             DB::commit();

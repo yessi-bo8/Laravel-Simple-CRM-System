@@ -17,12 +17,14 @@ use Illuminate\Http\JsonResponse;
 use App\Models\User;
 
 use App\Traits\HTTPResponses;
-
+use Illuminate\Support\Facades\DB;
+use App\Traits\ErrorHandlingTrait;
 
 class LoginController extends Controller
 {
     use HTTPResponses;
     use AuthorizesRequests;
+    use ErrorHandlingTrait;
 
     /**
      * Show the login form.
@@ -81,20 +83,23 @@ class LoginController extends Controller
      */
     public function register(StoreUserRequest $request): JsonResponse
     {
-        $this->authorize('register', User::class);
-        $request->validated(); 
+        try {
+            $this->authorize('register', User::class);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+            DB::beginTransaction();
+            $validatedData = $request->validated();
+            $validatedData['password'] = Hash::make($request->password);
+            $user = User::create($validatedData);
+            DB::commit();
 
-        return $this->success([
-            "user" =>$user,
-            'token' => $user->createToken('Api Token of ' . $user->name)->plainTextToken
-        ], 'Successfully registered.'
-        );
+            return $this->success([
+                "user" =>$user,
+                'token' => $user->createToken('Api Token of ' . $user->name)->plainTextToken
+            ], 'Successfully registered.'
+            );
+        } catch (\Exception $e) {
+            return $this->handleExceptions($e, "Project", "store");
+        }
     }
 
     /**
