@@ -26,6 +26,23 @@ This is a basic CRM (Customer Relationship Management) system built using Larave
 - AJAX for dynamic data retrieval and updates
 - PHP for server-side logic
 
+**RESTful API Endpoints:**  
+ * API endpoints to manage clients, projects and users
+   * Projects:
+     * GET /api/v1/projects: List all projects.
+     * POST /api/v1/projects: Add a new project.
+     * GET /api/v1/projects/{id}: Retrieve a specific project's details.
+     * PUT /api/v1/projects/{id}: Update a specific project's details.
+     * DELETE /api/v1/projects/{id}: Delete a specific project.
+
+   * Clients:
+     * GET /api/v1/clients: List all clients.
+     * GET /api/v1/clients/{id}: Retrieve a specific client's details.
+     * DELETE /api/v1/clients/{id}: Remove a client.
+
+   * Users:
+     * GET /api/v1/users: List all users;
+
 ## Getting Started
 
 1. Clone the repository:

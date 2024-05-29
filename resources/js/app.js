@@ -13,6 +13,7 @@ import "./services/projects/update.js";
 import "./services/projects/projects.js";
 
 import "./services/auth/login.js";
+import "./services/auth/get_token.js";
 import "./services/auth/logout.js";
 import "./services/auth/register.js";
 

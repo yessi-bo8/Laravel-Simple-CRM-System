@@ -16,7 +16,14 @@
         </div>
         <button type="submit">Login</button> <!-- Remove the onclick attribute -->
     </form>
+    <div class="social-buttons">
+            <a href="{{ route('login.google') }}" class="btn-socialite">
+                <img src="{{ asset('images/google-logo.png') }}" alt="GitHub Logo">
+                Continue with Google
+            </a>
+    </div>
 </div>
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 @endsection
